@@ -70,3 +70,10 @@ modules/
 
 # Lazarus backup folder
 */backup/
+
+# Lazarus lib folder
+*/lib/
+
+
+# Lazarus .res file
+*.res
