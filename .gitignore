@@ -69,7 +69,7 @@ __recovery/
 modules/
 
 # Lazarus backup folder
-*/backup/*
+backup/
 
 # Lazarus lib folder
 */lib/

@@ -30,16 +30,55 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <Units Count="2">
+    <Units Count="12">
       <Unit0>
         <Filename Value="SpaceX_Console.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="Models\dragon.pas"/>
+        <Filename Value="Models\Dragon\Dragon.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Dragon"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="Models\Dragon\DragonCargo.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="Models\Dragon\DragonHeatshield.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="Models\Dragon\DragonPressurizedCapsule.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Models\Dragon\DragonThrusters.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="Models\Dragon\DragonTrunk.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="Models\Common\VolumeInfo.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="Models\Common\ThrustInfo.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="Models\Common\IspInfo.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="Models\Common\SizeInfo.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="Models\Common\MassInfo.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -50,7 +89,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Models"/>
+      <OtherUnitFiles Value="Models\Dragon;Models\Common"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
   </CompilerOptions>
