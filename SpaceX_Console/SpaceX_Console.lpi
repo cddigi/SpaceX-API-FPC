@@ -30,7 +30,7 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <Units Count="24">
+    <Units Count="38">
       <Unit0>
         <Filename Value="SpaceX_Console.pas"/>
         <IsPartOfProject Value="True"/>
@@ -127,6 +127,62 @@
         <Filename Value="Models\Landpads\Landpad.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit23>
+      <Unit24>
+        <Filename Value="Models\Launches\DatePrecision.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="Models\Launches\LaunchCore.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="Models\Launches\LaunchFailure.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="Models\Launches\LaunchFairings.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="Models\Launches\LaunchFlickr.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="Models\Launches\LaunchLinks.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="Models\Launches\LaunchPatch.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="Models\Launches\LaunchReddit.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="Models\Launches\Launch.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="Models\Launches\LaunchpadStatus.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="Models\Launchpads\Launchpad.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="Models\Payloads\DragonPayload.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="Models\Payloads\Payload.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="Models\Roadster\Roadster.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit37>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -137,7 +193,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Models\Dragon;Models\Common;Models\Company;Models\Capsules;Models\Cores;Models\Crew;Models\Landpads"/>
+      <OtherUnitFiles Value="Models\Dragon;Models\Common;Models\Company;Models\Capsules;Models\Cores;Models\Crew;Models\Landpads;Models\Launches;Models\Launchpads;Models\Payloads;Models\Roadster"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
   </CompilerOptions>
