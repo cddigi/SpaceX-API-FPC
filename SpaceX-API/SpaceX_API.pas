@@ -7,7 +7,9 @@ uses
   cthreads,
   {$ENDIF}
   Classes, SysUtils, CustApp, Dragon, VolumeInfo, ThrustInfo, IspInfo, SizeInfo,
-  MassInfo;
+  MassInfo, CompanyHeadquarters, Company, CompanyLinks, SpaceTrackInfo,
+  CapsuleStatus, Capsule, CoreStatus, Core, CrewStatus, Crew, LandpadStatus,
+  Landpad;
 
 type
 
