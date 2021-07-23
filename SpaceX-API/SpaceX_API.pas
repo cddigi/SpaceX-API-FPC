@@ -11,7 +11,9 @@ uses
   CapsuleStatus, Capsule, CoreStatus, Core, CrewStatus, Crew, LandpadStatus,
   Landpad, DatePrecision, LaunchCore, LaunchFailure, LaunchFairings,
   LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch, LaunchpadStatus,
-  Launchpad, DragonPayload, Payload, Roadster;
+  Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
+  RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
+  RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink;
 
 type
 
