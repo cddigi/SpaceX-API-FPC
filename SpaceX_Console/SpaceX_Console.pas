@@ -13,7 +13,7 @@ uses
   LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch, LaunchpadStatus,
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
-  RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink;
+  RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink, fphttpclient, opensslsockets, fpjson, jsonparser;
 
 type
 
@@ -33,6 +33,9 @@ type
 procedure SpaceX.DoRun;
 var
   ErrorMsg: String;
+  HttpClient: TFPCustomHTTPClient;
+  Response: string;
+  JSONData: TJSONData;
 begin
   // quick check parameters
   ErrorMsg:=CheckOptions('h', 'help');
@@ -50,6 +53,17 @@ begin
   end;
 
   { add your program here }
+  HttpClient := TFPCustomHTTPClient.Create(nil);
+  try
+     Response := HttpClient.Get('https://api.spacexdata.com/v4/launches/latest');
+     JSONData := GetJSON(Response, False);
+  finally
+    WriteLn(JSONData.FormatJSON());
+    WriteLn();
+
+    HttpClient.Free;
+  end;
+  ReadLn;
 
   // stop program loop
   Terminate;
@@ -69,7 +83,7 @@ end;
 procedure SpaceX.WriteHelp;
 begin
   { add your help code here }
-  writeln('Usage: ', ExeName, ' -h');
+  WriteLn('Usage: ', ExeName, ' -h');
 end;
 
 var
