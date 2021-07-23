@@ -34,7 +34,6 @@ procedure SpaceX.DoRun;
 var
   ErrorMsg: String;
   HttpClient: TFPCustomHTTPClient;
-  Response: string;
   JSONData: TJSONData;
 begin
   // quick check parameters
@@ -55,12 +54,12 @@ begin
   { add your program here }
   HttpClient := TFPCustomHTTPClient.Create(nil);
   try
-     Response := HttpClient.Get('https://api.spacexdata.com/v4/launches/latest');
-     JSONData := GetJSON(Response, False);
+     JSONData := GetJSON(HttpClient.Get('https://api.spacexdata.com/v4/launches/latest'));
   finally
     WriteLn(JSONData.FormatJSON());
     WriteLn();
 
+    JSONData.Free;
     HttpClient.Free;
   end;
   ReadLn;
