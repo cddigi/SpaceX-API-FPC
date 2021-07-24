@@ -32,6 +32,7 @@ type
 
 procedure SpaceX.DoRun;
 var
+  Dragon: IDragon;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -50,6 +51,7 @@ begin
   end;
 
   { add your program here }
+  Dragon := NewDragon;
 
   // stop program loop
   Terminate;
