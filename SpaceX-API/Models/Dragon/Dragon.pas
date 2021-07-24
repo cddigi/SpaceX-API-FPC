@@ -90,7 +90,14 @@ type
       property Wikipedia: string read GetWikipedia write SetWikipedia;
     end;
 
+    { IDragonList }
+
+    IDragonList = interface(IInterfaceList) ['{D4C2474C-5CCF-4C67-BB86-3F3B3F15A91F}']
+
+    end;
+
 function NewDragon: IDragon;
+function NewDragonList: IDragonList;
 
 implementation
 
@@ -176,9 +183,20 @@ type
 
     end;
 
+    { TDragonList }
+
+    TDragonList = class(TInterfaceList, IDragonList)
+
+    end;
+
 function NewDragon: IDragon;
 begin
   Result := TDragon.Create;
+end;
+
+function NewDragonList: IDragonList;
+begin
+  Result := TDragonList.Create;
 end;
 
 { TDragon }

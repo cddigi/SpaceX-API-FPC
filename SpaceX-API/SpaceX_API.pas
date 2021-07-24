@@ -13,7 +13,8 @@ uses
   LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch, LaunchpadStatus,
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
-  RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink;
+  RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
+  DragonEndpoint;
 
 type
 
@@ -32,7 +33,7 @@ type
 
 procedure SpaceX.DoRun;
 var
-  Dragon: IDragon;
+  Dragon: IDragonEndpoint;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -51,7 +52,8 @@ begin
   end;
 
   { add your program here }
-  Dragon := NewDragon;
+  Dragon := NewDragonEndpoint;
+  Dragon.All;
 
   // stop program loop
   Terminate;
