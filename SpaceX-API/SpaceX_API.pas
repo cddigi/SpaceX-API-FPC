@@ -1,3 +1,4 @@
+<<<<<<< HEAD:SpaceX_Console/SpaceX_Console.pas
 program SpaceX_Console;
 
 {$mode objfpc}{$H+}
@@ -94,3 +95,92 @@ begin
   Application.Free;
 end.
 
+=======
+program SpaceX_Console;
+
+{$mode objfpc}{$H+}
+
+uses
+  {$IFDEF UNIX}
+  cthreads,
+  {$ENDIF}
+  Classes, SysUtils, CustApp, Dragon, VolumeInfo, ThrustInfo, IspInfo, SizeInfo,
+  MassInfo, CompanyHeadquarters, Company, CompanyLinks, SpaceTrackInfo,
+  CapsuleStatus, Capsule, CoreStatus, Core, CrewStatus, Crew, LandpadStatus,
+  Landpad, DatePrecision, LaunchCore, LaunchFailure, LaunchFairings,
+  LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch, LaunchpadStatus,
+  Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
+  RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
+  RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
+  DragonEndpoint;
+
+type
+
+  { SpaceX }
+
+  SpaceX = class(TCustomApplication)
+  protected
+    procedure DoRun; override;
+  public
+    constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
+    procedure WriteHelp; virtual;
+  end;
+
+{ SpaceX }
+
+procedure SpaceX.DoRun;
+var
+  Dragon: IDragonEndpoint;
+  ErrorMsg: String;
+begin
+  // quick check parameters
+  ErrorMsg:=CheckOptions('h', 'help');
+  if ErrorMsg<>'' then begin
+    ShowException(Exception.Create(ErrorMsg));
+    Terminate;
+    Exit;
+  end;
+
+  // parse parameters
+  if HasOption('h', 'help') then begin
+    WriteHelp;
+    Terminate;
+    Exit;
+  end;
+
+  { add your program here }
+  Dragon := NewDragonEndpoint;
+  Dragon.All;
+
+  // stop program loop
+  Terminate;
+end;
+
+constructor SpaceX.Create(TheOwner: TComponent);
+begin
+  inherited Create(TheOwner);
+  StopOnException:=True;
+end;
+
+destructor SpaceX.Destroy;
+begin
+  inherited Destroy;
+end;
+
+procedure SpaceX.WriteHelp;
+begin
+  { add your help code here }
+  writeln('Usage: ', ExeName, ' -h');
+end;
+
+var
+  Application: SpaceX;
+begin
+  Application:=SpaceX.Create(nil);
+  Application.Title:='SpaceX';
+  Application.Run;
+  Application.Free;
+end.
+
+>>>>>>> 8517abe07faea54e690d9358aa4e3fef581e8cfc:SpaceX-API/SpaceX_API.pas
