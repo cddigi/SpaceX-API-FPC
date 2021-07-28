@@ -25,12 +25,12 @@ type
       function GetHeightWithTrunk: ISizeInfo;
       function GetId: string;
       function GetLaunchPayloadMass: IMassInfo;
-      function GetLaunchPayloadVolume: TVolumeInfo;
+      function GetLaunchPayloadVolume: IVolumeInfo;
       function GetName: string;
       function GetOrbitDurationYears: LongWord;
       function GetPressurizedCapsule: TDragonPressurizedCapsule;
       function GetReturnPayloadMass: IMassInfo;
-      function GetReturnPayloadVolume: TVolumeInfo;
+      function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
       function GetThrusters: TDragonThrustersList;
       function GetTrunk: TDragonTrunk;
@@ -49,12 +49,12 @@ type
       procedure SetHeightWithTrunk(AValue: ISizeInfo);
       procedure SetId(AValue: string);
       procedure SetLaunchPayloadMass(AValue: IMassInfo);
-      procedure SetLaunchPayloadVolume(AValue: TVolumeInfo);
+      procedure SetLaunchPayloadVolume(AValue: IVolumeInfo);
       procedure SetName(AValue: string);
       procedure SetOrbitDurationYears(AValue: LongWord);
       procedure SetPressurizedCapsule(AValue: TDragonPressurizedCapsule);
       procedure SetReturnPayloadMass(AValue: IMassInfo);
-      procedure SetReturnPayloadVolume(AValue: TVolumeInfo);
+      procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
       procedure SetThrusters(AValue: TDragonThrustersList);
       procedure SetTrunk(AValue: TDragonTrunk);
@@ -77,12 +77,12 @@ type
       property HeightWithTrunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
       property Id: string read GetId write SetId;
       property LaunchPayloadMass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
-      property LaunchPayloadVolume: TVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
+      property LaunchPayloadVolume: IVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
       property Name: string read GetName write SetName;
       property OrbitDurationYears: LongWord read GetOrbitDurationYears write SetOrbitDurationYears;
       property PressurizedCapsule: TDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
       property ReturnPayloadMass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
-      property ReturnPayloadVolume: TVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
+      property ReturnPayloadVolume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
       property SidewallAngleDegress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
       property Thrusters: TDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
       property Trunk: TDragonTrunk read GetTrunk write SetTrunk; // need to define dragontrunkinfo object
@@ -119,12 +119,12 @@ type
       FHeightWithTrunk: ISizeInfo;
       FId: string;
       FLaunchPayloadMass: IMassInfo;
-      FLaunchPayloadVolume: TVolumeInfo;
+      FLaunchPayloadVolume: IVolumeInfo;
       FName: string;
       FOrbitDurationYears: LongWord;
       FPressurizedCapsule: TDragonPressurizedCapsule;
       FReturnPayloadMass: IMassInfo;
-      FReturnPayloadVolume: TVolumeInfo;
+      FReturnPayloadVolume: IVolumeInfo;
       FSidewallAngleDegress: LongWord;
       FThrusters: TDragonThrustersList; // need to define dragonthrustersinfolist object
       FTrunk: TDragonTrunk; // need to define dragontrunkinfo object
@@ -143,12 +143,12 @@ type
       function GetHeightWithTrunk: ISizeInfo;
       function GetId: string;
       function GetLaunchPayloadMass: IMassInfo;
-      function GetLaunchPayloadVolume: TVolumeInfo;
+      function GetLaunchPayloadVolume: IVolumeInfo;
       function GetName: string;
       function GetOrbitDurationYears: LongWord;
       function GetPressurizedCapsule: TDragonPressurizedCapsule;
       function GetReturnPayloadMass: IMassInfo;
-      function GetReturnPayloadVolume: TVolumeInfo;
+      function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
       function GetThrusters: TDragonThrustersList;
       function GetTrunk: TDragonTrunk;
@@ -167,12 +167,12 @@ type
       procedure SetHeightWithTrunk(AValue: ISizeInfo);
       procedure SetId(AValue: string);
       procedure SetLaunchPayloadMass(AValue: IMassInfo);
-      procedure SetLaunchPayloadVolume(AValue: TVolumeInfo);
+      procedure SetLaunchPayloadVolume(AValue: IVolumeInfo);
       procedure SetName(AValue: string);
       procedure SetOrbitDurationYears(AValue: LongWord);
       procedure SetPressurizedCapsule(AValue: TDragonPressurizedCapsule);
       procedure SetReturnPayloadMass(AValue: IMassInfo);
-      procedure SetReturnPayloadVolume(AValue: TVolumeInfo);
+      procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
       procedure SetThrusters(AValue: TDragonThrustersList);
       procedure SetTrunk(AValue: TDragonTrunk);
@@ -261,7 +261,7 @@ begin
   Result := FLaunchPayloadMass;
 end;
 
-function TDragon.GetLaunchPayloadVolume: TVolumeInfo;
+function TDragon.GetLaunchPayloadVolume: IVolumeInfo;
 begin
   Result := FLaunchPayloadVolume;
 end;
@@ -286,7 +286,7 @@ begin
   Result := FReturnPayloadMass;
 end;
 
-function TDragon.GetReturnPayloadVolume: TVolumeInfo;
+function TDragon.GetReturnPayloadVolume: IVolumeInfo;
 begin
   Result := FReturnPayloadVolume;
 end;
@@ -376,7 +376,7 @@ begin
   FLaunchPayloadMass := AValue;
 end;
 
-procedure TDragon.SetLaunchPayloadVolume(AValue: TVolumeInfo);
+procedure TDragon.SetLaunchPayloadVolume(AValue: IVolumeInfo);
 begin
   FLaunchPayloadVolume := AValue;
 end;
@@ -401,7 +401,7 @@ begin
   FReturnPayloadMass := AValue;
 end;
 
-procedure TDragon.SetReturnPayloadVolume(AValue: TVolumeInfo);
+procedure TDragon.SetReturnPayloadVolume(AValue: IVolumeInfo);
 begin
   FReturnPayloadVolume := AValue;
 end;

@@ -9,7 +9,7 @@ uses
 
 type
   TDragonPressurizedCapsule = class(TInterfacedObject)
-    PayloadVolume: TVolumeInfo;
+    PayloadVolume: IVolumeInfo;
   end;
 
 implementation
