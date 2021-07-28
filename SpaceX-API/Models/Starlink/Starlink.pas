@@ -15,7 +15,7 @@ type
   public
     Id: string;
     Version: string;
-    SpaceTrack: TSpaceTrackInfo;
+    SpaceTrack: ISpaceTrackInfo;
     Latitude: Double;
     Longitude: Double;
     HeightKilometers: Double;
