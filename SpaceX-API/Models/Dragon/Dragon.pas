@@ -16,13 +16,13 @@ type
       function GetActive: Boolean;
       function GetCrewCapacity: Byte;
       function GetDescription: string;
-      function GetDiameter: TSizeInfo;
+      function GetDiameter: ISizeInfo;
       function GetDryMassKilograms: Double;
       function GetDryMassPounds: Double;
       function GetFirstFlight: TDateTime;
       function GetFlickrImages: TStringList;
       function GetHeatShield: TDragonHeatshield;
-      function GetHeightWithTrunk: TSizeInfo;
+      function GetHeightWithTrunk: ISizeInfo;
       function GetId: string;
       function GetLaunchPayloadMass: IMassInfo;
       function GetLaunchPayloadVolume: TVolumeInfo;
@@ -40,13 +40,13 @@ type
       procedure SetActive(AValue: Boolean);
       procedure SetCrewCapacity(AValue: Byte);
       procedure SetDescription(AValue: string);
-      procedure SetDiameter(AValue: TSizeInfo);
+       procedure SetDiameter(AValue: ISizeInfo);
       procedure SetDryMassKilograms(AValue: Double);
       procedure SetDryMassPounds(AValue: Double);
       procedure SetFirstFlight(AValue: TDateTime);
       procedure SetFlickrImages(AValue: TStringList);
       procedure SetHeatShield(AValue: TDragonHeatshield);
-      procedure SetHeightWithTrunk(AValue: TSizeInfo);
+      procedure SetHeightWithTrunk(AValue: ISizeInfo);
       procedure SetId(AValue: string);
       procedure SetLaunchPayloadMass(AValue: IMassInfo);
       procedure SetLaunchPayloadVolume(AValue: TVolumeInfo);
@@ -68,13 +68,13 @@ type
       property Active: Boolean read GetActive write SetActive;
       property CrewCapacity: Byte read GetCrewCapacity write SetCrewCapacity;
       property Description: string read GetDescription write SetDescription;
-      property Diameter: TSizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
+      property Diameter: ISizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
       property DryMassKilograms: Double read GetDryMassKilograms write SetDryMassKilograms;
       property DryMassPounds: Double read GetDryMassPounds write SetDryMassPounds;
       property FirstFlight: TDateTime read GetFirstFlight write SetFirstFlight;
       property FlickrImages: TStringList read GetFlickrImages write SetFlickrImages;
       property HeatShield: TDragonHeatshield read GetHeatShield write SetHeatShield;
-      property HeightWithTrunk: TSizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
+      property HeightWithTrunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
       property Id: string read GetId write SetId;
       property LaunchPayloadMass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
       property LaunchPayloadVolume: TVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
@@ -110,13 +110,13 @@ type
       FActive: Boolean;
       FCrewCapacity: Byte;
       FDescription: string;
-      FDiameter: TSizeInfo; // need to define sizeinfo object
+      FDiameter: ISizeInfo;
       FDryMassKilograms: Double;
       FDryMassPounds: Double;
       FFirstFlight: TDateTime;
       FFlickrImages: TStringList;
       FHeatShield: TDragonHeatshield;
-      FHeightWithTrunk: TSizeInfo;
+      FHeightWithTrunk: ISizeInfo;
       FId: string;
       FLaunchPayloadMass: IMassInfo;
       FLaunchPayloadVolume: TVolumeInfo;
@@ -134,13 +134,13 @@ type
       function GetActive: Boolean;
       function GetCrewCapacity: Byte;
       function GetDescription: string;
-      function GetDiameter: TSizeInfo;
+      function GetDiameter: ISizeInfo;
       function GetDryMassKilograms: Double;
       function GetDryMassPounds: Double;
       function GetFirstFlight: TDateTime;
       function GetFlickrImages: TStringList;
       function GetHeatShield: TDragonHeatshield;
-      function GetHeightWithTrunk: TSizeInfo;
+      function GetHeightWithTrunk: ISizeInfo;
       function GetId: string;
       function GetLaunchPayloadMass: IMassInfo;
       function GetLaunchPayloadVolume: TVolumeInfo;
@@ -158,13 +158,13 @@ type
       procedure SetActive(AValue: Boolean);
       procedure SetCrewCapacity(AValue: Byte);
       procedure SetDescription(AValue: string);
-      procedure SetDiameter(AValue: TSizeInfo);
+      procedure SetDiameter(AValue: ISizeInfo);
       procedure SetDryMassKilograms(AValue: Double);
       procedure SetDryMassPounds(AValue: Double);
       procedure SetFirstFlight(AValue: TDateTime);
       procedure SetFlickrImages(AValue: TStringList);
       procedure SetHeatShield(AValue: TDragonHeatshield);
-      procedure SetHeightWithTrunk(AValue: TSizeInfo);
+      procedure SetHeightWithTrunk(AValue: ISizeInfo);
       procedure SetId(AValue: string);
       procedure SetLaunchPayloadMass(AValue: IMassInfo);
       procedure SetLaunchPayloadVolume(AValue: TVolumeInfo);
@@ -216,7 +216,7 @@ begin
   Result := FDescription;
 end;
 
-function TDragon.GetDiameter: TSizeInfo;
+function TDragon.GetDiameter: ISizeInfo;
 begin
   Result := FDiameter;
 end;
@@ -246,7 +246,7 @@ begin
   Result := FHeatShield;
 end;
 
-function TDragon.GetHeightWithTrunk: TSizeInfo;
+function TDragon.GetHeightWithTrunk: ISizeInfo;
 begin
   Result := FHeightWithTrunk;
 end;
@@ -331,7 +331,7 @@ begin
   FDescription := AValue;
 end;
 
-procedure TDragon.SetDiameter(AValue: TSizeInfo);
+procedure TDragon.SetDiameter(AValue: ISizeInfo);
 begin
   FDiameter := AValue;
 end;
@@ -361,7 +361,7 @@ begin
   FHeatShield := AValue;
 end;
 
-procedure TDragon.SetHeightWithTrunk(AValue: TSizeInfo);
+procedure TDragon.SetHeightWithTrunk(AValue: ISizeInfo);
 begin
   FHeightWithTrunk := AValue;
 end;

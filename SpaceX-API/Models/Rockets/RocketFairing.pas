@@ -10,8 +10,8 @@ uses
 type
   TRocketFairing = class(TInterfacedObject)
   public
-    Height: TSizeInfo;
-    Diameter: TSizeInfo;
+    Height: ISizeInfo;
+    Diameter: ISizeInfo;
   end;
 
 implementation
