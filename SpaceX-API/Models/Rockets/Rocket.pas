@@ -25,7 +25,7 @@ type
     Description: string;
     Height: TSizeInfo;
     Diameter: TSizeInfo;
-    Mass: TMassInfo;
+    Mass: IMassInfo;
     Engines: TRocketEngines;
     CostPerLaunch: LongWord;
     SuccessRate: LongWord;
