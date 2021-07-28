@@ -15,8 +15,8 @@ type
     Version: string;
     Layout: string;
     Isp: IIspInfo;
-    ThrustSeaLevel: TThrustInfo;
-    ThrustVacuum: TThrustInfo;
+    ThrustSeaLevel: IThrustInfo;
+    ThrustVacuum: IThrustInfo;
     EngineLossMax: LongWord;
     FirstPropellant: string;
     SecondPropellant: string;
