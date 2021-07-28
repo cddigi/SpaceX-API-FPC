@@ -1,4 +1,4 @@
-program SpaceX_Console;
+program SpaceX_API;
 
 {$mode objfpc}{$H+}
 
