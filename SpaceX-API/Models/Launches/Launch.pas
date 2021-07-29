@@ -13,7 +13,7 @@ type
     function GetAutoUpdate: Boolean;
     function GetCapsulesId: TStringList;
     function GetCrewId: TStringList;
-    function GetCores: TLaunchCoreList;
+    function GetCores: ILaunchCoreList;
     function GetDateUtc: TDateTime;
     function GetDateLocal: TDateTime;
     function GetDatePrecision: TDatePrecision;
@@ -40,7 +40,7 @@ type
     procedure SetAutoUpdate(AValue: Boolean);
     procedure SetCapsulesId(AValue: TStringList);
     procedure SetCrewId(AValue: TStringList);
-    procedure SetCores(AValue: TLaunchCoreList);
+    procedure SetCores(AValue: ILaunchCoreList);
     procedure SetDateUtc(AValue: TDateTime);
     procedure SetDateLocal(AValue: TDateTime);
     procedure SetDatePrecision(AValue: TDatePrecision);
@@ -69,7 +69,7 @@ type
     property AutoUpdate: Boolean read GetAutoUpdate write SetAutoUpdate;
     property CapsulesId: TStringList read GetCapsulesId write SetCapsulesId;
     property CrewId: TStringList read GetCrewId write SetCrewId;
-    property Cores: TLaunchCoreList read GetCores write SetCores;
+    property Cores: ILaunchCoreList read GetCores write SetCores;
     property DateUtc: TDateTime read GetDateUtc write SetDateUtc;
     property DateLocal: TDateTime read GetDateLocal write SetDateLocal;
     property DatePrecision: TDatePrecision read GetDatePrecision write SetDatePrecision;
@@ -107,7 +107,7 @@ type
     FAutoUpdate: Boolean;
     FCapsulesId: TStringList;
     FCrewId: TStringList;
-    FCores: TLaunchCoreList;
+    FCores: ILaunchCoreList;
     FDateUtc: TDateTime;
     FDateLocal: TDateTime;
     FDatePrecision: TDatePrecision;
@@ -139,7 +139,7 @@ type
     function GetAutoUpdate: Boolean;
     function GetCapsulesId: TStringList;
     function GetCrewId: TStringList;
-    function GetCores: TLaunchCoreList;
+    function GetCores: ILaunchCoreList;
     function GetDateUtc: TDateTime;
     function GetDateLocal: TDateTime;
     function GetDatePrecision: TDatePrecision;
@@ -166,7 +166,7 @@ type
     procedure SetAutoUpdate(AValue: Boolean);
     procedure SetCapsulesId(AValue: TStringList);
     procedure SetCrewId(AValue: TStringList);
-    procedure SetCores(AValue: TLaunchCoreList);
+    procedure SetCores(AValue: ILaunchCoreList);
     procedure SetDateUtc(AValue: TDateTime);
     procedure SetDateLocal(AValue: TDateTime);
     procedure SetDatePrecision(AValue: TDatePrecision);
@@ -215,7 +215,7 @@ begin
   Result := FCrewId;
 end;
 
-function TLaunch.GetCores: TLaunchCoreList;
+function TLaunch.GetCores: ILaunchCoreList;
 begin
   Result := FCores;
 end;
@@ -345,7 +345,7 @@ begin
   FCrewId := AValue;
 end;
 
-procedure TLaunch.SetCores(AValue: TLaunchCoreList);
+procedure TLaunch.SetCores(AValue: ILaunchCoreList);
 begin
   FCores := AValue;
 end;
