@@ -20,7 +20,7 @@ type
     function GetDateUnix: UInt64;
     function GetDetails: string;
     function GetFailures: ILaunchFailureList;
-    function GetFairings: TLaunchFairings;
+    function GetFairings: ILaunchFairings;
     function GetFlightNumber: LongWord;
     function GetId: string;
     function GetLaunchpadId: string;
@@ -47,7 +47,7 @@ type
     procedure SetDateUnix(AValue: UInt64);
     procedure SetDetails(AValue: string);
     procedure SetFailures(AValue: ILaunchFailureList);
-    procedure SetFairings(AValue: TLaunchFairings);
+    procedure SetFairings(AValue: ILaunchFairings);
     procedure SetFlightNumber(AValue: LongWord);
     procedure SetId(AValue: string);
     procedure SetLaunchpadId(AValue: string);
@@ -76,7 +76,7 @@ type
     property DateUnix: UInt64 read GetDateUnix write SetDateUnix;
     property Details: string read GetDetails write SetDetails;
     property Failures: ILaunchFailureList read GetFailures write SetFailures;
-    property Fairings: TLaunchFairings read GetFairings write SetFairings;
+    property Fairings: ILaunchFairings read GetFairings write SetFairings;
     property FlightNumber: LongWord read GetFlightNumber write SetFlightNumber;
     property Id: string read GetId write SetId;
     property LaunchpadId: string read GetLaunchpadId write SetLaunchpadId;
@@ -114,7 +114,7 @@ type
     FDateUnix: UInt64;
     FDetails: string;
     FFailures: ILaunchFailureList;
-    FFairings: TLaunchFairings;
+    FFairings: ILaunchFairings;
     FFlightNumber: LongWord;
     FId: string;
     FLaunchpadId: string;
@@ -146,7 +146,7 @@ type
     function GetDateUnix: UInt64;
     function GetDetails: string;
     function GetFailures: ILaunchFailureList;
-    function GetFairings: TLaunchFairings;
+    function GetFairings: ILaunchFairings;
     function GetFlightNumber: LongWord;
     function GetId: string;
     function GetLaunchpadId: string;
@@ -173,7 +173,7 @@ type
     procedure SetDateUnix(AValue: UInt64);
     procedure SetDetails(AValue: string);
     procedure SetFailures(AValue: ILaunchFailureList);
-    procedure SetFairings(AValue: TLaunchFairings);
+    procedure SetFairings(AValue: ILaunchFairings);
     procedure SetFlightNumber(AValue: LongWord);
     procedure SetId(AValue: string);
     procedure SetLaunchpadId(AValue: string);
@@ -250,7 +250,7 @@ begin
   Result := FFailures;
 end;
 
-function TLaunch.GetFairings: TLaunchFairings;
+function TLaunch.GetFairings: ILaunchFairings;
 begin
   Result := FFairings;
 end;
@@ -380,7 +380,7 @@ begin
   FFailures := AValue;
 end;
 
-procedure TLaunch.SetFairings(AValue: TLaunchFairings);
+procedure TLaunch.SetFairings(AValue: ILaunchFairings);
 begin
   FFairings := AValue;
 end;
