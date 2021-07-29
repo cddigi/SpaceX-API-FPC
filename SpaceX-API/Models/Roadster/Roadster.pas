@@ -193,281 +193,286 @@ type
     function ToString(): string; override;
   end;
 
+function NewRoadster: IRoadster;
+begin
+  Result := TRoadster.Create;
+end;
+
 { TRoadster }
 
 function TRoadster.GetApoapsisAu: Double;
 begin
-
+  Result := FApoapsisAu;
 end;
 
 function TRoadster.GetDetails: string;
 begin
-
+  Result := FDetails;
 end;
 
 function TRoadster.GetDateTimeUnix: UInt64;
 begin
-
+  Result := FDateTimeUnix;
 end;
 
 function TRoadster.GetDateTimeUtc: TDateTime;
 begin
-
+  Result := FDateTimeUtc;
 end;
 
 function TRoadster.GetEarthDistanceKilometers: Double;
 begin
-
+  Result := FEarthDistanceKilometers;
 end;
 
 function TRoadster.GetEarthDistanceMiles: Double;
 begin
-
+  Result := FEarthDistanceMiles;
 end;
 
 function TRoadster.GetEccentricity: Double;
 begin
-
+  Result := FEccentricity;
 end;
 
 function TRoadster.GetEpochJd: Double;
 begin
-
+  Result := FEpochJd;
 end;
 
 function TRoadster.GetFlickrImages: TStringList;
 begin
-
+  Result := FFlickrImages;
 end;
 
 function TRoadster.GetId: string;
 begin
-
+  Result := FId;
 end;
 
 function TRoadster.GetInclination: Double;
 begin
-
+  Result := FInclination;
 end;
 
 function TRoadster.GetLaunchMassKilograms: Double;
 begin
-
+  Result := FLaunchMassKilograms;
 end;
 
 function TRoadster.GetLaunchMassPounds: Double;
 begin
-
+  Result := FLaunchMassPounds;
 end;
 
 function TRoadster.GetLongitude: Double;
 begin
-
+  Result := FLongitude;
 end;
 
 function TRoadster.GetMarsDistanceKilometers: Double;
 begin
-
+  Result := FMarsDistanceKilometers;
 end;
 
 function TRoadster.GetMarsDistanceMiles: Double;
 begin
-
+  Result := FMarsDistanceMiles;
 end;
 
 function TRoadster.GetName: string;
 begin
-
+  Result := FName;
 end;
 
 function TRoadster.GetNoradId: LongWord;
 begin
-
+  Result := FNoradId;
 end;
 
 function TRoadster.GetOrbitType: string;
 begin
-
+  Result := FOrbitType;
 end;
 
 function TRoadster.GetPeriapsisArg: Double;
 begin
-
+  Result := FPeriapsisArg;
 end;
 
 function TRoadster.GetPeriapsisAu: Double;
 begin
-
+  Result := FPeriapsisAu;
 end;
 
 function TRoadster.GetPeriodDays: Double;
 begin
-
+  Result := FPeriodDays;
 end;
 
 function TRoadster.GetSemiMajorAxisAu: Double;
 begin
-
+  Result := FSemiMajorAxisAu;
 end;
 
 function TRoadster.GetSpeedKph: Double;
 begin
-
+  Result := FSpeedKph;
 end;
 
 function TRoadster.GetSpeedMph: Double;
 begin
-
+  Result := FSpeedMph;
 end;
 
 function TRoadster.GetVideo: string;
 begin
-
+  Result := FVideo;
 end;
 
 function TRoadster.GetWikipedia: string;
 begin
-
+  Result := FWikipedia;
 end;
 
 procedure TRoadster.SetApoapsisAu(AValue: Double);
 begin
-
+  FApoapsisAu := AValue;
 end;
 
 procedure TRoadster.SetDetails(AValue: string);
 begin
-
+  FDetails := AValue;
 end;
 
 procedure TRoadster.SetDateTimeUnix(AValue: UInt64);
 begin
-
+  FDateTimeUnix := AValue;
 end;
 
 procedure TRoadster.SetDateTimeUtc(AValue: TDateTime);
 begin
-
+  FDateTimeUtc := AValue;
 end;
 
 procedure TRoadster.SetEarthDistanceKilometers(AValue: Double);
 begin
-
+  FEarthDistanceKilometers := AValue;
 end;
 
 procedure TRoadster.SetEarthDistanceMiles(AValue: Double);
 begin
-
+  FEarthDistanceMiles := AValue;
 end;
 
 procedure TRoadster.SetEccentricity(AValue: Double);
 begin
-
+  FEccentricity := AValue;
 end;
 
 procedure TRoadster.SetEpochJd(AValue: Double);
 begin
-
+  FEpochJd := AValue;
 end;
 
 procedure TRoadster.SetFlickrImages(AValue: TStringList);
 begin
-
+  FFlickrImages := AValue;
 end;
 
 procedure TRoadster.SetId(AValue: string);
 begin
-
+  FId := AValue;
 end;
 
 procedure TRoadster.SetInclination(AValue: Double);
 begin
-
+  FInclination := AValue;
 end;
 
 procedure TRoadster.SetLaunchMassKilograms(AValue: Double);
 begin
-
+  FLaunchMassKilograms := AValue;
 end;
 
 procedure TRoadster.SetLaunchMassPounds(AValue: Double);
 begin
-
+  FLaunchMassPounds := AValue;
 end;
 
 procedure TRoadster.SetLongitude(AValue: Double);
 begin
-
+  FLongitude := AValue;
 end;
 
 procedure TRoadster.SetMarsDistanceKilometers(AValue: Double);
 begin
-
+  FMarsDistanceKilometers := AValue;
 end;
 
 procedure TRoadster.SetMarsDistanceMiles(AValue: Double);
 begin
-
+  FMarsDistanceMiles := AValue;
 end;
 
 procedure TRoadster.SetName(AValue: string);
 begin
-
+  FName := AValue;
 end;
 
 procedure TRoadster.SetNoradId(AValue: LongWord);
 begin
-
+  FNoradId := AValue;
 end;
 
 procedure TRoadster.SetOrbitType(AValue: string);
 begin
-
+  FOrbitType := AValue;
 end;
 
 procedure TRoadster.SetPeriapsisArg(AValue: Double);
 begin
-
+  FPeriapsisArg := AValue;
 end;
 
 procedure TRoadster.SetPeriapsisAu(AValue: Double);
 begin
-
+  FPeriapsisAu := AValue;
 end;
 
 procedure TRoadster.SetPeriodDays(AValue: Double);
 begin
-
+  FPeriodDays := AValue;
 end;
 
 procedure TRoadster.SetSemiMajorAxisAu(AValue: Double);
 begin
-
+  FSemiMajorAxisAu := AValue;
 end;
 
 procedure TRoadster.SetSpeedKph(AValue: Double);
 begin
-
+  FSpeedKph := AValue;
 end;
 
 procedure TRoadster.SetSpeedMph(AValue: Double);
 begin
-
+  FSpeedMph := AValue;
 end;
 
 procedure TRoadster.SetVideo(AValue: string);
 begin
-
+  FVideo := AValue;
 end;
 
 procedure TRoadster.SetWikipedia(AValue: string);
 begin
-
+  FWikipedia := AValue;
 end;
 
 function TRoadster.ToString(): string;
 begin
-  Result := Name;
+  Result := GetName;
 end;
 
 end.
