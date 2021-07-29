@@ -38,6 +38,7 @@ type
   { TLaunchFailure }
 
   TLaunchFailure = class(TInterfacedObject, ILaunchFailure)
+  private
     FAltitude: LongWord;
     FReason: string;
     FTime: Integer;

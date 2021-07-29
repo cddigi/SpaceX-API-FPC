@@ -29,6 +29,7 @@ type
   { TLaunchFlickr }
 
   TLaunchFlickr = class(TInterfacedObject, ILaunchFlickr)
+  private
     FOriginal: TStringList;
     FSmall: TStringList;
     function GetOriginal: TStringList;

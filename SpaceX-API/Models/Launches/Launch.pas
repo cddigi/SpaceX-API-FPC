@@ -24,7 +24,7 @@ type
     function GetFlightNumber: LongWord;
     function GetId: string;
     function GetLaunchpadId: string;
-    function GetLinks: TLaunchLinks;
+    function GetLinks: ILaunchLinks;
     function GetName: string;
     function GetNotEarlierThan: Boolean;
     function GetPayloadsId: TStringList;
@@ -51,7 +51,7 @@ type
     procedure SetFlightNumber(AValue: LongWord);
     procedure SetId(AValue: string);
     procedure SetLaunchpadId(AValue: string);
-    procedure SetLinks(AValue: TLaunchLinks);
+    procedure SetLinks(AValue: ILaunchLinks);
     procedure SetName(AValue: string);
     procedure SetNotEarlierThan(AValue: Boolean);
     procedure SetPayloadsId(AValue: TStringList);
@@ -80,7 +80,7 @@ type
     property FlightNumber: LongWord read GetFlightNumber write SetFlightNumber;
     property Id: string read GetId write SetId;
     property LaunchpadId: string read GetLaunchpadId write SetLaunchpadId;
-    property Links: TLaunchLinks read GetLinks write SetLinks;
+    property Links: ILaunchLinks read GetLinks write SetLinks;
     property Name: string read GetName write SetName;
     property NotEarlierThan: Boolean read GetNotEarlierThan write SetNotEarlierThan;
     property PayloadsId: TStringList read GetPayloadsId write SetPayloadsId;
@@ -118,7 +118,7 @@ type
     FFlightNumber: LongWord;
     FId: string;
     FLaunchpadId: string;
-    FLinks: TLaunchLinks;
+    FLinks: ILaunchLinks;
     FName: string;
     FNotEarlierThan: Boolean;
     FPayloadsId: TStringList;
@@ -150,7 +150,7 @@ type
     function GetFlightNumber: LongWord;
     function GetId: string;
     function GetLaunchpadId: string;
-    function GetLinks: TLaunchLinks;
+    function GetLinks: ILaunchLinks;
     function GetName: string;
     function GetNotEarlierThan: Boolean;
     function GetPayloadsId: TStringList;
@@ -177,7 +177,7 @@ type
     procedure SetFlightNumber(AValue: LongWord);
     procedure SetId(AValue: string);
     procedure SetLaunchpadId(AValue: string);
-    procedure SetLinks(AValue: TLaunchLinks);
+    procedure SetLinks(AValue: ILaunchLinks);
     procedure SetName(AValue: string);
     procedure SetNotEarlierThan(AValue: Boolean);
     procedure SetPayloadsId(AValue: TStringList);
@@ -270,7 +270,7 @@ begin
   Result := FLaunchpadId;
 end;
 
-function TLaunch.GetLinks: TLaunchLinks;
+function TLaunch.GetLinks: ILaunchLinks;
 begin
   Result := FLinks;
 end;
@@ -400,7 +400,7 @@ begin
   FLaunchpadId := AValue;
 end;
 
-procedure TLaunch.SetLinks(AValue: TLaunchLinks);
+procedure TLaunch.SetLinks(AValue: ILaunchLinks);
 begin
   FLinks := AValue;
 end;
