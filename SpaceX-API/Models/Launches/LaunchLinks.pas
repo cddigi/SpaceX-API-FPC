@@ -14,7 +14,7 @@ type
     function GetFlickr: ILaunchFlickr;
     function GetPatch: ILaunchPatch;
     function GetPresskit: string;
-    function GetReddit: TLaunchReddit;
+    function GetReddit: ILaunchReddit;
     function GetWebcast: string;
     function GetWikipedia: string;
     function GetYouTubeId: string;
@@ -23,7 +23,7 @@ type
     procedure SetFlickr(AValue: ILaunchFlickr);
     procedure SetPatch(AValue: ILaunchPatch);
     procedure SetPresskit(AValue: string);
-    procedure SetReddit(AValue: TLaunchReddit);
+    procedure SetReddit(AValue: ILaunchReddit);
     procedure SetWebcast(AValue: string);
     procedure SetWikipedia(AValue: string);
     procedure SetYouTubeId(AValue: string);
@@ -34,7 +34,7 @@ type
     property Flickr: ILaunchFlickr read GetFlickr write SetFlickr;
     property Patch: ILaunchPatch read GetPatch write SetPatch;
     property Presskit: string read GetPresskit write SetPresskit;
-    property Reddit: TLaunchReddit read GetReddit write SetReddit;
+    property Reddit: ILaunchReddit read GetReddit write SetReddit;
     property Webcast: string read GetWebcast write SetWebcast;
     property Wikipedia: string read GetWikipedia write SetWikipedia;
     property YouTubeId: string read GetYouTubeId write SetYouTubeId;
@@ -54,7 +54,7 @@ type
     FFlickr: ILaunchFlickr;
     FPatch: ILaunchPatch;
     FPresskit: string;
-    FReddit: TLaunchReddit;
+    FReddit: ILaunchReddit;
     FWebcast: string;
     FWikipedia: string;
     FYouTubeId: string;
@@ -62,7 +62,7 @@ type
     function GetFlickr: ILaunchFlickr;
     function GetPatch: ILaunchPatch;
     function GetPresskit: string;
-    function GetReddit: TLaunchReddit;
+    function GetReddit: ILaunchReddit;
     function GetWebcast: string;
     function GetWikipedia: string;
     function GetYouTubeId: string;
@@ -71,7 +71,7 @@ type
     procedure SetFlickr(AValue: ILaunchFlickr);
     procedure SetPatch(AValue: ILaunchPatch);
     procedure SetPresskit(AValue: string);
-    procedure SetReddit(AValue: TLaunchReddit);
+    procedure SetReddit(AValue: ILaunchReddit);
     procedure SetWebcast(AValue: string);
     procedure SetWikipedia(AValue: string);
     procedure SetYouTubeId(AValue: string);
@@ -104,7 +104,7 @@ begin
   Result := FPresskit;
 end;
 
-function TLaunchLinks.GetReddit: TLaunchReddit;
+function TLaunchLinks.GetReddit: ILaunchReddit;
 begin
   Result := FReddit;
 end;
@@ -144,7 +144,7 @@ begin
   FPresskit := AValue;
 end;
 
-procedure TLaunchLinks.SetReddit(AValue: TLaunchReddit);
+procedure TLaunchLinks.SetReddit(AValue: ILaunchReddit);
 begin
   FReddit := AValue;
 end;
