@@ -28,7 +28,7 @@ type
       function GetLaunchPayloadVolume: IVolumeInfo;
       function GetName: string;
       function GetOrbitDurationYears: LongWord;
-      function GetPressurizedCapsule: TDragonPressurizedCapsule;
+      function GetPressurizedCapsule: IDragonPressurizedCapsule;
       function GetReturnPayloadMass: IMassInfo;
       function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
@@ -52,7 +52,7 @@ type
       procedure SetLaunchPayloadVolume(AValue: IVolumeInfo);
       procedure SetName(AValue: string);
       procedure SetOrbitDurationYears(AValue: LongWord);
-      procedure SetPressurizedCapsule(AValue: TDragonPressurizedCapsule);
+      procedure SetPressurizedCapsule(AValue: IDragonPressurizedCapsule);
       procedure SetReturnPayloadMass(AValue: IMassInfo);
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
@@ -80,7 +80,7 @@ type
       property LaunchPayloadVolume: IVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
       property Name: string read GetName write SetName;
       property OrbitDurationYears: LongWord read GetOrbitDurationYears write SetOrbitDurationYears;
-      property PressurizedCapsule: TDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
+      property PressurizedCapsule: IDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
       property ReturnPayloadMass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
       property ReturnPayloadVolume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
       property SidewallAngleDegress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
@@ -122,7 +122,7 @@ type
       FLaunchPayloadVolume: IVolumeInfo;
       FName: string;
       FOrbitDurationYears: LongWord;
-      FPressurizedCapsule: TDragonPressurizedCapsule;
+      FPressurizedCapsule: IDragonPressurizedCapsule;
       FReturnPayloadMass: IMassInfo;
       FReturnPayloadVolume: IVolumeInfo;
       FSidewallAngleDegress: LongWord;
@@ -146,7 +146,7 @@ type
       function GetLaunchPayloadVolume: IVolumeInfo;
       function GetName: string;
       function GetOrbitDurationYears: LongWord;
-      function GetPressurizedCapsule: TDragonPressurizedCapsule;
+      function GetPressurizedCapsule: IDragonPressurizedCapsule;
       function GetReturnPayloadMass: IMassInfo;
       function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
@@ -170,7 +170,7 @@ type
       procedure SetLaunchPayloadVolume(AValue: IVolumeInfo);
       procedure SetName(AValue: string);
       procedure SetOrbitDurationYears(AValue: LongWord);
-      procedure SetPressurizedCapsule(AValue: TDragonPressurizedCapsule);
+      procedure SetPressurizedCapsule(AValue: IDragonPressurizedCapsule);
       procedure SetReturnPayloadMass(AValue: IMassInfo);
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
@@ -276,7 +276,7 @@ begin
   Result := FOrbitDurationYears;
 end;
 
-function TDragon.GetPressurizedCapsule: TDragonPressurizedCapsule;
+function TDragon.GetPressurizedCapsule: IDragonPressurizedCapsule;
 begin
   Result := FPressurizedCapsule;
 end;
@@ -391,7 +391,7 @@ begin
   FOrbitDurationYears := AValue;
 end;
 
-procedure TDragon.SetPressurizedCapsule(AValue: TDragonPressurizedCapsule);
+procedure TDragon.SetPressurizedCapsule(AValue: IDragonPressurizedCapsule);
 begin
   FPressurizedCapsule := AValue;
 end;
