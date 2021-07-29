@@ -19,7 +19,7 @@ type
     function GetDatePrecision: TDatePrecision;
     function GetDateUnix: UInt64;
     function GetDetails: string;
-    function GetFailures: TLaunchFailureList;
+    function GetFailures: ILaunchFailureList;
     function GetFairings: TLaunchFairings;
     function GetFlightNumber: LongWord;
     function GetId: string;
@@ -46,7 +46,7 @@ type
     procedure SetDatePrecision(AValue: TDatePrecision);
     procedure SetDateUnix(AValue: UInt64);
     procedure SetDetails(AValue: string);
-    procedure SetFailures(AValue: TLaunchFailureList);
+    procedure SetFailures(AValue: ILaunchFailureList);
     procedure SetFairings(AValue: TLaunchFairings);
     procedure SetFlightNumber(AValue: LongWord);
     procedure SetId(AValue: string);
@@ -75,7 +75,7 @@ type
     property DatePrecision: TDatePrecision read GetDatePrecision write SetDatePrecision;
     property DateUnix: UInt64 read GetDateUnix write SetDateUnix;
     property Details: string read GetDetails write SetDetails;
-    property Failures: TLaunchFailureList read GetFailures write SetFailures;
+    property Failures: ILaunchFailureList read GetFailures write SetFailures;
     property Fairings: TLaunchFairings read GetFairings write SetFairings;
     property FlightNumber: LongWord read GetFlightNumber write SetFlightNumber;
     property Id: string read GetId write SetId;
@@ -113,7 +113,7 @@ type
     FDatePrecision: TDatePrecision;
     FDateUnix: UInt64;
     FDetails: string;
-    FFailures: TLaunchFailureList;
+    FFailures: ILaunchFailureList;
     FFairings: TLaunchFairings;
     FFlightNumber: LongWord;
     FId: string;
@@ -145,7 +145,7 @@ type
     function GetDatePrecision: TDatePrecision;
     function GetDateUnix: UInt64;
     function GetDetails: string;
-    function GetFailures: TLaunchFailureList;
+    function GetFailures: ILaunchFailureList;
     function GetFairings: TLaunchFairings;
     function GetFlightNumber: LongWord;
     function GetId: string;
@@ -172,7 +172,7 @@ type
     procedure SetDatePrecision(AValue: TDatePrecision);
     procedure SetDateUnix(AValue: UInt64);
     procedure SetDetails(AValue: string);
-    procedure SetFailures(AValue: TLaunchFailureList);
+    procedure SetFailures(AValue: ILaunchFailureList);
     procedure SetFairings(AValue: TLaunchFairings);
     procedure SetFlightNumber(AValue: LongWord);
     procedure SetId(AValue: string);
@@ -245,7 +245,7 @@ begin
   Result := FDetails;
 end;
 
-function TLaunch.GetFailures: TLaunchFailureList;
+function TLaunch.GetFailures: ILaunchFailureList;
 begin
   Result := FFailures;
 end;
@@ -375,7 +375,7 @@ begin
   FDetails := AValue;
 end;
 
-procedure TLaunch.SetFailures(AValue: TLaunchFailureList);
+procedure TLaunch.SetFailures(AValue: ILaunchFailureList);
 begin
   FFailures := AValue;
 end;
