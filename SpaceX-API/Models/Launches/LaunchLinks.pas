@@ -15,7 +15,7 @@ type
     Wikipedia: string;
     Patch: TLaunchPatch;
     Reddit: TLaunchReddit;
-    Flickr: TLaunchFlickr;
+    Flickr: ILaunchFlickr;
     YouTubeId: string;
   end;
 
