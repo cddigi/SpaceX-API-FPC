@@ -12,7 +12,7 @@ type
   IBaseLaunchLinks = interface(IInterface) ['{CD2B10FD-4184-42A2-BB85-D47DB841C103}']
     function GetArticle: string;
     function GetFlickr: ILaunchFlickr;
-    function GetPatch: TLaunchPatch;
+    function GetPatch: ILaunchPatch;
     function GetPresskit: string;
     function GetReddit: TLaunchReddit;
     function GetWebcast: string;
@@ -21,7 +21,7 @@ type
 
     procedure SetArticle(AValue: string);
     procedure SetFlickr(AValue: ILaunchFlickr);
-    procedure SetPatch(AValue: TLaunchPatch);
+    procedure SetPatch(AValue: ILaunchPatch);
     procedure SetPresskit(AValue: string);
     procedure SetReddit(AValue: TLaunchReddit);
     procedure SetWebcast(AValue: string);
@@ -32,7 +32,7 @@ type
   ILaunchLinks = interface(IBaseLaunchLinks) ['{7BB39FA9-B797-4362-B9D4-04215E0B7B55}']
     property Article: string read GetArticle write SetArticle;
     property Flickr: ILaunchFlickr read GetFlickr write SetFlickr;
-    property Patch: TLaunchPatch read GetPatch write SetPatch;
+    property Patch: ILaunchPatch read GetPatch write SetPatch;
     property Presskit: string read GetPresskit write SetPresskit;
     property Reddit: TLaunchReddit read GetReddit write SetReddit;
     property Webcast: string read GetWebcast write SetWebcast;
@@ -52,7 +52,7 @@ type
   private
     FArticle: string;
     FFlickr: ILaunchFlickr;
-    FPatch: TLaunchPatch;
+    FPatch: ILaunchPatch;
     FPresskit: string;
     FReddit: TLaunchReddit;
     FWebcast: string;
@@ -60,7 +60,7 @@ type
     FYouTubeId: string;
     function GetArticle: string;
     function GetFlickr: ILaunchFlickr;
-    function GetPatch: TLaunchPatch;
+    function GetPatch: ILaunchPatch;
     function GetPresskit: string;
     function GetReddit: TLaunchReddit;
     function GetWebcast: string;
@@ -69,7 +69,7 @@ type
 
     procedure SetArticle(AValue: string);
     procedure SetFlickr(AValue: ILaunchFlickr);
-    procedure SetPatch(AValue: TLaunchPatch);
+    procedure SetPatch(AValue: ILaunchPatch);
     procedure SetPresskit(AValue: string);
     procedure SetReddit(AValue: TLaunchReddit);
     procedure SetWebcast(AValue: string);
@@ -94,7 +94,7 @@ begin
   Result := FFlickr;
 end;
 
-function TLaunchLinks.GetPatch: TLaunchPatch;
+function TLaunchLinks.GetPatch: ILaunchPatch;
 begin
   Result := FPatch;
 end;
@@ -134,7 +134,7 @@ begin
   FFlickr := AValue;
 end;
 
-procedure TLaunchLinks.SetPatch(AValue: TLaunchPatch);
+procedure TLaunchLinks.SetPatch(AValue: ILaunchPatch);
 begin
   FPatch := AValue;
 end;
