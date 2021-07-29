@@ -9,7 +9,7 @@ uses
 
 type
   TDragonTrunk = class(TInterfacedObject)
-    Cargo: TDragonCargo;
+    Cargo: IDragonCargo;
     TrunkVolume: IVolumeInfo;
   end;
 
