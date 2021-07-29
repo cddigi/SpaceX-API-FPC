@@ -32,7 +32,7 @@ type
       function GetReturnPayloadMass: IMassInfo;
       function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
-      function GetThrusters: TDragonThrustersList;
+      function GetThrusters: IDragonThrustersList;
       function GetTrunk: TDragonTrunk;
       function GetTypeInfo: string;
       function GetWikipedia: string;
@@ -56,7 +56,7 @@ type
       procedure SetReturnPayloadMass(AValue: IMassInfo);
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
-      procedure SetThrusters(AValue: TDragonThrustersList);
+      procedure SetThrusters(AValue: IDragonThrustersList);
       procedure SetTrunk(AValue: TDragonTrunk);
       procedure SetTypeInfo(AValue: string);
       procedure SetWikipedia(AValue: string);
@@ -84,7 +84,7 @@ type
       property ReturnPayloadMass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
       property ReturnPayloadVolume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
       property SidewallAngleDegress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
-      property Thrusters: TDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
+      property Thrusters: IDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
       property Trunk: TDragonTrunk read GetTrunk write SetTrunk; // need to define dragontrunkinfo object
       property TypeInfo: string read GetTypeInfo write SetTypeInfo;  // Type is a reserved word in pascal
       property Wikipedia: string read GetWikipedia write SetWikipedia;
@@ -126,9 +126,9 @@ type
       FReturnPayloadMass: IMassInfo;
       FReturnPayloadVolume: IVolumeInfo;
       FSidewallAngleDegress: LongWord;
-      FThrusters: TDragonThrustersList; // need to define dragonthrustersinfolist object
-      FTrunk: TDragonTrunk; // need to define dragontrunkinfo object
-      FTypeInfo: string;  // Type is a reserved word in pascal
+      FThrusters: IDragonThrustersList;
+      FTrunk: TDragonTrunk;
+      FTypeInfo: string;
       FWikipedia: string;
     private
       function GetActive: Boolean;
@@ -150,7 +150,7 @@ type
       function GetReturnPayloadMass: IMassInfo;
       function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
-      function GetThrusters: TDragonThrustersList;
+      function GetThrusters: IDragonThrustersList;
       function GetTrunk: TDragonTrunk;
       function GetTypeInfo: string;
       function GetWikipedia: string;
@@ -174,7 +174,7 @@ type
       procedure SetReturnPayloadMass(AValue: IMassInfo);
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
-      procedure SetThrusters(AValue: TDragonThrustersList);
+      procedure SetThrusters(AValue: IDragonThrustersList);
       procedure SetTrunk(AValue: TDragonTrunk);
       procedure SetTypeInfo(AValue: string);
       procedure SetWikipedia(AValue: string);
@@ -296,7 +296,7 @@ begin
   Result := FSidewallAngleDegress;
 end;
 
-function TDragon.GetThrusters: TDragonThrustersList;
+function TDragon.GetThrusters: IDragonThrustersList;
 begin
   Result := FThrusters;
 end;
@@ -411,7 +411,7 @@ begin
   FSidewallAngleDegress := AValue;
 end;
 
-procedure TDragon.SetThrusters(AValue: TDragonThrustersList);
+procedure TDragon.SetThrusters(AValue: IDragonThrustersList);
 begin
   FThrusters := AValue;
 end;
