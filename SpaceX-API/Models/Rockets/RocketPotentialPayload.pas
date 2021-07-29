@@ -10,7 +10,7 @@ uses
 type
   TRocketPotentialPayload = class(TInterfacedObject)
   public
-    Fairing: TRocketFairing;
+    Fairing: IRocketFairing;
     Option: string;
   end;
 
