@@ -45,7 +45,7 @@ function TCapsulesEndpoint.All: ICapsuleList;
 var
   Path: string;
   HttpClient: TFPCustomHTTPClient;
-  JSONData: IJSON;
+  JSONData: IJSONData;
 begin
   Result := NewCapsuleList;
   Path := SysUtils.ConcatPaths([Host, Endpoint]);
@@ -54,9 +54,9 @@ begin
   HttpClient := TFPCustomHTTPClient.Create(nil);
   try
     JSONData := NewJSON;
-    JSONData._setJSON(HttpClient.Get(Path));
+    JSONData.SetJSONData(HttpClient.Get(Path));
   finally
-    WriteLn(JSONData._getJSON);
+    WriteLn(JSONData.GetJSONData);
     WriteLn();
 
     HttpClient.Free;

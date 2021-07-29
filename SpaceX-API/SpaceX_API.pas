@@ -61,6 +61,7 @@ begin
 
   Capsules := NewCapsulesEndpoint;
   Capsules.All;
+  Capsules.One('5e9e2c5df359185f973b2675');
 
   HttpClient := TFPCustomHTTPClient.Create(nil);
   try
