@@ -8,17 +8,129 @@ uses
   Classes, SysUtils, ThrustInfo;
 
 type
-  TRocketFirstStage = class(TInterfacedObject)
-  public
-    Reusable: Boolean;
-    Engines: LongWord;
-    ThrustSeaLevel: IThrustInfo;
-    ThrustVacuum: IThrustInfo;
-    FuelAmountTons: LongWord;
-    BurnTimeSeconds: LongWord;
+
+  IBaseRocketFirstStage = interface(IInterface) ['{3FC10254-BC67-4C3C-95A4-05AEAD6F79AB}']
+    function GetBurnTimeSeconds: LongWord;
+    function GetEngines: LongWord;
+    function GetFuelAmountTons: LongWord;
+    function GetReusable: Boolean;
+    function GetThrustSeaLevel: IThrustInfo;
+    function GetThrustVacuum: IThrustInfo;
+
+    procedure SetBurnTimeSeconds(AValue: LongWord);
+    procedure SetEngines(AValue: LongWord);
+    procedure SetFuelAmountTons(AValue: LongWord);
+    procedure SetReusable(AValue: Boolean);
+    procedure SetThrustSeaLevel(AValue: IThrustInfo);
+    procedure SetThrustVacuum(AValue: IThrustInfo);
   end;
 
+  IRocketFirstStage = interface(IBaseRocketFirstStage) ['{C968F9BB-D955-4AD0-8722-5B83A8A8FBB1}']
+    property BurnTimeSeconds: LongWord read GetBurnTimeSeconds write SetBurnTimeSeconds;
+    property Engines: LongWord read GetEngines write SetEngines;
+    property FuelAmountTons: LongWord read GetFuelAmountTons write SetFuelAmountTons;
+    property Reusable: Boolean read GetReusable write SetReusable;
+    property ThrustSeaLevel: IThrustInfo read GetThrustSeaLevel write SetThrustSeaLevel;
+    property ThrustVacuum: IThrustInfo read GetThrustVacuum write SetThrustVacuum;
+  end;
+
+function NewRocketFirstStage: IRocketFirstStage;
+
 implementation
+
+type
+
+  { TRocketFirstStage }
+
+  TRocketFirstStage = class(TInterfacedObject, IRocketFirstStage)
+  private
+    FBurnTimeSeconds: LongWord;
+    FEngines: LongWord;
+    FFuelAmountTons: LongWord;
+    FReusable: Boolean;
+    FThrustSeaLevel: IThrustInfo;
+    FThrustVacuum: IThrustInfo;
+    function GetBurnTimeSeconds: LongWord;
+    function GetEngines: LongWord;
+    function GetFuelAmountTons: LongWord;
+    function GetReusable: Boolean;
+    function GetThrustSeaLevel: IThrustInfo;
+    function GetThrustVacuum: IThrustInfo;
+
+    procedure SetBurnTimeSeconds(AValue: LongWord);
+    procedure SetEngines(AValue: LongWord);
+    procedure SetFuelAmountTons(AValue: LongWord);
+    procedure SetReusable(AValue: Boolean);
+    procedure SetThrustSeaLevel(AValue: IThrustInfo);
+    procedure SetThrustVacuum(AValue: IThrustInfo);
+  end;
+
+function NewRocketFirstStage: IRocketFirstStage;
+begin
+  Result := TRocketFirstStage.Create;
+end;
+
+{ TRocketFirstStage }
+
+function TRocketFirstStage.GetBurnTimeSeconds: LongWord;
+begin
+  Result := FBurnTimeSeconds;
+end;
+
+function TRocketFirstStage.GetEngines: LongWord;
+begin
+  Result := FEngines;
+end;
+
+function TRocketFirstStage.GetFuelAmountTons: LongWord;
+begin
+  Result := FFuelAmountTons;
+end;
+
+function TRocketFirstStage.GetReusable: Boolean;
+begin
+  Result := FReusable;
+end;
+
+function TRocketFirstStage.GetThrustSeaLevel: IThrustInfo;
+begin
+  Result := FThrustSeaLevel;
+end;
+
+function TRocketFirstStage.GetThrustVacuum: IThrustInfo;
+begin
+  Result := FThrustVacuum;
+end;
+
+procedure TRocketFirstStage.SetBurnTimeSeconds(AValue: LongWord);
+begin
+  FBurnTimeSeconds := AValue;
+end;
+
+procedure TRocketFirstStage.SetEngines(AValue: LongWord);
+begin
+  FEngines := AValue;
+end;
+
+procedure TRocketFirstStage.SetFuelAmountTons(AValue: LongWord);
+begin
+  FFuelAmountTons := AValue;
+end;
+
+procedure TRocketFirstStage.SetReusable(AValue: Boolean);
+begin
+  FReusable := AValue;
+end;
+
+procedure TRocketFirstStage.SetThrustSeaLevel(AValue: IThrustInfo);
+begin
+  FThrustSeaLevel := AValue;
+end;
+
+procedure TRocketFirstStage.SetThrustVacuum(AValue: IThrustInfo);
+begin
+  FThrustVacuum := AValue;
+end;
 
 end.
 
