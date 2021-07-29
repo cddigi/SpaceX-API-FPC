@@ -18,7 +18,7 @@ type
     function GetCountry: string;
     function GetDescription: string;
     function GetDiameter: ISizeInfo;
-    function GetEngines: TRocketEngines;
+    function GetEngines: IRocketEngines;
     function GetFirstFlight: TDateTime;
     function GetFirstStage: TRocketFirstStage;
     function GetFlickrImages: TStringList;
@@ -41,7 +41,7 @@ type
     procedure SetCountry(AValue: string);
     procedure SetDescription(AValue: string);
     procedure SetDiameter(AValue: ISizeInfo);
-    procedure SetEngines(AValue: TRocketEngines);
+    procedure SetEngines(AValue: IRocketEngines);
     procedure SetFirstFlight(AValue: TDateTime);
     procedure SetFirstStage(AValue: TRocketFirstStage);
     procedure SetFlickrImages(AValue: TStringList);
@@ -66,7 +66,7 @@ type
     property Country: string read GetCountry write SetCountry;
     property Description: string read GetDescription write SetDescription;
     property Diameter: ISizeInfo read GetDiameter write SetDiameter;
-    property Engines: TRocketEngines read GetEngines write SetEngines;
+    property Engines: IRocketEngines read GetEngines write SetEngines;
     property FirstFlight: TDateTime read GetFirstFlight write SetFirstFlight;
     property FirstStage: TRocketFirstStage read GetFirstStage write SetFirstStage;
     property FlickrImages: TStringList read GetFlickrImages write SetFlickrImages;
@@ -100,7 +100,7 @@ type
     FCountry: string;
     FDescription: string;
     FDiameter: ISizeInfo;
-    FEngines: TRocketEngines;
+    FEngines: IRocketEngines;
     FFirstFlight: TDateTime;
     FFirstStage: TRocketFirstStage;
     FFlickrImages: TStringList;
@@ -122,7 +122,7 @@ type
     function GetCountry: string;
     function GetDescription: string;
     function GetDiameter: ISizeInfo;
-    function GetEngines: TRocketEngines;
+    function GetEngines: IRocketEngines;
     function GetFirstFlight: TDateTime;
     function GetFirstStage: TRocketFirstStage;
     function GetFlickrImages: TStringList;
@@ -145,7 +145,7 @@ type
     procedure SetCountry(AValue: string);
     procedure SetDescription(AValue: string);
     procedure SetDiameter(AValue: ISizeInfo);
-    procedure SetEngines(AValue: TRocketEngines);
+    procedure SetEngines(AValue: IRocketEngines);
     procedure SetFirstFlight(AValue: TDateTime);
     procedure SetFirstStage(AValue: TRocketFirstStage);
     procedure SetFlickrImages(AValue: TStringList);
@@ -206,7 +206,7 @@ begin
   Result := FDiameter;
 end;
 
-function TRocket.GetEngines: TRocketEngines;
+function TRocket.GetEngines: IRocketEngines;
 begin
   Result := FEngines;
 end;
@@ -316,7 +316,7 @@ begin
   FDiameter := AValue;
 end;
 
-procedure TRocket.SetEngines(AValue: TRocketEngines);
+procedure TRocket.SetEngines(AValue: IRocketEngines);
 begin
   FEngines := AValue;
 end;
