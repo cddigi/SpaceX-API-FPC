@@ -21,7 +21,7 @@ type
       function GetDryMassPounds: Double;
       function GetFirstFlight: TDateTime;
       function GetFlickrImages: TStringList;
-      function GetHeatShield: TDragonHeatshield;
+      function GetHeatShield: IDragonHeatshield;
       function GetHeightWithTrunk: ISizeInfo;
       function GetId: string;
       function GetLaunchPayloadMass: IMassInfo;
@@ -45,7 +45,7 @@ type
       procedure SetDryMassPounds(AValue: Double);
       procedure SetFirstFlight(AValue: TDateTime);
       procedure SetFlickrImages(AValue: TStringList);
-      procedure SetHeatShield(AValue: TDragonHeatshield);
+      procedure SetHeatShield(AValue: IDragonHeatshield);
       procedure SetHeightWithTrunk(AValue: ISizeInfo);
       procedure SetId(AValue: string);
       procedure SetLaunchPayloadMass(AValue: IMassInfo);
@@ -73,7 +73,7 @@ type
       property DryMassPounds: Double read GetDryMassPounds write SetDryMassPounds;
       property FirstFlight: TDateTime read GetFirstFlight write SetFirstFlight;
       property FlickrImages: TStringList read GetFlickrImages write SetFlickrImages;
-      property HeatShield: TDragonHeatshield read GetHeatShield write SetHeatShield;
+      property HeatShield: IDragonHeatshield read GetHeatShield write SetHeatShield;
       property HeightWithTrunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
       property Id: string read GetId write SetId;
       property LaunchPayloadMass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
@@ -115,7 +115,7 @@ type
       FDryMassPounds: Double;
       FFirstFlight: TDateTime;
       FFlickrImages: TStringList;
-      FHeatShield: TDragonHeatshield;
+      FHeatShield: IDragonHeatshield;
       FHeightWithTrunk: ISizeInfo;
       FId: string;
       FLaunchPayloadMass: IMassInfo;
@@ -139,7 +139,7 @@ type
       function GetDryMassPounds: Double;
       function GetFirstFlight: TDateTime;
       function GetFlickrImages: TStringList;
-      function GetHeatShield: TDragonHeatshield;
+      function GetHeatShield: IDragonHeatshield;
       function GetHeightWithTrunk: ISizeInfo;
       function GetId: string;
       function GetLaunchPayloadMass: IMassInfo;
@@ -163,7 +163,7 @@ type
       procedure SetDryMassPounds(AValue: Double);
       procedure SetFirstFlight(AValue: TDateTime);
       procedure SetFlickrImages(AValue: TStringList);
-      procedure SetHeatShield(AValue: TDragonHeatshield);
+      procedure SetHeatShield(AValue: IDragonHeatshield);
       procedure SetHeightWithTrunk(AValue: ISizeInfo);
       procedure SetId(AValue: string);
       procedure SetLaunchPayloadMass(AValue: IMassInfo);
@@ -241,7 +241,7 @@ begin
   Result := FFlickrImages;
 end;
 
-function TDragon.GetHeatShield: TDragonHeatshield;
+function TDragon.GetHeatShield: IDragonHeatshield;
 begin
   Result := FHeatShield;
 end;
@@ -356,7 +356,7 @@ begin
   FFlickrImages := AValue;
 end;
 
-procedure TDragon.SetHeatShield(AValue: TDragonHeatshield);
+procedure TDragon.SetHeatShield(AValue: IDragonHeatshield);
 begin
   FHeatShield := AValue;
 end;
