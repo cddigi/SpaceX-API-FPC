@@ -33,7 +33,7 @@ type
       function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
       function GetThrusters: IDragonThrustersList;
-      function GetTrunk: TDragonTrunk;
+      function GetTrunk: IDragonTrunk;
       function GetTypeInfo: string;
       function GetWikipedia: string;
 
@@ -57,7 +57,7 @@ type
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
       procedure SetThrusters(AValue: IDragonThrustersList);
-      procedure SetTrunk(AValue: TDragonTrunk);
+      procedure SetTrunk(AValue: IDragonTrunk);
       procedure SetTypeInfo(AValue: string);
       procedure SetWikipedia(AValue: string);
     end;
@@ -68,7 +68,7 @@ type
       property Active: Boolean read GetActive write SetActive;
       property CrewCapacity: Byte read GetCrewCapacity write SetCrewCapacity;
       property Description: string read GetDescription write SetDescription;
-      property Diameter: ISizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
+      property Diameter: ISizeInfo read GetDiameter write SetDiameter;
       property DryMassKilograms: Double read GetDryMassKilograms write SetDryMassKilograms;
       property DryMassPounds: Double read GetDryMassPounds write SetDryMassPounds;
       property FirstFlight: TDateTime read GetFirstFlight write SetFirstFlight;
@@ -84,9 +84,9 @@ type
       property ReturnPayloadMass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
       property ReturnPayloadVolume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
       property SidewallAngleDegress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
-      property Thrusters: IDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
-      property Trunk: TDragonTrunk read GetTrunk write SetTrunk; // need to define dragontrunkinfo object
-      property TypeInfo: string read GetTypeInfo write SetTypeInfo;  // Type is a reserved word in pascal
+      property Thrusters: IDragonThrustersList read GetThrusters write SetThrusters;
+      property Trunk: IDragonTrunk read GetTrunk write SetTrunk;
+      property TypeInfo: string read GetTypeInfo write SetTypeInfo;
       property Wikipedia: string read GetWikipedia write SetWikipedia;
     end;
 
@@ -127,7 +127,7 @@ type
       FReturnPayloadVolume: IVolumeInfo;
       FSidewallAngleDegress: LongWord;
       FThrusters: IDragonThrustersList;
-      FTrunk: TDragonTrunk;
+      FTrunk: IDragonTrunk;
       FTypeInfo: string;
       FWikipedia: string;
     private
@@ -151,7 +151,7 @@ type
       function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
       function GetThrusters: IDragonThrustersList;
-      function GetTrunk: TDragonTrunk;
+      function GetTrunk: IDragonTrunk;
       function GetTypeInfo: string;
       function GetWikipedia: string;
     private
@@ -175,7 +175,7 @@ type
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
       procedure SetThrusters(AValue: IDragonThrustersList);
-      procedure SetTrunk(AValue: TDragonTrunk);
+      procedure SetTrunk(AValue: IDragonTrunk);
       procedure SetTypeInfo(AValue: string);
       procedure SetWikipedia(AValue: string);
     public
@@ -301,7 +301,7 @@ begin
   Result := FThrusters;
 end;
 
-function TDragon.GetTrunk: TDragonTrunk;
+function TDragon.GetTrunk: IDragonTrunk;
 begin
   Result := FTrunk;
 end;
@@ -416,7 +416,7 @@ begin
   FThrusters := AValue;
 end;
 
-procedure TDragon.SetTrunk(AValue: TDragonTrunk);
+procedure TDragon.SetTrunk(AValue: IDragonTrunk);
 begin
   FTrunk := AValue;
 end;
