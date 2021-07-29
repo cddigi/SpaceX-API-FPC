@@ -28,7 +28,7 @@ type
     function GetMass: IMassInfo;
     function GetName: string;
     function GetPayloadWeights: IRocketPotentialPayloadWeightList;
-    function GetSecondStage: TSecondStage;
+    function GetSecondStage: ISecondStage;
     function GetStages: LongWord;
     function GetSuccessRate: LongWord;
     function GetTypeInfo: string;
@@ -51,7 +51,7 @@ type
     procedure SetMass(AValue: IMassInfo);
     procedure SetName(AValue: string);
     procedure SetPayloadWeights(AValue: IRocketPotentialPayloadWeightList);
-    procedure SetSecondStage(AValue: TSecondStage);
+    procedure SetSecondStage(AValue: ISecondStage);
     procedure SetStages(AValue: LongWord);
     procedure SetSuccessRate(AValue: LongWord);
     procedure SetTypeInfo(AValue: string);
@@ -76,7 +76,7 @@ type
     property Mass: IMassInfo read GetMass write SetMass;
     property Name: string read GetName write SetName;
     property PayloadWeights: IRocketPotentialPayloadWeightList read GetPayloadWeights write SetPayloadWeights;
-    property SecondStage: TSecondStage read GetSecondStage write SetSecondStage;
+    property SecondStage: ISecondStage read GetSecondStage write SetSecondStage;
     property Stages: LongWord read GetStages write SetStages;
     property SuccessRate: LongWord read GetSuccessRate write SetSuccessRate;
     property TypeInfo: string read GetTypeInfo write SetTypeInfo;
@@ -110,7 +110,7 @@ type
     FMass: IMassInfo;
     FName: string;
     FPayloadWeights: IRocketPotentialPayloadWeightList;
-    FSecondStage: TSecondStage;
+    FSecondStage: ISecondStage;
     FStages: LongWord;
     FSuccessRate: LongWord;
     FTypeInfo: string;
@@ -132,7 +132,7 @@ type
     function GetMass: IMassInfo;
     function GetName: string;
     function GetPayloadWeights: IRocketPotentialPayloadWeightList;
-    function GetSecondStage: TSecondStage;
+    function GetSecondStage: ISecondStage;
     function GetStages: LongWord;
     function GetSuccessRate: LongWord;
     function GetTypeInfo: string;
@@ -155,7 +155,7 @@ type
     procedure SetMass(AValue: IMassInfo);
     procedure SetName(AValue: string);
     procedure SetPayloadWeights(AValue: IRocketPotentialPayloadWeightList);
-    procedure SetSecondStage(AValue: TSecondStage);
+    procedure SetSecondStage(AValue: ISecondStage);
     procedure SetStages(AValue: LongWord);
     procedure SetSuccessRate(AValue: LongWord);
     procedure SetTypeInfo(AValue: string);
@@ -256,7 +256,7 @@ begin
   Result := FPayloadWeights;
 end;
 
-function TRocket.GetSecondStage: TSecondStage;
+function TRocket.GetSecondStage: ISecondStage;
 begin
   Result := FSecondStage;
 end;
@@ -366,7 +366,7 @@ begin
   FPayloadWeights := AValue;
 end;
 
-procedure TRocket.SetSecondStage(AValue: TSecondStage);
+procedure TRocket.SetSecondStage(AValue: ISecondStage);
 begin
   FSecondStage := AValue;
 end;
