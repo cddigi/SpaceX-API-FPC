@@ -12,7 +12,7 @@ type
   public
     Reusable: Boolean;
     Engines: LongWord;
-    Payloads: TRocketPotentialPayload;
+    Payloads: IRocketPotentialPayload;
     FuelAmountTons: LongWord;
     BurnTimeSeconds: LongWord;
   end;
