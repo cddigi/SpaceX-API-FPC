@@ -1,4 +1,4 @@
-program SpaceX_Console;
+program SpaceX_API;
 
 {$mode objfpc}{$H+}
 
@@ -14,7 +14,7 @@ uses
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
   RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
-  DragonEndpoint;
+  DragonEndpoint, fphttpclient, fpjson;
 
 type
 
@@ -34,6 +34,9 @@ type
 procedure SpaceX.DoRun;
 var
   Dragon: IDragonEndpoint;
+  HttpClient: TFPCustomHTTPClient;
+  Response: string;
+  JSONData: TJSONData;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -54,6 +57,19 @@ begin
   { add your program here }
   Dragon := NewDragonEndpoint;
   Dragon.All;
+
+  HttpClient := TFPCustomHTTPClient.Create(nil);
+  try
+     Response := HttpClient.Get('https://api.spacexdata.com/v4/launches/latest');
+     JSONData := GetJSON(Response, False);
+     JSONData := GetJSON(HttpClient.Get('https://api.spacexdata.com/v4/launches/latest'));
+  finally
+    WriteLn(JSONData.FormatJSON());
+    WriteLn();
+
+    JSONData.Free;
+    HttpClient.Free;
+  end;
 
   // stop program loop
   Terminate;

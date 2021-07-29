@@ -12,8 +12,8 @@ type
   public
     Reusable: Boolean;
     Engines: LongWord;
-    ThrustSeaLevel: TThrustInfo;
-    ThrustVacuum: TThrustInfo;
+    ThrustSeaLevel: IThrustInfo;
+    ThrustVacuum: IThrustInfo;
     FuelAmountTons: LongWord;
     BurnTimeSeconds: LongWord;
   end;

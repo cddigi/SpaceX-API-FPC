@@ -14,9 +14,9 @@ type
     TypeInfo: string;
     Version: string;
     Layout: string;
-    Isp: TIspInfo;
-    ThrustSeaLevel: TThrustInfo;
-    ThrustVacuum: TThrustInfo;
+    Isp: IIspInfo;
+    ThrustSeaLevel: IThrustInfo;
+    ThrustVacuum: IThrustInfo;
     EngineLossMax: LongWord;
     FirstPropellant: string;
     SecondPropellant: string;

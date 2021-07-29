@@ -23,9 +23,9 @@ type
     Company: string;
     Wikipedia: string;
     Description: string;
-    Height: TSizeInfo;
-    Diameter: TSizeInfo;
-    Mass: TMassInfo;
+    Height: ISizeInfo;
+    Diameter: ISizeInfo;
+    Mass: IMassInfo;
     Engines: TRocketEngines;
     CostPerLaunch: LongWord;
     SuccessRate: LongWord;

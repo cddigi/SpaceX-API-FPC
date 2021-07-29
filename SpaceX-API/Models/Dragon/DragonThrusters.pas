@@ -13,7 +13,7 @@ type
     Amount: LongWord;
     Pods: LongWord;
     Isp: LongWord;
-    Thrust: TThrustInfo;
+    Thrust: IThrustInfo;
     FirstFuel: string;
     SecondFuel: string;
   end;
