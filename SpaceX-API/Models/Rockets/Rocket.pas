@@ -24,7 +24,7 @@ type
     function GetFlickrImages: TStringList;
     function GetHeight: ISizeInfo;
     function GetId: string;
-    function GetLandingLegs: TRocketLandingLegs;
+    function GetLandingLegs: IRocketLandingLegs;
     function GetMass: IMassInfo;
     function GetName: string;
     function GetPayloadWeights: IRocketPotentialPayloadWeightList;
@@ -47,7 +47,7 @@ type
     procedure SetFlickrImages(AValue: TStringList);
     procedure SetHeight(AValue: ISizeInfo);
     procedure SetId(AValue: string);
-    procedure SetLandingLegs(AValue: TRocketLandingLegs);
+    procedure SetLandingLegs(AValue: IRocketLandingLegs);
     procedure SetMass(AValue: IMassInfo);
     procedure SetName(AValue: string);
     procedure SetPayloadWeights(AValue: IRocketPotentialPayloadWeightList);
@@ -72,7 +72,7 @@ type
     property FlickrImages: TStringList read GetFlickrImages write SetFlickrImages;
     property Height: ISizeInfo read GetHeight write SetHeight;
     property Id: string read GetId write SetId;
-    property LandingLegs: TRocketLandingLegs read GetLandingLegs write SetLandingLegs;
+    property LandingLegs: IRocketLandingLegs read GetLandingLegs write SetLandingLegs;
     property Mass: IMassInfo read GetMass write SetMass;
     property Name: string read GetName write SetName;
     property PayloadWeights: IRocketPotentialPayloadWeightList read GetPayloadWeights write SetPayloadWeights;
@@ -106,7 +106,7 @@ type
     FFlickrImages: TStringList;
     FHeight: ISizeInfo;
     FId: string;
-    FLandingLegs: TRocketLandingLegs;
+    FLandingLegs: IRocketLandingLegs;
     FMass: IMassInfo;
     FName: string;
     FPayloadWeights: IRocketPotentialPayloadWeightList;
@@ -128,7 +128,7 @@ type
     function GetFlickrImages: TStringList;
     function GetHeight: ISizeInfo;
     function GetId: string;
-    function GetLandingLegs: TRocketLandingLegs;
+    function GetLandingLegs: IRocketLandingLegs;
     function GetMass: IMassInfo;
     function GetName: string;
     function GetPayloadWeights: IRocketPotentialPayloadWeightList;
@@ -151,7 +151,7 @@ type
     procedure SetFlickrImages(AValue: TStringList);
     procedure SetHeight(AValue: ISizeInfo);
     procedure SetId(AValue: string);
-    procedure SetLandingLegs(AValue: TRocketLandingLegs);
+    procedure SetLandingLegs(AValue: IRocketLandingLegs);
     procedure SetMass(AValue: IMassInfo);
     procedure SetName(AValue: string);
     procedure SetPayloadWeights(AValue: IRocketPotentialPayloadWeightList);
@@ -236,7 +236,7 @@ begin
   Result := FId;
 end;
 
-function TRocket.GetLandingLegs: TRocketLandingLegs;
+function TRocket.GetLandingLegs: IRocketLandingLegs;
 begin
   Result := FLandingLegs;
 end;
@@ -346,7 +346,7 @@ begin
   FId := AValue;
 end;
 
-procedure TRocket.SetLandingLegs(AValue: TRocketLandingLegs);
+procedure TRocket.SetLandingLegs(AValue: IRocketLandingLegs);
 begin
   FLandingLegs := AValue;
 end;
