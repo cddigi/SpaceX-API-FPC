@@ -5,9 +5,12 @@ unit Payload;
 interface
 
 uses
-  Classes, SysUtils, DragonPayload, fgl;
+  Classes, SysUtils, DragonPayload;
 
 type
+
+  INoradIdsList = interface(IInterfaceList) ['{116302B1-9AFA-4BA1-A539-ABF2C939134F}']
+  end;
 
   IBasePayload = interface(IInterface) ['{1CAE0B0B-CB95-4B25-A709-6007D46D0E1D}']
     function GetApoapsisKilometers: Double;
@@ -28,7 +31,7 @@ type
     function GetMeanMotion: Double;
     function GetName: string;
     function GetNationalities: TStringList;
-    function GetNoradIds: specialize TFPGList<LongWord>;
+    function GetNoradIds: INoradIdsList;
     function GetOrbit: string;
     function GetPeriapsisKilometers: Double;
     function GetPeriodMinutes: Double;
@@ -57,7 +60,7 @@ type
     procedure SetMeanMotion(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetNationalities(AValue: TStringList);
-    procedure SetNoradIds(AValue: specialize TFPGList<LongWord>);
+    procedure SetNoradIds(AValue: INoradIdsList);
     procedure SetOrbit(AValue: string);
     procedure SetPeriapsisKilometers(AValue: Double);
     procedure SetPeriodMinutes(AValue: Double);
@@ -88,7 +91,7 @@ type
     property MeanMotion: Double read GetMeanMotion write SetMeanMotion;
     property Name: string read GetName write SetName;
     property Nationalities: TStringList read GetNationalities write SetNationalities;
-    property NoradIds: specialize TFPGList<LongWord> read GetNoradIds write SetNoradIds;
+    property NoradIds: INoradIdsList read GetNoradIds write SetNoradIds;
     property Orbit: string read GetOrbit write SetOrbit;
     property PeriapsisKilometers: Double read GetPeriapsisKilometers write SetPeriapsisKilometers;
     property PeriodMinutes: Double read GetPeriodMinutes write SetPeriodMinutes;
@@ -101,6 +104,7 @@ type
   end;
 
 function NewPayload: IPayload;
+function NewNoradIdsList: INoradIdsList;
 
 implementation
 
@@ -128,7 +132,7 @@ type
     FMeanMotion: Double;
     FName: string;
     FNationalities: TStringList;
-    FNoradIds: specialize TFPGList<LongWord>;
+    FNoradIds: INoradIdsList;
     FOrbit: string;
     FPeriapsisKilometers: Double;
     FPeriodMinutes: Double;
@@ -157,7 +161,7 @@ type
     function GetMeanMotion: Double;
     function GetName: string;
     function GetNationalities: TStringList;
-    function GetNoradIds: specialize TFPGList<LongWord>;
+    function GetNoradIds: INoradIdsList;
     function GetOrbit: string;
     function GetPeriapsisKilometers: Double;
     function GetPeriodMinutes: Double;
@@ -186,7 +190,7 @@ type
     procedure SetMeanMotion(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetNationalities(AValue: TStringList);
-    procedure SetNoradIds(AValue: specialize TFPGList<LongWord>);
+    procedure SetNoradIds(AValue: INoradIdsList);
     procedure SetOrbit(AValue: string);
     procedure SetPeriapsisKilometers(AValue: Double);
     procedure SetPeriodMinutes(AValue: Double);
@@ -200,9 +204,18 @@ type
     function ToString(): string; override;
   end;
 
+  TNoradIdsList = class(TInterfaceList, INoradIdsList)
+
+  end;
+
 function NewPayload: IPayload;
 begin
   Result := TPayload.Create;
+end;
+
+function NewNoradIdsList: INoradIdsList;
+begin
+  Result := TNoradIdsList.Create;
 end;
 
 { TPayload }
@@ -297,7 +310,7 @@ begin
   Result := FNationalities;
 end;
 
-function TPayload.GetNoradIds: specialize TFPGList<LongWord>;
+function TPayload.GetNoradIds: INoradIdsList;
 begin
   Result := FNoradIds;
 end;
@@ -437,7 +450,7 @@ begin
   FNationalities := AValue;
 end;
 
-procedure TPayload.SetNoradIds(AValue: specialize TFPGList<LongWord>);
+procedure TPayload.SetNoradIds(AValue: INoradIdsList);
 begin
   FNoradIds := AValue;
 end;
