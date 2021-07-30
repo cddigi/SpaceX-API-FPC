@@ -14,7 +14,15 @@ type
     procedure SetJSONData(AValue: string);
   end;
 
+  IHTTPClient = interface(IInterface) ['{C6304D20-B428-49A0-B8A9-9490A4A5E271}']
+    function GetRequest(AValue: string): string;
+  end;
+
 function NewJSON: IJSONData;
+function NewHTTPClient: IHTTPClient;
+
+const
+  K_HOST = 'https://api.spacexdata.com/v4/';
 
 implementation
 
@@ -27,12 +35,48 @@ type
     FJSONData: TJSONData;
     function GetJSONData: string;
     procedure SetJSONData(AValue: string);
+  public
+    destructor Destroy; override;
+  end;
+
+  { THTTPClient }
+
+  THTTPClient = class(TInterfacedObject, IHTTPClient)
+  private
+    FHttpClient: TFPCustomHTTPClient;
+    function GetRequest(AValue: string): string;
+  public
+    constructor Create;
     destructor Destroy; override;
   end;
 
 function NewJSON: IJSONData;
 begin
   Result := TJSON.Create;
+end;
+
+function NewHTTPClient: IHTTPClient;
+begin
+  Result := THTTPClient.Create;
+end;
+
+{ THTTPClient }
+
+function THTTPClient.GetRequest(AValue: string): string;
+begin
+  WriteLn(AValue);
+  Result := FHttpClient.Get(SysUtils.ConcatPaths([K_HOST, AValue]));
+end;
+
+constructor THTTPClient.Create;
+begin
+ FHttpClient := TFPCustomHTTPClient.Create(nil);
+end;
+
+destructor THTTPClient.Destroy;
+begin
+ FHttpClient.Destroy;
+ inherited Destroy;
 end;
 
 { TJSON }

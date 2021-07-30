@@ -14,7 +14,7 @@ uses
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
   RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
-  DragonEndpoint, fphttpclient, fpjson, CapsulesEndpoint, jsonparser, BaseEndpoint;
+  DragonEndpoint, CapsulesEndpoint, BaseEndpoint;
 
 type
 
@@ -35,9 +35,9 @@ procedure SpaceX.DoRun;
 var
   Dragon: IDragonEndpoint;
   Capsules: ICapsulesEndpoint;
-  HttpClient: TFPCustomHTTPClient;
+  HTTPClient: IHTTPClient;
   Response: string;
-  JSONData: TJSONData;
+  JSONData: IJSONData;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -63,18 +63,14 @@ begin
   Capsules.All;
   Capsules.One('5e9e2c5df359185f973b2675');
 
-  HttpClient := TFPCustomHTTPClient.Create(nil);
-  try
-     Response := HttpClient.Get('https://api.spacexdata.com/v4/launches/latest');
-     JSONData := GetJSON(Response);
-     JSONData := GetJSON(HttpClient.Get('https://api.spacexdata.com/v4/launches/latest'));
-  finally
-    WriteLn(JSONData.FormatJSON());
-    WriteLn();
+  HTTPClient := NewHTTPClient;
+  JSONData := NewJSON;
 
-    JSONData.Free;
-    HttpClient.Free;
-  end;
+  Response := HTTPClient.GetRequest('launches/latest');
+  JSONData.SetJSONData(Response);
+
+  WriteLn(JSONData.GetJSONData);
+  WriteLn();
 
   // stop program loop
   Terminate;

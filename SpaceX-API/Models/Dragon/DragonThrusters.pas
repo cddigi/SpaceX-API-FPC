@@ -41,6 +41,7 @@ type
   end;
 
 function NewDragonThrusters: IDragonThrusters;
+function NewDragonThrustersList: IDragonThrustersList;
 
 implementation
 
@@ -79,6 +80,11 @@ type
 function NewDragonThrusters: IDragonThrusters;
 begin
   Result := TDragonThrusters.Create;
+end;
+
+function NewDragonThrustersList: IDragonThrustersList;
+begin
+  Result := TDragonThrustersList.Create;
 end;
 
 { TDragonThrusters }

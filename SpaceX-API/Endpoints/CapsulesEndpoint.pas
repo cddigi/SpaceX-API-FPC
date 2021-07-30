@@ -19,10 +19,9 @@ function NewCapsulesEndpoint: ICapsulesEndpoint;
 implementation
 
 uses
-  fpjson, fphttpclient, opensslsockets, jsonparser, BaseEndpoint;
+  BaseEndpoint;
 
 const
-  Host = 'https://api.spacexdata.com/v4/';
   Endpoint = 'capsules/';
 
 type
@@ -43,46 +42,34 @@ end;
 
 function TCapsulesEndpoint.All: ICapsuleList;
 var
-  Path: string;
-  HttpClient: TFPCustomHTTPClient;
+  HTTPClient: IHTTPClient;
   JSONData: IJSONData;
 begin
   Result := NewCapsuleList;
-  Path := SysUtils.ConcatPaths([Host, Endpoint]);
-  WriteLn(Path);
 
-  HttpClient := TFPCustomHTTPClient.Create(nil);
-  try
-    JSONData := NewJSON;
-    JSONData.SetJSONData(HttpClient.Get(Path));
-  finally
-    WriteLn(JSONData.GetJSONData);
-    WriteLn();
+  HTTPClient := NewHTTPClient;
+  JSONData := NewJSON;
 
-    HttpClient.Free;
-  end;
+  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
+  WriteLn(JSONData.GetJSONData);
+  WriteLn();
 end;
 
 function TCapsulesEndpoint.One(const Id: string): ICapsule;
 var
   Path: string;
-  HttpClient: TFPCustomHTTPClient;
-  JSONData: TJSONData;
+  HTTPClient: IHTTPClient;
+  JSONData: IJSONData;
 begin
   Result := NewCapsule;
-  Path := SysUtils.ConcatPaths([Host, Endpoint, Id]);
-  WriteLn(Path);
+  Path := SysUtils.ConcatPaths([Endpoint, Id]);
 
-  HttpClient := TFPCustomHTTPClient.Create(nil);
-  try
-    JSONData := GetJSON(HttpClient.Get(Path));
-  finally
-    WriteLn(JSONData.FormatJSON());
-    WriteLn();
+  HTTPClient := NewHTTPClient;
+  JSONData := NewJSON;
 
-    JSONData.Free;
-    HttpClient.Free;
-  end;
+  JSONData.SetJSONData(HTTPClient.GetRequest(Path));
+  WriteLn(JSONData.GetJSONData);
+  WriteLn();
 end;
 
 
