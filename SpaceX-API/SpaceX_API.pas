@@ -38,6 +38,7 @@ var
   Dragon: IDragonEndpoint;
   Capsules: ICapsuleEndpoint;
   Company: ICompanyEndpoint;
+  Launch: ILaunchEndpoint;
   HTTPClient: IHTTPClient;
   Response: string;
   JSONData: IJSONData;
@@ -68,6 +69,10 @@ begin
 
   Company := NewCompanyEndpoint;
   Company.Get;
+
+  Launch := NewLaunchEndpoint;
+  Launch.Latest;
+  Launch.Upcoming;
 
 
   HTTPClient := NewHTTPClient;
