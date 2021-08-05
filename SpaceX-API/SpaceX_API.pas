@@ -16,7 +16,7 @@ uses
   RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
   DragonEndpoint, CapsuleEndpoint, BaseEndpoint, CompanyEndpoint, CoreEndpoint,
   CrewEndpoint, LandpadEndpoint, LaunchEndpoint, LaunchpadEndpoint,
-  PayloadEndpoint, RoadsterEndpoint;
+  PayloadEndpoint, RoadsterEndpoint, RocketEndpoint;
 
 type
 
