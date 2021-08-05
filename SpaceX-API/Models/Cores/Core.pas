@@ -49,7 +49,11 @@ type
     property Status: TCoreStatus read GetStatus write SetStatus;
   end;
 
+  ICoreList = interface(IInterfaceList) ['{6280AF36-5EE5-4714-ACC7-65787AA56325}']
+  end;
+
 function NewCore: ICore;
+function NewCoreList: ICoreList;
 
 implementation
 
@@ -97,9 +101,17 @@ type
     function ToString(): string; override;
   end;
 
+  TCoreList = class(TInterfaceList, ICoreList)
+  end;
+
 function NewCore: ICore;
 begin
   Result := TCore.Create;
+end;
+
+function NewCoreList: ICoreList;
+begin
+  Result := TCoreList.Create;
 end;
 
 { TCore }

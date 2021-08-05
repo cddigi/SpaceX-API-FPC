@@ -37,7 +37,11 @@ type
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
+  ICrewList = interface(IInterface) ['{4245CBC5-4C4D-42AB-8AFA-3CACD4677566}']
+  end;
+
 function NewCrew: ICrew;
+function NewCrewList: ICrewList;
 
 implementation
 
@@ -73,9 +77,17 @@ type
     function ToString(): string; override;
   end;
 
+  TCrewList = class(TInterfaceList, ICrewList)
+  end;
+
 function NewCrew: ICrew;
 begin
   Result := TCrew.Create;
+end;
+
+function NewCrewList: ICrewList;
+begin
+  Result := TCrewList.Create;
 end;
 
 { TCrew }

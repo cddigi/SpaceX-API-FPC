@@ -52,11 +52,10 @@ type
 function NewCapsule: ICapsule;
 function NewCapsuleList: ICapsuleList;
 
-implementation
+
 
 type
   { TCapsule }
-
   TCapsule = class(TInterfacedObject, ICapsule)
   private
     FId: string;
@@ -86,8 +85,13 @@ type
     procedure SetWaterLandings(AValue: LongWord);
   public
     function ToString(): string; override;
+  published
+    property Serial: string read GetSerial write SetSerial;
   end;
 
+implementation
+
+type
   { TCapsuleList }
 
   TCapsuleList = class(TInterfaceList, ICapsuleList)
