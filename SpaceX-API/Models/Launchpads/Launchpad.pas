@@ -58,7 +58,11 @@ type
     property TimeZone: string read GetTimeZone write SetTimeZone;
   end;
 
+  ILaunchpadList = interface(IInterface) ['{8EB54717-9CC1-4B35-B23C-805979B2ED91}']
+  end;
+
 function NewLaunchpad: ILaunchpad;
+function NewLaunchpadList: ILaunchpadList;
 
 implementation
 
@@ -117,9 +121,18 @@ type
     function ToString(): string; override;
   end;
 
+  TLaunchpadList = class(TInterfacedObject, ILaunchpadList)
+
+  end;
+
 function NewLaunchpad: ILaunchpad;
 begin
   Result := TLaunchpad.Create;
+end;
+
+function NewLaunchpadList: ILaunchpadList;
+begin
+  Result := TLaunchpadList.Create;
 end;
 
 { TLaunchpad }

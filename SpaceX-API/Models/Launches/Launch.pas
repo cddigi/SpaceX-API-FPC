@@ -94,7 +94,11 @@ type
     property Window: UInt64 read GetWindow write SetWindow;
   end;
 
+  ILaunchList = interface(IInterfaceList) ['{5CD79962-6E62-4B0A-881B-F7C5205B9E61}']
+  end;
+
 function NewLaunch: ILaunch;
+function NewLaunchList: ILaunchList;
 
 implementation
 
@@ -193,9 +197,18 @@ type
     function ToString(): string; override;
   end;
 
+  TLaunchList = class(TInterfaceList, ILaunchList)
+
+  end;
+
 function NewLaunch: ILaunch;
 begin
   Result := TLaunch.Create;
+end;
+
+function NewLaunchList: ILaunchList;
+begin
+  Result := TLaunchList.Create;
 end;
 
 { TLaunch }

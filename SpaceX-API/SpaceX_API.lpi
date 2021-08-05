@@ -30,7 +30,7 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <Units Count="55">
+    <Units Count="60">
       <Unit0>
         <Filename Value="SpaceX_API.pas"/>
         <IsPartOfProject Value="True"/>
@@ -251,6 +251,26 @@
         <Filename Value="Endpoints\CrewEndpoint.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit54>
+      <Unit55>
+        <Filename Value="Endpoints\LandpadEndpoint.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="Endpoints\LaunchEndpoint.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="Endpoints\LaunchpadEndpoint.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="Endpoints\PayloadEndpoint.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="Endpoints\RoadsterEndpoint.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit59>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
