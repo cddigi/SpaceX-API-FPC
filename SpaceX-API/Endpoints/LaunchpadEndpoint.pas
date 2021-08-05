@@ -24,7 +24,7 @@ uses
   BaseEndpoint;
 
 const
-  Endpoint = 'launchpads';
+  Endpoint = 'launchpads/';
 
 type
 

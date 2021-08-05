@@ -26,7 +26,7 @@ uses
   BaseEndpoint;
 
 const
-  Endpoint = 'launches\';
+  Endpoint = 'launches/';
 
 type
 
