@@ -30,7 +30,7 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <Units Count="61">
+    <Units Count="62">
       <Unit0>
         <Filename Value="SpaceX_API.pas"/>
         <IsPartOfProject Value="True"/>
@@ -275,6 +275,10 @@
         <Filename Value="Endpoints\RocketEndpoint.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit60>
+      <Unit61>
+        <Filename Value="Endpoints\ShipEndpoint.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit61>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

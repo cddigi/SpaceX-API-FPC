@@ -88,7 +88,11 @@ type
     property YearBuilt: LongWord read GetYearBuilt write SetYearBuilt;
   end;
 
+  IShipList = interface(IInterfaceList) ['{C494A556-C1FC-40BA-B31F-B10B2BB99EEE}']
+  end;
+
 function NewShip: IShip;
+function NewShipList: IShipList;
 
 implementation
 
@@ -176,9 +180,18 @@ type
       function ToString(): string; override;
   end;
 
+  TShipList = class(TInterfaceList, IShipList)
+
+  end;
+
 function NewShip: IShip;
 begin
   Result := TShip.Create;
+end;
+
+function NewShipList: IShipList;
+begin
+  Result := TShipList.Create;
 end;
 
 { TShip }
