@@ -46,6 +46,8 @@ type
   end;
 
   ICompany = interface(IBaseCompany) ['{81A8951C-05DE-4FC7-8277-5D8B38549FA2}']
+    function ToString: string;
+
     property Id: string read GetId write SetId;
     property Name: string read GetName write SetName;
     property Founder: string read GetFounder write SetFounder;
@@ -72,7 +74,7 @@ type
 
   { TCompany }
 
-  TCompany = class(TInterfacedObject, ICompany)
+  TCompany = class(TInterfacedPersistent, ICompany)
   private
     FId: string;
     FName: string;
@@ -90,6 +92,7 @@ type
     FLaunchSites: LongWord;
     FTestSites: LongWord;
     FCtoPropulsion: string;
+
     function GetId: string;
     function GetName: string;
     function GetFounder: string;
@@ -124,7 +127,12 @@ type
     procedure SetTestSites(AValue: LongWord);
     procedure SetCtoPropulsion(AValue: string);
   public
-    function ToString(): string; override;
+    function ToString: string; override;
+  published
+    property ceo: string read GetCEO write SetCEO;
+    property cto_propulsion: string read GetCtoPropulsion write SetCtoPropulsion;
+    property founder: string read GetFounder write SetFounder;
+    property name: string read GetName write SetName;
   end;
 
 function NewCompany: ICompany;
@@ -296,7 +304,11 @@ end;
 
 function TCompany.ToString(): string;
 begin
-  Result := GetName;
+  Result := '';
+  Result := Result + 'CEO: ' + ceo + LineEnding;
+  Result := Result + 'CTO Propulsion: ' + cto_propulsion + LineEnding;
+  Result := Result + 'Founder: ' + founder + LineEnding;
+  Result := Result + 'Name: ' + name + LineEnding;
 end;
 
 end.

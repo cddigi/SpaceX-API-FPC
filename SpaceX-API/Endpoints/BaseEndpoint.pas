@@ -93,7 +93,7 @@ end;
 
 destructor TJSON.Destroy;
 begin
-  FJSONData.Destroy;
+  FJSONData.Free;
  inherited Destroy;
 end;
 
