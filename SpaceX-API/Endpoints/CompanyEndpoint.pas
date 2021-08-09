@@ -18,7 +18,7 @@ function NewCompanyEndpoint: ICompanyEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  BaseEndpoint, fpjsonrtti;
 
 const
   Endpoint = 'company/';
@@ -42,15 +42,19 @@ function TCompanyEndpoint.Get: ICompany;
 var
   HTTPClient: IHTTPClient;
   JSONData: IJSONData;
+  DeStreamer: TJSONDeStreamer;
 begin
   // Will need to map JSON to CompanyHeadquarters and CompanyLinks sub-objects
   Result := NewCompany;
 
   HTTPClient := NewHTTPClient;
   JSONData := NewJSON;
-
   JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData);
+
+  DeStreamer := TJSONDeStreamer.Create(nil);
+  DeStreamer.JSONToObject(JSONData.GetJSONData, Result as TObject);
+
+  WriteLn(Result.ToString);
 end;
 
 end.
