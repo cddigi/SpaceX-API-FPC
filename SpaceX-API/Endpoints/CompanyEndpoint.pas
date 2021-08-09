@@ -52,9 +52,11 @@ begin
   JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
 
   DeStreamer := TJSONDeStreamer.Create(nil);
-  DeStreamer.JSONToObject(JSONData.GetJSONData, Result as TObject);
-
-  WriteLn(Result.ToString);
+  try
+    DeStreamer.JSONToObject(JSONData.GetJSONData, Result as TObject);
+  finally
+    DeStreamer.Free;
+  end;
 end;
 
 end.

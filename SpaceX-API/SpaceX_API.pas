@@ -37,7 +37,8 @@ procedure SpaceX.DoRun;
 var
   Dragon: IDragonEndpoint;
   Capsules: ICapsuleEndpoint;
-  Company: ICompanyEndpoint;
+  Company: ICompany;
+  CompanyEndpoint: ICompanyEndpoint;
   Launch: ILaunchEndpoint;
   HTTPClient: IHTTPClient;
   Response: string;
@@ -60,29 +61,29 @@ begin
   end;
 
   { add your program here }
-  Dragon := NewDragonEndpoint;
-  Dragon.All;
+  //Dragon := NewDragonEndpoint;
+  //Dragon.All;
 
-  Capsules := NewCapsuleEndpoint;
-  Capsules.All;
-  Capsules.One('5e9e2c5df359185f973b2675');
+  //Capsules := NewCapsuleEndpoint;
+  //Capsules.All;
+  //Capsules.One('5e9e2c5df359185f973b2675');
 
-  Company := NewCompanyEndpoint;
-  Company.Get;
+  CompanyEndpoint := NewCompanyEndpoint;
+  Company := CompanyEndpoint.Get;
+  WriteLn(Company.ToString);
 
-  Launch := NewLaunchEndpoint;
-  Launch.Latest;
-  Launch.Upcoming;
+  //Launch := NewLaunchEndpoint;
+  //Launch.Latest;
+  //Launch.Upcoming;
 
+  //HTTPClient := NewHTTPClient;
+  //JSONData := NewJSON;
 
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
+  //Response := HTTPClient.GetRequest('launches/latest');
+  //JSONData.SetJSONData(Response);
 
-  Response := HTTPClient.GetRequest('launches/latest');
-  JSONData.SetJSONData(Response);
-
-  WriteLn(JSONData.GetJSONData);
-  WriteLn();
+  //WriteLn(JSONData.GetJSONData);
+  //WriteLn();
 
   // stop program loop
   Terminate;
