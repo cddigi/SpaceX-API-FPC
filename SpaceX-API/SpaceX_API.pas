@@ -14,7 +14,9 @@ uses
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
   RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
-  DragonEndpoint, CapsulesEndpoint, BaseEndpoint;
+  DragonEndpoint, CapsuleEndpoint, BaseEndpoint, CompanyEndpoint, CoreEndpoint,
+  CrewEndpoint, LandpadEndpoint, LaunchEndpoint, LaunchpadEndpoint,
+  PayloadEndpoint, RoadsterEndpoint, RocketEndpoint, ShipEndpoint, StarlinkEndpoint;
 
 type
 
@@ -34,7 +36,9 @@ type
 procedure SpaceX.DoRun;
 var
   Dragon: IDragonEndpoint;
-  Capsules: ICapsulesEndpoint;
+  Capsules: ICapsuleEndpoint;
+  Company: ICompanyEndpoint;
+  Launch: ILaunchEndpoint;
   HTTPClient: IHTTPClient;
   Response: string;
   JSONData: IJSONData;
@@ -59,9 +63,17 @@ begin
   Dragon := NewDragonEndpoint;
   Dragon.All;
 
-  Capsules := NewCapsulesEndpoint;
+  Capsules := NewCapsuleEndpoint;
   Capsules.All;
   Capsules.One('5e9e2c5df359185f973b2675');
+
+  Company := NewCompanyEndpoint;
+  Company.Get;
+
+  Launch := NewLaunchEndpoint;
+  Launch.Latest;
+  Launch.Upcoming;
+
 
   HTTPClient := NewHTTPClient;
   JSONData := NewJSON;

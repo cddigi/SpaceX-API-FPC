@@ -58,7 +58,11 @@ type
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
+  ILandpadList = interface(IInterface) ['{F407C7A0-0C87-41BA-84E3-073C93830B98}']
+  end;
+
 function NewLandpad: ILandpad;
+function NewLandpadList: ILandpadList;
 
 implementation
 
@@ -115,9 +119,17 @@ type
     function ToString(): string; override;
   end;
 
+  TLandpadList = class(TInterfacedObject, ILandpadList)
+  end;
+
 function NewLandpad: ILandpad;
 begin
   Result := TLandpad.Create;
+end;
+
+function NewLandpadList: ILandpadList;
+begin
+  Result := TLandpadList.Create;
 end;
 
 { TLandpad }

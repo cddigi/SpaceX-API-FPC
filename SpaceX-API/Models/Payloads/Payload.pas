@@ -103,7 +103,11 @@ type
     property TypeInfo: string read GetTypeInfo write SetTypeInfo;
   end;
 
+  IPayloadList = interface(IInterface) ['{442904B6-3A20-4C7E-A923-A44F31768CF5}']
+  end;
+
 function NewPayload: IPayload;
+function NewPayloadList: IPayloadList;
 function NewNoradIdsList: INoradIdsList;
 
 implementation
@@ -204,6 +208,10 @@ type
     function ToString(): string; override;
   end;
 
+  TPayloadList = class(TInterfaceList, IPayloadList)
+
+  end;
+
   TNoradIdsList = class(TInterfaceList, INoradIdsList)
 
   end;
@@ -211,6 +219,11 @@ type
 function NewPayload: IPayload;
 begin
   Result := TPayload.Create;
+end;
+
+function NewPayloadList: IPayloadList;
+begin
+  Result := TPayloadList.Create;
 end;
 
 function NewNoradIdsList: INoradIdsList;

@@ -83,7 +83,12 @@ type
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
+  IRocketList = interface(IInterfaceList) ['{5417B83B-23A2-46A2-9AF8-13BDF9D8584A}']
+
+  end;
+
 function NewRocket: IRocket;
+function NewRocketList: IRocketList;
 
 implementation
 
@@ -164,9 +169,18 @@ type
     function ToString(): string; override;
   end;
 
+  TRocketList = class(TInterfaceList, IRocketList)
+
+  end;
+
 function NewRocket: IRocket;
 begin
   Result := TRocket.Create;
+end;
+
+function NewRocketList: IRocketList;
+begin
+  Result := TRocketList.Create;
 end;
 
 { TRocket }

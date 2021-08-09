@@ -1,4 +1,4 @@
-unit CapsulesEndpoint;
+unit CapsuleEndpoint;
 
 {$mode objfpc}{$H+}
 
@@ -9,12 +9,12 @@ uses
 
 type
 
-  ICapsulesEndpoint = interface(IInterface) ['{3034C771-6CC0-47E0-826D-9C4608A2D84D}']
+  ICapsuleEndpoint = interface(IInterface) ['{3034C771-6CC0-47E0-826D-9C4608A2D84D}']
     function All: ICapsuleList;
     function One(const Id: string): ICapsule;
   end;
 
-function NewCapsulesEndpoint: ICapsulesEndpoint;
+function NewCapsuleEndpoint: ICapsuleEndpoint;
 
 implementation
 
@@ -28,19 +28,19 @@ type
 
   { TCapsulesEndpoint }
 
-  TCapsulesEndpoint = class(TInterfacedObject, ICapsulesEndpoint)
+  TCapsuleEndpoint = class(TInterfacedObject, ICapsuleEndpoint)
     function All: ICapsuleList;
     function One(const Id: string): ICapsule;
   end;
 
-function NewCapsulesEndpoint: ICapsulesEndpoint;
+function NewCapsuleEndpoint: ICapsuleEndpoint;
 begin
-  Result := TCapsulesEndpoint.Create;
+  Result := TCapsuleEndpoint.Create;
 end;
 
 { TCapsulesEndpoint }
 
-function TCapsulesEndpoint.All: ICapsuleList;
+function TCapsuleEndpoint.All: ICapsuleList;
 var
   HTTPClient: IHTTPClient;
   JSONData: IJSONData;
@@ -52,12 +52,11 @@ begin
 
   JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
   WriteLn(JSONData.GetJSONData);
-  WriteLn();
 end;
 
-function TCapsulesEndpoint.One(const Id: string): ICapsule;
+function TCapsuleEndpoint.One(const Id: string): ICapsule;
 var
-  Path: string;
+  Path, Response: string;
   HTTPClient: IHTTPClient;
   JSONData: IJSONData;
 begin
@@ -67,9 +66,10 @@ begin
   HTTPClient := NewHTTPClient;
   JSONData := NewJSON;
 
-  JSONData.SetJSONData(HTTPClient.GetRequest(Path));
+  Response := HTTPClient.GetRequest(Path);
+  JSONData.SetJSONData(Response);
   WriteLn(JSONData.GetJSONData);
-  WriteLn();
+
 end;
 
 

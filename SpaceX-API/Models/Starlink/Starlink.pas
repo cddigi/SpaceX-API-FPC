@@ -40,7 +40,11 @@ type
     property Version: string read GetVersion write SetVersion;
   end;
 
+  IStarlinkList = interface(IInterfaceList) ['{9C51D55A-D53A-4C38-A1EB-781EB557ACA7}']
+  end;
+
 function NewStarlink: IStarlink;
+function NewStarlinkList: IStarlinkList;
 
 implementation
 
@@ -80,9 +84,18 @@ type
     function ToString(): string; override;
   end;
 
+  TStarlinkList = class(TInterfaceList, IStarlinkList)
+
+  end;
+
 function NewStarlink: IStarlink;
 begin
   Result := TStarlink.Create;
+end;
+
+function NewStarlinkList: IStarlinkList;
+begin
+  Result := TStarlinkList.Create;
 end;
 
 { TStarlink }

@@ -20,8 +20,10 @@ function NewDragonEndpoint: IDragonEndpoint;
 
 implementation
 
+uses
+  BaseEndpoint;
+
 const
-  Host = 'https://api.spacexdata.com/v4/';
   Endpoint = 'dragons/';
 
 type
@@ -42,24 +44,33 @@ end;
 
 function TDragonEndpoint.All: IDragonList;
 var
-  Dragon: IDragon;
-  Path: string;
+  HTTPClient: IHTTPClient;
+  JSONData: IJSONData;
 begin
   Result := NewDragonList;
-  Path := SysUtils.ConcatPaths([Host, Endpoint]);
-  WriteLn(Path);
-  Dragon := One('hello');
-  Result.Add(Dragon);
+
+  HTTPClient := NewHTTPClient;
+  JSONData := NewJSON;
+
+  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
+  WriteLn(JSONData.GetJSONData);
   // GET https://api.spacexdata.com/v4/dragons/
 end;
 
 function TDragonEndpoint.One(const Id: string): IDragon;
 var
   Path: string;
+  HTTPClient: IHTTPClient;
+  JSONData: IJSONData;
 begin
   Result := NewDragon;
-  Path := SysUtils.ConcatPaths([Host, Endpoint, Id]);
-  WriteLn(Path);
+  Path := SysUtils.ConcatPaths([Endpoint, Id]);
+
+  HTTPClient := NewHTTPClient;
+  JSONData := NewJSON;
+
+  JSONData.SetJSONData(HTTPClient.GetRequest(Path));
+  WriteLn(JSONData.GetJSONData);
   // GET https://api.spacexdata.com/v4/dragons/[id]
 end;
 
