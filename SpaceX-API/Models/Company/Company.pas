@@ -74,7 +74,7 @@ type
 
   { TCompany }
 
-  TCompany = class(TInterfacedPersistent, ICompany)
+  TCompany = class(TInterfacedObject, ICompany)
   private
     FId: string;
     FName: string;
