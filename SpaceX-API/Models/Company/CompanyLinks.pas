@@ -42,6 +42,7 @@ type
     FFlickr: string;
     FTwitter: string;
     FElonTwitter: string;
+
     function GetWebsite: string;
     function GetFlickr: string;
     function GetTwitter: string;
@@ -51,6 +52,11 @@ type
     procedure SetFlickr(AValue: string);
     procedure SetTwitter(AValue: string);
     procedure SetElonTwitter(AValue: string);
+  published
+    property website: string read GetWebsite write SetWebsite;
+    property flickr: string read GetFlickr write SetFlickr;
+    property twitter: string read GetTwitter write SetTwitter;
+    property elon_twitter: string read GetElonTwitter write SetElonTwitter;
   end;
 
 function NewCompanyLinks: ICompanyLinks;

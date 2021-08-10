@@ -18,7 +18,7 @@ function NewCompanyEndpoint: ICompanyEndpoint;
 implementation
 
 uses
-  BaseEndpoint, fpjsonrtti;
+  Endpoint_Helper, fpjson, CompanyHeadquarters, CompanyLinks;
 
 const
   Endpoint = 'company/';
@@ -40,23 +40,25 @@ end;
 
 function TCompanyEndpoint.Get: ICompany;
 var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
-  DeStreamer: TJSONDeStreamer;
+  Headquarters: ICompanyHeadquarters;
+  JSON: string;
+  JSONData: TJSONData;
+  Links: ICompanyLinks;
 begin
-  // Will need to map JSON to CompanyHeadquarters and CompanyLinks sub-objects
   Result := NewCompany;
+  JSON := EndpointToModel(Endpoint, Result as TObject);
 
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
+  JSONData := GetJSON(JSON);
+  JSONData := JSONData.GetPath('headquarters');
+  Headquarters := NewCompanyHeadquarters;
+  JSONToModel(JSONData.FormatJSON, Headquarters as TObject);
+  Result.Headquarters := Headquarters;
 
-  DeStreamer := TJSONDeStreamer.Create(nil);
-  try
-    DeStreamer.JSONToObject(JSONData.GetJSONData, Result as TObject);
-  finally
-    DeStreamer.Free;
-  end;
+  JSONData := GetJSON(JSON);
+  JSONData := JSONData.GetPath('links');
+  Links := NewCompanyLinks;
+  JSONToModel(JSONData.FormatJSON, Links as TObject);
+  Result.Links := Links;
 end;
 
 end.
