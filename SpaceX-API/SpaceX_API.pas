@@ -36,15 +36,8 @@ type
 
 procedure SpaceX.DoRun;
 var
-  Dragon: IDragonEndpoint;
-  Capsules: ICapsuleEndpoint;
   Company: ICompany;
   CompanyEndpoint: ICompanyEndpoint;
-  Launch: ILaunchEndpoint;
-  Roadster: IRoadster;
-  HTTPClient: IHTTPClient;
-  Response: string;
-  JSONData: IJSONData;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -63,29 +56,10 @@ begin
   end;
 
   { add your program here }
-  //Dragon := NewDragonEndpoint;
-  //Dragon.All;
-
-  //Capsules := NewCapsuleEndpoint;
-  //Capsules.All;
-  //Capsules.One('5e9e2c5df359185f973b2675');
 
   CompanyEndpoint := NewCompanyEndpoint;
   Company := CompanyEndpoint.Get;
   WriteLn(Company.ToString);
-
-  //Launch := NewLaunchEndpoint;
-  //Launch.Latest;
-  //Launch.Upcoming;
-
-
-  //HTTPClient := NewHTTPClient;
-  //JSONData := NewJSON;
-  //Response := HTTPClient.GetRequest('launches/latest');
-  //JSONData.SetJSONData(Response);
-
-  //WriteLn(JSONData.GetJSONData);
-  //WriteLn();
 
   // stop program loop
   Terminate;
