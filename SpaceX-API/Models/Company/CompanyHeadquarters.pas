@@ -38,6 +38,7 @@ type
     FAddress: string;
     FCity: string;
     FState: string;
+
     function GetAddress: string;
     function GetCity: string;
     function GetState: string;
@@ -45,6 +46,11 @@ type
     procedure SetAddress(AValue: string);
     procedure SetCity(AValue: string);
     procedure SetState(AValue: string);
+
+  published
+    property address: string read GetAddress write SetAddress;
+    property city: string read GetCity write SetCity;
+    property state: string read GetState write SetState;
   end;
 
 function NewCompanyHeadquarters: ICompanyHeadquarters;
