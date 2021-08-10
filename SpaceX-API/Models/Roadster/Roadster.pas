@@ -99,7 +99,7 @@ type
 
 function NewRoadster: IRoadster;
 
-implementation
+
 
 type
 
@@ -192,6 +192,8 @@ type
   public
     function ToString(): string; override;
   end;
+
+implementation
 
 function NewRoadster: IRoadster;
 begin

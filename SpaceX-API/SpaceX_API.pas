@@ -40,6 +40,7 @@ var
   Company: ICompany;
   CompanyEndpoint: ICompanyEndpoint;
   Launch: ILaunchEndpoint;
+  Roadster: IRoadster;
   HTTPClient: IHTTPClient;
   Response: string;
   JSONData: IJSONData;
@@ -76,9 +77,9 @@ begin
   //Launch.Latest;
   //Launch.Upcoming;
 
+
   //HTTPClient := NewHTTPClient;
   //JSONData := NewJSON;
-
   //Response := HTTPClient.GetRequest('launches/latest');
   //JSONData.SetJSONData(Response);
 
