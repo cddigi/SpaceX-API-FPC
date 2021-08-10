@@ -48,22 +48,22 @@ type
   ICompany = interface(IBaseCompany) ['{81A8951C-05DE-4FC7-8277-5D8B38549FA2}']
     function ToString: string;
 
-    property Id: string read GetId write SetId;
-    property Name: string read GetName write SetName;
-    property Founder: string read GetFounder write SetFounder;
-    property Employees: LongWord read GetEmployees write SetEmployees;
-    property Vehicles: LongWord read GetVehicles write SetVehicles;
     property CEO: string read GetCEO write SetCEO;
-    property CTO: string read GetCTO write SetCTO;
     property COO: string read GetCOO write SetCOO;
-    property Valuation: UInt64 read GetValuation write SetValuation;
-    property Summary: string read GetSummary write SetSummary;
-    property Headquarters: ICompanyHeadquarters read GetHeadquarters write SetHeadquarters;
-    property Links: ICompanyLinks read GetLinks write SetLinks;
-    property FoundedYear: LongWord read GetFoundedYear write SetFoundedYear;
-    property LaunchSites: LongWord read GetLaunchSites write SetLaunchSites;
-    property TestSites: LongWord read GetTestSites write SetTestSites;
+    property CTO: string read GetCTO write SetCTO;
     property CtoPropulsion: string read GetCtoPropulsion write SetCtoPropulsion;
+    property Employees: LongWord read GetEmployees write SetEmployees;
+    property FoundedYear: LongWord read GetFoundedYear write SetFoundedYear;
+    property Founder: string read GetFounder write SetFounder;
+    property Headquarters: ICompanyHeadquarters read GetHeadquarters write SetHeadquarters;
+    property Id: string read GetId write SetId;
+    property LaunchSites: LongWord read GetLaunchSites write SetLaunchSites;
+    property Links: ICompanyLinks read GetLinks write SetLinks;
+    property Name: string read GetName write SetName;
+    property Summary: string read GetSummary write SetSummary;
+    property TestSites: LongWord read GetTestSites write SetTestSites;
+    property Valuation: UInt64 read GetValuation write SetValuation;
+    property Vehicles: LongWord read GetVehicles write SetVehicles;
   end;
 
 function NewCompany: ICompany;
@@ -130,9 +130,19 @@ type
     function ToString: string; override;
   published
     property ceo: string read GetCEO write SetCEO;
+    property coo: string read GetCOO write SetCOO;
+    property cto: string read GetCTO write SetCTO;
     property cto_propulsion: string read GetCtoPropulsion write SetCtoPropulsion;
+    property employees: LongWord read GetEmployees write SetEmployees;
+    property founded: LongWord read GetFoundedYear write SetFoundedYear;
     property founder: string read GetFounder write SetFounder;
+    property id: string read GetId write SetId;
+    property launch_sites: LongWord read GetLaunchSites write SetLaunchSites;
     property name: string read GetName write SetName;
+    property summary: string read GetSummary write SetSummary;
+    property test_sites: LongWord read GetTestSites write SetTestSites;
+    property valuation: UInt64 read GetValuation write SetValuation;
+    property vehicles: LongWord read GetVehicles write SetVehicles;
   end;
 
 function NewCompany: ICompany;
@@ -302,13 +312,19 @@ begin
   FCtoPropulsion := AValue;
 end;
 
-function TCompany.ToString(): string;
+function TCompany.ToString: string;
 begin
   Result := '';
   Result := Result + 'CEO: ' + ceo + LineEnding;
   Result := Result + 'CTO Propulsion: ' + cto_propulsion + LineEnding;
   Result := Result + 'Founder: ' + founder + LineEnding;
   Result := Result + 'Name: ' + name + LineEnding;
+  Result := Result + 'Headquarters: ' + Format('%s, %s, %s', [
+    GetHeadquarters.Address,
+    GetHeadquarters.City,
+    GetHeadquarters.State
+    ])+ LineEnding;
+  Result := Result + 'Link: ' + GetLinks.Website;
 end;
 
 end.
