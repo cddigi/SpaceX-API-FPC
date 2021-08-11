@@ -21,7 +21,7 @@ function NewDragonEndpoint: IDragonEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper;
 
 const
   Endpoint = 'dragons/';
@@ -44,34 +44,19 @@ end;
 
 function TDragonEndpoint.All: IDragonList;
 var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
+  JSON: string;
 begin
   Result := NewDragonList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData);
-  // GET https://api.spacexdata.com/v4/dragons/
+  JSON := EndpointToModel(Endpoint, Result as TObject);
 end;
 
 function TDragonEndpoint.One(const Id: string): IDragon;
 var
-  Path: string;
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
+  JSON, Path: string;
 begin
   Result := NewDragon;
   Path := SysUtils.ConcatPaths([Endpoint, Id]);
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Path));
-  WriteLn(JSONData.GetJSONData);
-  // GET https://api.spacexdata.com/v4/dragons/[id]
+  JSON := EndpointToModel(Path, Result as TObject);
 end;
 
 end.
