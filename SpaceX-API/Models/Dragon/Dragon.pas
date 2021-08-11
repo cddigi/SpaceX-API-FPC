@@ -6,13 +6,13 @@ interface
 
 uses
   Classes, DragonHeatshield, DragonPressurizedCapsule, DragonThrusters,
-  DragonTrunk, MassInfo, SizeInfo, SysUtils, VolumeInfo;
+  DragonTrunk, MassInfo, SizeInfo, SysUtils, VolumeInfo, BaseModel;
 
 type
 
     { IBaseDragon }
 
-    IBaseDragon = interface(IInterface) ['{B25B729F-DAA4-4ECD-8F2F-7297EDA11B28}']
+    IBaseDragon = interface(IBaseModel) ['{B25B729F-DAA4-4ECD-8F2F-7297EDA11B28}']
       function GetActive: Boolean;
       function GetCrewCapacity: Byte;
       function GetDescription: string;
@@ -40,7 +40,7 @@ type
       procedure SetActive(AValue: Boolean);
       procedure SetCrewCapacity(AValue: Byte);
       procedure SetDescription(AValue: string);
-       procedure SetDiameter(AValue: ISizeInfo);
+      procedure SetDiameter(AValue: ISizeInfo);
       procedure SetDryMassKilograms(AValue: Double);
       procedure SetDryMassPounds(AValue: Double);
       procedure SetFirstFlight(AValue: TDateTime);
@@ -68,31 +68,31 @@ type
       property Active: Boolean read GetActive write SetActive;
       property CrewCapacity: Byte read GetCrewCapacity write SetCrewCapacity;
       property Description: string read GetDescription write SetDescription;
-      property Diameter: ISizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
+      //property Diameter: ISizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
       property DryMassKilograms: Double read GetDryMassKilograms write SetDryMassKilograms;
       property DryMassPounds: Double read GetDryMassPounds write SetDryMassPounds;
       property FirstFlight: TDateTime read GetFirstFlight write SetFirstFlight;
       property FlickrImages: TStringList read GetFlickrImages write SetFlickrImages;
-      property HeatShield: IDragonHeatshield read GetHeatShield write SetHeatShield;
-      property HeightWithTrunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
+      //property HeatShield: IDragonHeatshield read GetHeatShield write SetHeatShield;
+      //property HeightWithTrunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
       property Id: string read GetId write SetId;
-      property LaunchPayloadMass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
-      property LaunchPayloadVolume: IVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
+      //property LaunchPayloadMass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
+      //property LaunchPayloadVolume: IVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
       property Name: string read GetName write SetName;
       property OrbitDurationYears: LongWord read GetOrbitDurationYears write SetOrbitDurationYears;
-      property PressurizedCapsule: IDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
-      property ReturnPayloadMass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
-      property ReturnPayloadVolume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
+      //property PressurizedCapsule: IDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
+      //property ReturnPayloadMass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
+      //property ReturnPayloadVolume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
       property SidewallAngleDegress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
-      property Thrusters: IDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
-      property Trunk: TDragonTrunk read GetTrunk write SetTrunk; // need to define dragontrunkinfo object
+      //property Thrusters: IDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
+      //property Trunk: TDragonTrunk read GetTrunk write SetTrunk; // need to define dragontrunkinfo object
       property TypeInfo: string read GetTypeInfo write SetTypeInfo;  // Type is a reserved word in pascal
       property Wikipedia: string read GetWikipedia write SetWikipedia;
     end;
 
     { IDragonList }
 
-    IDragonList = interface(IInterfaceList) ['{D4C2474C-5CCF-4C67-BB86-3F3B3F15A91F}']
+    IDragonList = interface(IBaseModelList) ['{D4C2474C-5CCF-4C67-BB86-3F3B3F15A91F}']
 
     end;
 
@@ -105,7 +105,7 @@ type
 
     { TDragon }
 
-    TDragon = class(TInterfacedObject, IDragon)
+    TDragon = class(TBaseModel, IDragon)
     private
       FActive: Boolean;
       FCrewCapacity: Byte;
@@ -162,6 +162,7 @@ type
       procedure SetDryMassKilograms(AValue: Double);
       procedure SetDryMassPounds(AValue: Double);
       procedure SetFirstFlight(AValue: TDateTime);
+      procedure SetFirstFlight(AValue: string);
       procedure SetFlickrImages(AValue: TStringList);
       procedure SetHeatShield(AValue: IDragonHeatshield);
       procedure SetHeightWithTrunk(AValue: ISizeInfo);
@@ -179,24 +180,53 @@ type
       procedure SetTypeInfo(AValue: string);
       procedure SetWikipedia(AValue: string);
     public
-      { Implement public fields here. }
-
+      destructor Destroy; override;
+    published
+      property active: Boolean read GetActive write SetActive;
+      property crew_capacity: Byte read GetCrewCapacity write SetCrewCapacity;
+      property description: string read GetDescription write SetDescription;
+      //property diameter: ISizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
+      property dry_mass_kilograms: Double read GetDryMassKilograms write SetDryMassKilograms;
+      property dry_mass_pounds: Double read GetDryMassPounds write SetDryMassPounds;
+      property first_flight: string write SetFirstFlight;
+      property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+      //property heat_shield: IDragonHeatshield read GetHeatShield write SetHeatShield;
+      //property height_with_trunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
+      property id: string read GetId write SetId;
+      //property launch_payload_mass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
+      //property launch_payload_volume: IVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
+      property name: string read GetName write SetName;
+      property orbit_duration_years: LongWord read GetOrbitDurationYears write SetOrbitDurationYears;
+      //property pressurized_capsule: IDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
+      //property return_payload_mass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
+      //property return_payload_volume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
+      property sidewall_angle_degress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
+      //property thrusters: IDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
+      //property trunk: TDragonTrunk read GetTrunk write SetTrunk; // need to define dragontrunkinfo object
+      property type_info: string read GetTypeInfo write SetTypeInfo;  // Type is a reserved word in pascal
+      property wikipedia: string read GetWikipedia write SetWikipedia;
     end;
 
     { TDragonList }
 
-    TDragonList = class(TInterfaceList, IDragonList)
-
+    TDragonList = class(TBaseModelList, IDragonList)
+      function NewItem: IBaseModel; override;
     end;
 
 function NewDragon: IDragon;
 begin
   Result := TDragon.Create;
+  Result.FlickrImages := TStringList.Create;
 end;
 
 function NewDragonList: IDragonList;
 begin
   Result := TDragonList.Create;
+end;
+
+function TDragonList.NewItem: IBaseModel;
+begin
+  Result := NewDragon;
 end;
 
 { TDragon }
@@ -351,6 +381,17 @@ begin
   FFirstFlight := AValue;
 end;
 
+procedure TDragon.SetFirstFlight(AValue: string);
+begin
+  try
+    FormatSettings.DateSeparator := '-';
+    FormatSettings.ShortDateFormat := 'y/m/d';
+    FFirstFlight := StrToDate(AValue);
+  finally
+    FormatSettings := DefaultFormatSettings;
+  end;
+end;
+
 procedure TDragon.SetFlickrImages(AValue: TStringList);
 begin
   FFlickrImages := AValue;
@@ -429,6 +470,12 @@ end;
 procedure TDragon.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+destructor TDragon.Destroy;
+begin
+  FFlickrImages.Free;
+  inherited Destroy;
 end;
 
 end.
