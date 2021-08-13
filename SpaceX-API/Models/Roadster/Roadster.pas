@@ -5,11 +5,11 @@ unit Roadster;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseRoadster = interface(IInterface) ['{02467D77-738F-4B1D-BBE2-3C44A86231D9}']
+  IBaseRoadster = interface(IBaseModel) ['{02467D77-738F-4B1D-BBE2-3C44A86231D9}']
     function GetApoapsisAu: Double;
     function GetDetails: string;
     function GetDateTimeUnix: UInt64;
@@ -105,7 +105,7 @@ type
 
   { TRoadster }
 
-  TRoadster = class(TInterfacedObject, IRoadster)
+  TRoadster = class(TBaseModel, IRoadster)
   private
     FApoapsisAu: Double;
     FDetails: string;
@@ -134,6 +134,7 @@ type
     FSpeedMph: Double;
     FVideo: string;
     FWikipedia: string;
+  private
     function GetApoapsisAu: Double;
     function GetDetails: string;
     function GetDateTimeUnix: UInt64;
@@ -161,7 +162,7 @@ type
     function GetSpeedMph: Double;
     function GetVideo: string;
     function GetWikipedia: string;
-
+  private
     procedure SetApoapsisAu(AValue: Double);
     procedure SetDetails(AValue: string);
     procedure SetDateTimeUnix(AValue: UInt64);
@@ -191,6 +192,34 @@ type
     procedure SetWikipedia(AValue: string);
   public
     function ToString(): string; override;
+  published
+    property apoapsis_au: Double read GetApoapsisAu write SetApoapsisAu;
+    property details: string read GetDetails write SetDetails;
+    property earth_distance_km: Double read GetEarthDistanceKilometers write SetEarthDistanceKilometers;
+    property earth_distance_mi: Double read GetEarthDistanceMiles write SetEarthDistanceMiles;
+    property eccentricity: Double read GetEccentricity write SetEccentricity;
+    property epoch_jd: Double read GetEpochJd write SetEpochJd;
+    //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+    property id: string read GetId write SetId;
+    property inclination: Double read GetInclination write SetInclination;
+    property launch_date_unix: UInt64 read GetDateTimeUnix write SetDateTimeUnix;
+    property launch_date_utc: TDateTime read GetDateTimeUtc write SetDateTimeUtc;
+    property launch_mass_kg: Double read GetLaunchMassKilograms write SetLaunchMassKilograms;
+    property launch_mass_lbs: Double read GetLaunchMassPounds write SetLaunchMassPounds;
+    property longitude: Double read GetLongitude write SetLongitude;
+    property mars_distance_km: Double read GetMarsDistanceKilometers write SetMarsDistanceKilometers;
+    property mars_distance_mi: Double read GetMarsDistanceMiles write SetMarsDistanceMiles;
+    property name: string read GetName write SetName;
+    property norad_id: LongWord read GetNoradId write SetNoradId;
+    property orbit_type: string read GetOrbitType write SetOrbitType;
+    property periapsis_arg: Double read GetPeriapsisArg write SetPeriapsisArg;
+    property periapsis_au: Double read GetPeriapsisAu write SetPeriapsisAu;
+    property period_days: Double read GetPeriodDays write SetPeriodDays;
+    property semi_major_axis_au: Double read GetSemiMajorAxisAu write SetSemiMajorAxisAu;
+    property speed_kph: Double read GetSpeedKph write SetSpeedKph;
+    property speed_mph: Double read GetSpeedMph write SetSpeedMph;
+    property video: string read GetVideo write SetVideo;
+    property wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
 implementation

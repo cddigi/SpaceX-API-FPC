@@ -14,7 +14,7 @@ uses
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
   RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
-  DragonEndpoint, CapsuleEndpoint, BaseEndpoint, CompanyEndpoint, CoreEndpoint,
+  DragonEndpoint, CapsuleEndpoint, CompanyEndpoint, CoreEndpoint,
   CrewEndpoint, LandpadEndpoint, LaunchEndpoint, LaunchpadEndpoint,
   PayloadEndpoint, RoadsterEndpoint, RocketEndpoint, ShipEndpoint,
   StarlinkEndpoint, Endpoint_Helper, BaseModel;
@@ -39,7 +39,8 @@ var
   Dragon: IDragon;
   DragonList: IDragonList;
   DragonEndpoint: IDragonEndpoint;
-  Capsules: ICapsuleEndpoint;
+  Roadster: IRoadster;
+  RoadsterEndpoint: IRoadsterEndpoint;
   Company: ICompany;
   CompanyEndpoint: ICompanyEndpoint;
   ErrorMsg: String;
@@ -66,8 +67,9 @@ begin
   Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
   WriteLn(Dragon.Name);
 
-  //Capsules := NewCapsuleEndpoint;
-  //Capsules.All;
+  RoadsterEndpoint := NewRoadsterEndpoint;
+  Roadster := RoadsterEndpoint.All;
+  WriteLn(Roadster.Name);
   //Capsules.One('5e9e2c5df359185f973b2675');
 
   CompanyEndpoint := NewCompanyEndpoint;
