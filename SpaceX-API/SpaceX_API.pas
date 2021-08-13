@@ -17,7 +17,7 @@ uses
   DragonEndpoint, CapsuleEndpoint, BaseEndpoint, CompanyEndpoint, CoreEndpoint,
   CrewEndpoint, LandpadEndpoint, LaunchEndpoint, LaunchpadEndpoint,
   PayloadEndpoint, RoadsterEndpoint, RocketEndpoint, ShipEndpoint,
-  StarlinkEndpoint, Endpoint_Helper;
+  StarlinkEndpoint, Endpoint_Helper, BaseModel;
 
 type
 
@@ -36,6 +36,10 @@ type
 
 procedure SpaceX.DoRun;
 var
+  Dragon: IDragon;
+  DragonList: IDragonList;
+  DragonEndpoint: IDragonEndpoint;
+  Capsules: ICapsuleEndpoint;
   Company: ICompany;
   CompanyEndpoint: ICompanyEndpoint;
   ErrorMsg: String;
@@ -56,6 +60,15 @@ begin
   end;
 
   { add your program here }
+
+  DragonEndpoint := NewDragonEndpoint;
+  DragonList := DragonEndpoint.All;
+  Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
+  WriteLn(Dragon.Name);
+
+  //Capsules := NewCapsuleEndpoint;
+  //Capsules.All;
+  //Capsules.One('5e9e2c5df359185f973b2675');
 
   CompanyEndpoint := NewCompanyEndpoint;
   Company := CompanyEndpoint.Get;

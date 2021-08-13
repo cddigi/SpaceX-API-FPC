@@ -13,11 +13,13 @@ procedure JSONToModel(const JSON: string; const Model: TObject);
 implementation
 
 uses
-  fpjsonrtti, fpjson, jsonparser, fphttpclient, opensslsockets;
+  fpjsonrtti, fpjson, jsonparser, fphttpclient, opensslsockets, BaseModel;
 
 type
 
   IJSONData = interface(IInterface) ['{E0C90586-5A87-4248-82C1-F371951A603B}']
+    function Count: Integer;
+    function Items(Index: Integer): IJSONData;
     function GetJSONData: string;
     procedure SetJSONData(AValue: string);
   end;
@@ -28,9 +30,11 @@ type
 
   { TJSON }
 
-  TJSON = class(TInterfacedObject, IJSONData)
+  TJSONData = class(TInterfacedObject, IJSONData)
   private
-    FJSONData: TJSONData;
+    FJSONData: fpjson.TJSONData;
+    function Count: Integer;
+    function Items(Index: Integer): IJSONData;
     function GetJSONData: string;
     procedure SetJSONData(AValue: string);
   public
@@ -48,7 +52,7 @@ type
     destructor Destroy; override;
   end;
 
-function NewJSON: IJSONData; forward;
+function NewJSONData: IJSONData; forward;
 function NewHTTPClient: IHTTPClient; forward;
 
 const
@@ -60,7 +64,7 @@ var
   JSONData: IJSONData;
 begin
   HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
+  JSONData := NewJSONData;
   JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
   Result := JSONData.GetJSONData;
   JSONToModel(Result, Model);
@@ -68,19 +72,34 @@ end;
 
 procedure JSONToModel(const JSON: string; const Model: TObject);
 var
+  Count, Idx: Integer;
   DeStreamer: TJSONDeStreamer;
+  Item: IBaseModel;
+  JSONData, JSONItem: IJSONData;
 begin
   DeStreamer := TJSONDeStreamer.Create(nil);
   try
-    DeStreamer.JSONToObject(JSON, Model);
+    if Supports(Model, IBaseModelList) then begin
+      JSONData := NewJSONData;
+      JSONData.SetJSONData(JSON);
+      Count := JSONData.Count;
+
+      for Idx := 0 to Count - 1 do begin
+        JSONItem := JSONData.Items(Idx);
+        Item := (Model as IBaseModelList).NewItem;
+        DeStreamer.JSONToObject(JSONItem.GetJSONData, Item as TObject);
+        (Model as IBaseModelList).Add(Item);
+      end;
+    end else
+      DeStreamer.JSONToObject(JSON, Model);
   finally
     DeStreamer.Free;
   end;
 end;
 
-function NewJSON: IJSONData;
+function NewJSONData: IJSONData;
 begin
-  Result := TJSON.Create;
+  Result := TJSONData.Create;
 end;
 
 function NewHTTPClient: IHTTPClient;
@@ -107,21 +126,41 @@ begin
  inherited Destroy;
 end;
 
-{ TJSON }
+{ TJSONData }
 
-function TJSON.GetJSONData: string;
+function TJSONData.Count: Integer;
+begin
+  Result := FJSONData.Count;
+end;
+
+function TJSONData.Items(Index: Integer): IJSONData;
+var
+  JSONData: TJSONData;
+begin
+  JSONData := TJSONData.Create;
+  try
+    JSONData.FJSONData := FJSONData.Items[Index];
+  except
+    JSONData.Free;
+    raise;
+  end;
+
+  Result := JSONData;
+end;
+
+function TJSONData.GetJSONData: string;
 begin
   Result := FJSONData.FormatJSON();
 end;
 
-procedure TJSON.SetJSONData(AValue: string);
+procedure TJSONData.SetJSONData(AValue: string);
 begin
   FJSONData := GetJSON(AValue);
 end;
 
-destructor TJSON.Destroy;
+destructor TJSONData.Destroy;
 begin
-  FJSONData.Free;
+  FreeMemAndNil(FJSONData);
   inherited Destroy;
 end;
 
