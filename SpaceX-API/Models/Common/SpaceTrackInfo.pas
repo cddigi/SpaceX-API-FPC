@@ -190,7 +190,7 @@ type
     FTleLine0: string;
     FTleLine1: string;
     FTleLine2: string;
-
+  private
     function GetCcsdsOmmVers: string;
     function GetComment: string;
     function GetCreationDate: TDateTime;
@@ -232,7 +232,7 @@ type
     function GetTleLine0: string;
     function GetTleLine1: string;
     function GetTleLine2: string;
-
+  private
     procedure SetCcsdsOmmVers(AValue: string);
     procedure SetComment(AValue: string);
     procedure SetCreationDate(AValue: TDateTime);
@@ -274,6 +274,48 @@ type
     procedure SetTleLine0(AValue: string);
     procedure SetTleLine1(AValue: string);
     procedure SetTleLine2(AValue: string);
+  published
+    property ccsds_omm_vers: string read GetCcsdsOmmVers write SetCcsdsOmmVers;
+    property comment: string read GetComment write SetComment;
+    property creation_date: TDateTime read GetCreationDate write SetCreationDate;
+    property originator: string read GetOriginator write SetOriginator;
+    property object_name: string read GetObjectName write SetObjectName;
+    property object_id: string read GetObjectId write SetObjectId;
+    property center_name: string read GetCenterName write SetCenterName;
+    property ref_frame: string read GetRefFrame write SetRefFrame;
+    property time_system: string read GetTimeSystem write SetTimeSystem;
+    property mean_element_theory: string read GetMeanElementTheory write SetMeanElementTheory;
+    property epoch: TDateTime read GetEpoch write SetEpoch;
+    property mean_motion: Double read GetMeanMotion write SetMeanMotion;
+    property eccentricity: Double read GetEccentricity write SetEccentricity;
+    property inclination: Double read GetInclination write SetInclination;
+    property ra_of_asc_node: Double read GetRaOfAscNode write SetRaOfAscNode;
+    property arg_of_pericenter: Double read GetArgOfPericenter write SetArgOfPericenter;
+    property mean_anomaly: Double read GetMeanAnomaly write SetMeanAnomaly;
+    property ephemeris_type: LongWord read GetEphemerisType write SetEphemerisType;
+    property classification_type: string read GetClassificationType write SetClassificationType;
+    property norad_cat_id: LongWord read GetNoradCatId write SetNoradCatId;
+    property norad_set_no: LongWord read GetNoradSetNo write SetNoradSetNo;
+    property rev_at_epoch: LongWord read GetRevAtEpoch write SetRevAtEpoch;
+    property bstar: Double read GetBstar write SetBstar;
+    property mean_motion_dot: Double read GetMeanMotionDot write SetMeanMotionDot;
+    property mean_motion_ddot: Double read GetMeanMotionDdot write SetMeanMotionDdot;
+    property semimajor_axis: Double read GetSemimajorAxis write SetSemimajorAxis;
+    property period: Double read GetPeriod write SetPeriod;
+    property apoapsis: Double read GetApoapsis write SetApoapsis;
+    property periapsis: Double read GetPeriapsis write SetPeriapsis;
+    property object_type: string read GetObjectType write SetObjectType;
+    property rcs_size: string read GetRcsSize write SetRcsSize;
+    property country_code: string read GetCountryCode write SetCountryCode;
+    property launch_date: TDateTime read GetLaunchDate write SetLaunchDate;
+    property site: string read GetSite write SetSite;
+    property decay_date: TDateTime read GetDecayDate write SetDecayDate;
+    property decayed: LongWord read GetDecayed write SetDecayed;
+    property file_info: LongWord read GetFileInfo write SetFileInfo;
+    property gp_id: LongWord read GetGpId write SetGpId;
+    property tle_line_0: string read GetTleLine0 write SetTleLine0;
+    property tle_line_1: string read GetTleLine1 write SetTleLine1;
+    property tle_line_2: string read GetTleLine2 write SetTleLine2;
   end;
 
 function NewSpaceTrackInfo: ISpaceTrackInfo;

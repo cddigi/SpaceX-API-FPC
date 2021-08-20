@@ -34,11 +34,15 @@ type
   private
     FMaterial: string;
     FNumber: LongWord;
+  private
     function GetMaterial: string;
     function GetNumber: LongWord;
-
+  private
     procedure SetMaterial(AValue: string);
     procedure SetNumber(AValue: LongWord);
+  published
+    property material: string read GetMaterial write SetMaterial;
+    property number: LongWord read GetNumber write SetNumber;
   end;
 
 function NewRocketLandingLegs: IRocketLandingLegs;

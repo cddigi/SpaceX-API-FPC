@@ -34,12 +34,15 @@ type
   private
     FKilonewtons: Double;
     FPoundForce: Double;
-
+  private
     function GetKilonewtons: Double;
     function GetPoundForce: Double;
-
+  private
     procedure SetKilonewtons(AValue: Double);
     procedure SetPoundForce(AValue: Double);
+  published
+    property kN: Double read GetKilonewtons write SetKilonewtons;
+    property lbf: Double read GetPoundForce write SetPoundForce;
   public
     function ToString(): string; override;
   end;

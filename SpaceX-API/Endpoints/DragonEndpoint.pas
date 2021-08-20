@@ -48,6 +48,7 @@ var
 begin
   Result := NewDragonList;
   JSON := EndpointToModel(Endpoint, Result as TObject);
+  WriteLn(JSON)
 end;
 
 function TDragonEndpoint.One(const Id: string): IDragon;

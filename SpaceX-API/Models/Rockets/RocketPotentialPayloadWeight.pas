@@ -46,15 +46,21 @@ type
     FKilograms: Double;
     FName: string;
     FPounds: Double;
+  private
     function GetId: string;
     function GetKilograms: Double;
     function GetName: string;
     function GetPounds: Double;
-
+  private
     procedure SetId(AValue: string);
     procedure SetKilograms(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetPounds(AValue: Double);
+  published
+    property id: string read GetId write SetId;
+    property kg: Double read GetKilograms write SetKilograms;
+    property name: string read GetName write SetName;
+    property lb: Double read GetPounds write SetPounds;
   end;
 
   TRocketPotentialPayloadWightList = class(TInterfaceList, IRocketPotentialPayloadWeightList)

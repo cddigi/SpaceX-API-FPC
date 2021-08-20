@@ -50,19 +50,27 @@ type
     FReusable: Boolean;
     FThrustSeaLevel: IThrustInfo;
     FThrustVacuum: IThrustInfo;
+  private
     function GetBurnTimeSeconds: LongWord;
     function GetEngines: LongWord;
     function GetFuelAmountTons: LongWord;
     function GetReusable: Boolean;
     function GetThrustSeaLevel: IThrustInfo;
     function GetThrustVacuum: IThrustInfo;
-
+  private
     procedure SetBurnTimeSeconds(AValue: LongWord);
     procedure SetEngines(AValue: LongWord);
     procedure SetFuelAmountTons(AValue: LongWord);
     procedure SetReusable(AValue: Boolean);
     procedure SetThrustSeaLevel(AValue: IThrustInfo);
     procedure SetThrustVacuum(AValue: IThrustInfo);
+  published
+    property burn_time_sec: LongWord read GetBurnTimeSeconds write SetBurnTimeSeconds;
+    property engines: LongWord read GetEngines write SetEngines;
+    property fuel_amount_tons: LongWord read GetFuelAmountTons write SetFuelAmountTons;
+    property reusable: Boolean read GetReusable write SetReusable;
+    //property ThrustSeaLevel: IThrustInfo read GetThrustSeaLevel write SetThrustSeaLevel;
+    //property ThrustVacuum: IThrustInfo read GetThrustVacuum write SetThrustVacuum;
   end;
 
 function NewRocketFirstStage: IRocketFirstStage;

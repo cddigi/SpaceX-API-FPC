@@ -92,7 +92,7 @@ type
     FLaunchSites: LongWord;
     FTestSites: LongWord;
     FCtoPropulsion: string;
-
+  private
     function GetId: string;
     function GetName: string;
     function GetFounder: string;
@@ -109,7 +109,7 @@ type
     function GetLaunchSites: LongWord;
     function GetTestSites: LongWord;
     function GetCtoPropulsion: string;
-
+  private
     procedure SetId(AValue: string);
     procedure SetName(AValue: string);
     procedure SetFounder(AValue: string);

@@ -46,17 +46,24 @@ type
     FFuelAmountTons: LongWord;
     FPayloads: IRocketPotentialPayload;
     FReusable: Boolean;
+  private
     function GetBurnTimeSeconds: LongWord;
     function GetEngines: LongWord;
     function GetFuelAmountTons: LongWord;
     function GetPayloads: IRocketPotentialPayload;
     function GetReusable: Boolean;
-
+  private
     procedure SetBurnTimeSeconds(AValue: LongWord);
     procedure SetEngines(AValue: LongWord);
     procedure SetFuelAmountTons(AValue: LongWord);
     procedure SetPayloads(AValue: IRocketPotentialPayload);
     procedure SetReusable(AValue: Boolean);
+  published
+    property burn_time_sec: LongWord read GetBurnTimeSeconds write SetBurnTimeSeconds;
+    property engines: LongWord read GetEngines write SetEngines;
+    property fuel_amount_tons: LongWord read GetFuelAmountTons write SetFuelAmountTons;
+    //property payloads: IRocketPotentialPayload read GetPayloads write SetPayloads;
+    property reusable: Boolean read GetReusable write SetReusable;
   end;
 
 function NewSecondStage: ISecondStage;

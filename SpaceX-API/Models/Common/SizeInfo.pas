@@ -33,11 +33,15 @@ type
   private
     FMeters: Double;
     FFeet: Double;
+  private
     function GetMeters: Double;
     function GetFeet: Double;
-
+  private
     procedure SetMeters(AValue: Double);
     procedure SetFeet(AValue: Double);
+  published
+    property meters: Double read GetMeters write SetMeters;
+    property feet: Double read GetFeet write SetFeet;
   public
     function ToString(): string; override;
   end;

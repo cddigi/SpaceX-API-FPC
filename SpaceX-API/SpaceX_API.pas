@@ -39,8 +39,8 @@ var
   Dragon: IDragon;
   DragonList: IDragonList;
   DragonEndpoint: IDragonEndpoint;
-  Roadster: IRoadster;
-  RoadsterEndpoint: IRoadsterEndpoint;
+  RocketList: IRocketList;
+  RocketEndpoint: IRocketEndpoint;
   Company: ICompany;
   CompanyEndpoint: ICompanyEndpoint;
   ErrorMsg: String;
@@ -67,9 +67,9 @@ begin
   Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
   WriteLn(Dragon.Name);
 
-  RoadsterEndpoint := NewRoadsterEndpoint;
-  Roadster := RoadsterEndpoint.All;
-  WriteLn(Roadster.Name);
+  RocketEndpoint := NewRocketEndpoint;
+  RocketList := RocketEndpoint.All;
+  //WriteLn(Roadster.Name);
   //Capsules.One('5e9e2c5df359185f973b2675');
 
   CompanyEndpoint := NewCompanyEndpoint;

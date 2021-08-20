@@ -34,11 +34,15 @@ type
   private
     FFairing: IRocketFairing;
     FOption: string;
+  private
     function GetFairing: IRocketFairing;
     function GetOption: string;
-
+  private
     procedure SetFairing(AValue: IRocketFairing);
     procedure SetOption(AValue: string);
+  published
+    //property Fairing: IRocketFairing read GetFairing write SetFairing;
+    property option_1: string read GetOption write SetOption;
   end;
 
 function NewRocketPotentialPayload: IRocketPotentialPayload;

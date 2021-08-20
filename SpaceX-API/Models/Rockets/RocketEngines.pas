@@ -81,7 +81,7 @@ type
     function GetThrustVacuum: IThrustInfo;
     function GetTypeInfo: string;
     function GetVersion: string;
-
+  private
     procedure SetEngineLossMax(AValue: LongWord);
     procedure SetFirstPropellant(AValue: string);
     procedure SetIsp(AValue: IIspInfo);
@@ -93,6 +93,16 @@ type
     procedure SetThrustVacuum(AValue: IThrustInfo);
     procedure SetTypeInfo(AValue: string);
     procedure SetVersion(AValue: string);
+  published
+    property engine_loss_max: LongWord read GetEngineLossMax write SetEngineLossMax;
+    property propellant_1: string read GetFirstPropellant write SetFirstPropellant;
+    property isp: IIspInfo read GetIsp write SetIsp;
+    property layout: string read GetLayout write SetLayout;
+    property number: LongWord read GetNumber write SetNumber;
+    property propellant_2: string read GetSecondPropellant write SetSecondPropellant;
+    property thrust_to_weight: Double read GetThrustToWeight write SetThrustToWeight;
+    //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
+    property version: string read GetVersion write SetVersion;
   end;
 
 function NewRocketEngines: IRocketEngines;

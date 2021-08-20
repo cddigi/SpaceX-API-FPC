@@ -33,11 +33,15 @@ type
   private
     FVacuum: LongWord;
     FSeaLevel: LongWord;
+  private
     function GetVacuum: LongWord;
     function GetSeaLevel: LongWord;
-
+  private
     procedure SetVacuum(AValue: LongWord);
     procedure SetSeaLevel(AValue: LongWord);
+  published
+    property vacuum: LongWord read GetVacuum write SetVacuum;
+    property sea_level: LongWord read GetSeaLevel write SetSeaLevel;
   end;
 
 function NewIspInfo: IIspInfo;
