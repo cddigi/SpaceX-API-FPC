@@ -67,14 +67,14 @@ begin
   Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
   WriteLn(Dragon.Name);
 
+  CompanyEndpoint := NewCompanyEndpoint;
+  Company := CompanyEndpoint.Get;
+  WriteLn(Company.ToString);
+
   RocketEndpoint := NewRocketEndpoint;
   RocketList := RocketEndpoint.All;
   //WriteLn(Roadster.Name);
   //Capsules.One('5e9e2c5df359185f973b2675');
-
-  CompanyEndpoint := NewCompanyEndpoint;
-  Company := CompanyEndpoint.Get;
-  WriteLn(Company.ToString);
 
   // stop program loop
   Terminate;

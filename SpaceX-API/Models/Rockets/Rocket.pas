@@ -177,7 +177,7 @@ type
     //property Engines: IRocketEngines read GetEngines write SetEngines;
     property first_flight: TDateTime read GetFirstFlight write SetFirstFlight;
     //property FirstStage: IRocketFirstStage read GetFirstStage write SetFirstStage;
-    property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+    //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
     //property Height: ISizeInfo read GetHeight write SetHeight;
     property id: string read GetId write SetId;
     //property LandingLegs: IRocketLandingLegs read GetLandingLegs write SetLandingLegs;
