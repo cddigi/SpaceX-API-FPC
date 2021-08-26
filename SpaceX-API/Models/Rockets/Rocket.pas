@@ -153,6 +153,7 @@ type
     procedure SetDiameter(AValue: ISizeInfo);
     procedure SetEngines(AValue: IRocketEngines);
     procedure SetFirstFlight(AValue: TDateTime);
+    procedure SetFirstFlight(AValue: string);
     procedure SetFirstStage(AValue: IRocketFirstStage);
     procedure SetFlickrImages(AValue: TStringList);
     procedure SetHeight(AValue: ISizeInfo);
@@ -175,7 +176,7 @@ type
     property description: string read GetDescription write SetDescription;
     //property Diameter: ISizeInfo read GetDiameter write SetDiameter;
     //property Engines: IRocketEngines read GetEngines write SetEngines;
-    property first_flight: TDateTime read GetFirstFlight write SetFirstFlight;
+    property first_flight: string write SetFirstFlight;
     //property FirstStage: IRocketFirstStage read GetFirstStage write SetFirstStage;
     //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
     //property Height: ISizeInfo read GetHeight write SetHeight;
@@ -371,6 +372,17 @@ end;
 procedure TRocket.SetFirstFlight(AValue: TDateTime);
 begin
   FFirstFlight := AValue;
+end;
+
+procedure TRocket.SetFirstFlight(AValue: string);
+begin
+  try
+    FormatSettings.DateSeparator := '-';
+    FormatSettings.ShortDateFormat := 'y/m/d';
+    FFirstFlight := StrToDate(AValue);
+  finally
+    FormatSettings := DefaultFormatSettings;
+  end;
 end;
 
 procedure TRocket.SetFirstStage(AValue: IRocketFirstStage);

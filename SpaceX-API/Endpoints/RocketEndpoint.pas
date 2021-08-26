@@ -56,12 +56,8 @@ var
 begin
   Result := NewRocketList;
   JSON := EndpointToModel(Endpoint, Result as TObject);
+
   JSONData := GetJSON(JSON);
-
-  //JSONData := NewJSON;
-
-  //JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.AsString);
 end;
 
 function TRocketEndpoint.One(const Id: string): IRocket;
