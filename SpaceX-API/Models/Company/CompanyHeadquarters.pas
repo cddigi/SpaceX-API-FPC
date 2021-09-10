@@ -5,11 +5,11 @@ unit CompanyHeadquarters;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseCompanyHeadquarters = interface(IInterface) ['{78384C70-2A65-4103-93DA-917B5F09A390}']
+  IBaseCompanyHeadquarters = interface(IBaseModel) ['{78384C70-2A65-4103-93DA-917B5F09A390}']
     function GetAddress: string;
     function GetCity: string;
     function GetState: string;
@@ -33,7 +33,7 @@ type
 
   { TCompanyHeadquarters }
 
-  TCompanyHeadquarters = class(TInterfacedObject, ICompanyHeadquarters)
+  TCompanyHeadquarters = class(TBaseModel, ICompanyHeadquarters)
   private
     FAddress: string;
     FCity: string;

@@ -18,7 +18,7 @@ function NewCompanyEndpoint: ICompanyEndpoint;
 implementation
 
 uses
-  Endpoint_Helper, fpjson, CompanyHeadquarters, CompanyLinks;
+  Endpoint_Helper, fpjson;
 
 const
   Endpoint = 'company/';
@@ -39,26 +39,9 @@ end;
 { TCompanyEndpoint }
 
 function TCompanyEndpoint.Get: ICompany;
-var
-  Headquarters: ICompanyHeadquarters;
-  JSON: string;
-  JSONData: TJSONData;
-  Links: ICompanyLinks;
 begin
   Result := NewCompany;
-  JSON := EndpointToModel(Endpoint, Result as TObject);
-
-  JSONData := GetJSON(JSON);
-  JSONData := JSONData.GetPath('headquarters');
-  Headquarters := NewCompanyHeadquarters;
-  JSONToModel(JSONData.FormatJSON, Headquarters as TObject);
-  Result.Headquarters := Headquarters;
-
-  JSONData := GetJSON(JSON);
-  JSONData := JSONData.GetPath('links');
-  Links := NewCompanyLinks;
-  JSONToModel(JSONData.FormatJSON, Links as TObject);
-  Result.Links := Links;
+  EndpointToModel(Endpoint, Result as TObject);
 end;
 
 end.
