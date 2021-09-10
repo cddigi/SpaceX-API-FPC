@@ -34,11 +34,15 @@ type
   private
     FCubicMeters: Double;
     FCubicFeet: Double;
+  private
     function GetCubicMeters: Double;
     function GetCubicFeet: Double;
-
+  private
     procedure SetCubicMeters(AValue: Double);
     procedure SetCubicFeet(AValue: Double);
+  published
+    property cubic_meters: Double read GetCubicMeters write SetCubicMeters;
+    property cubic_feet: Double read GetCubicFeet write SetCubicFeet;
   public
     function ToString(): string; override;
   end;

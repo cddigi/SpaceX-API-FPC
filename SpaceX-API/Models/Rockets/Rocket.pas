@@ -6,11 +6,11 @@ interface
 
 uses
   Classes, SysUtils, SizeInfo, MassInfo, RocketEngines, RocketFirstStage, SecondStage, RocketLandingLegs,
-  RocketPotentialPayloadWeight;
+  RocketPotentialPayloadWeight, BaseModel;
 
 type
 
-  IBaseRocket = interface(IInterface) ['{06F97F32-2431-4FDE-95C1-D3EF85A5F133}']
+  IBaseRocket = interface(IBaseModel) ['{06F97F32-2431-4FDE-95C1-D3EF85A5F133}']
     function GetActive: Boolean;
     function GetBoosters: LongWord;
     function GetCompany: string;
@@ -83,7 +83,7 @@ type
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
-  IRocketList = interface(IInterfaceList) ['{5417B83B-23A2-46A2-9AF8-13BDF9D8584A}']
+  IRocketList = interface(IBaseModelList) ['{5417B83B-23A2-46A2-9AF8-13BDF9D8584A}']
 
   end;
 
@@ -96,7 +96,7 @@ type
 
   { TRocket }
 
-  TRocket = class(TInterfacedObject, IRocket)
+  TRocket = class(TBaseModel, IRocket)
   private
     FActive: Boolean;
     FBoosters: LongWord;
@@ -120,6 +120,7 @@ type
     FSuccessRate: LongWord;
     FTypeInfo: string;
     FWikipedia: string;
+  private
     function GetActive: Boolean;
     function GetBoosters: LongWord;
     function GetCompany: string;
@@ -142,7 +143,7 @@ type
     function GetSuccessRate: LongWord;
     function GetTypeInfo: string;
     function GetWikipedia: string;
-
+  private
     procedure SetActive(AValue: Boolean);
     procedure SetBoosters(AValue: LongWord);
     procedure SetCompany(AValue: string);
@@ -152,6 +153,7 @@ type
     procedure SetDiameter(AValue: ISizeInfo);
     procedure SetEngines(AValue: IRocketEngines);
     procedure SetFirstFlight(AValue: TDateTime);
+    procedure SetFirstFlight(AValue: string);
     procedure SetFirstStage(AValue: IRocketFirstStage);
     procedure SetFlickrImages(AValue: TStringList);
     procedure SetHeight(AValue: ISizeInfo);
@@ -165,12 +167,37 @@ type
     procedure SetSuccessRate(AValue: LongWord);
     procedure SetTypeInfo(AValue: string);
     procedure SetWikipedia(AValue: string);
+  published
+    property active: Boolean read GetActive write SetActive;
+    property boosters: LongWord read GetBoosters write SetBoosters;
+    property company: string read GetCompany write SetCompany;
+    property cost_per_launch: LongWord read GetCostPerLaunch write SetCostPerLaunch;
+    property country: string read GetCountry write SetCountry;
+    property description: string read GetDescription write SetDescription;
+    //property Diameter: ISizeInfo read GetDiameter write SetDiameter;
+    //property Engines: IRocketEngines read GetEngines write SetEngines;
+    property first_flight: string write SetFirstFlight;
+    //property FirstStage: IRocketFirstStage read GetFirstStage write SetFirstStage;
+    //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+    //property Height: ISizeInfo read GetHeight write SetHeight;
+    property id: string read GetId write SetId;
+    //property LandingLegs: IRocketLandingLegs read GetLandingLegs write SetLandingLegs;
+    //property Mass: IMassInfo read GetMass write SetMass;
+    property name: string read GetName write SetName;
+    //property PayloadWeights: IRocketPotentialPayloadWeightList read GetPayloadWeights write SetPayloadWeights;
+    //property SecondStage: ISecondStage read GetSecondStage write SetSecondStage;
+    property stages: LongWord read GetStages write SetStages;
+    property success_rate: LongWord read GetSuccessRate write SetSuccessRate;
+    //property type_info: string read GetTypeInfo write SetTypeInfo;
+    property wikipedia: string read GetWikipedia write SetWikipedia;
   public
     function ToString(): string; override;
   end;
 
-  TRocketList = class(TInterfaceList, IRocketList)
+  { TRocketList }
 
+  TRocketList = class(TBaseModelList, IRocketList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewRocket: IRocket;
@@ -181,6 +208,13 @@ end;
 function NewRocketList: IRocketList;
 begin
   Result := TRocketList.Create;
+end;
+
+{ TRocketList }
+
+function TRocketList.NewItem: IBaseModel;
+begin
+  Result := NewRocket;
 end;
 
 { TRocket }
@@ -338,6 +372,17 @@ end;
 procedure TRocket.SetFirstFlight(AValue: TDateTime);
 begin
   FFirstFlight := AValue;
+end;
+
+procedure TRocket.SetFirstFlight(AValue: string);
+begin
+  try
+    FormatSettings.DateSeparator := '-';
+    FormatSettings.ShortDateFormat := 'y/m/d';
+    FFirstFlight := StrToDate(AValue);
+  finally
+    FormatSettings := DefaultFormatSettings;
+  end;
 end;
 
 procedure TRocket.SetFirstStage(AValue: IRocketFirstStage);

@@ -33,11 +33,15 @@ type
   private
     FKilograms: Double;
     FPounds: Double;
+  private
     function GetKilograms: Double;
     function GetPounds: Double;
-
+  private
     procedure SetKilograms(AValue: Double);
     procedure SetPounds(AValue: Double);
+  published
+    property kg: Double read GetKilograms write SetKilograms;
+    property lb: Double read GetPounds write SetPounds;
   public
     function ToString(): string; override;
   end;

@@ -18,7 +18,7 @@ function NewRoadsterEndpoint: IRoadsterEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper;
 
 const
   Endpoint = 'roadster/';
@@ -40,16 +40,11 @@ end;
 
 function TRoadsterEndpoint.All: IRoadster;
 var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
+  JSON: string;
 begin
   Result := NewRoadster;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData);
+  JSON := EndpointToModel(Endpoint, Result as TObject);
+  //WriteLn(JSON);
 end;
 
 end.

@@ -14,7 +14,7 @@ uses
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
   RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
-  DragonEndpoint, CapsuleEndpoint, BaseEndpoint, CompanyEndpoint, CoreEndpoint,
+  DragonEndpoint, CapsuleEndpoint, CompanyEndpoint, CoreEndpoint,
   CrewEndpoint, LandpadEndpoint, LaunchEndpoint, LaunchpadEndpoint,
   PayloadEndpoint, RoadsterEndpoint, RocketEndpoint, ShipEndpoint,
   StarlinkEndpoint, Endpoint_Helper, BaseModel;
@@ -39,13 +39,10 @@ var
   Dragon: IDragon;
   DragonList: IDragonList;
   DragonEndpoint: IDragonEndpoint;
-  Capsules: ICapsuleEndpoint;
+  RocketList: IRocketList;
+  RocketEndpoint: IRocketEndpoint;
   Company: ICompany;
   CompanyEndpoint: ICompanyEndpoint;
-  Launch: ILaunchEndpoint;
-  HTTPClient: IHTTPClient;
-  Response: string;
-  JSONData: IJSONData;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -64,31 +61,20 @@ begin
   end;
 
   { add your program here }
+
   DragonEndpoint := NewDragonEndpoint;
   DragonList := DragonEndpoint.All;
   Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
   WriteLn(Dragon.Name);
 
-  //Capsules := NewCapsuleEndpoint;
-  //Capsules.All;
-  //Capsules.One('5e9e2c5df359185f973b2675');
-
   CompanyEndpoint := NewCompanyEndpoint;
   Company := CompanyEndpoint.Get;
   WriteLn(Company.ToString);
 
-  //Launch := NewLaunchEndpoint;
-  //Launch.Latest;
-  //Launch.Upcoming;
-
-  //HTTPClient := NewHTTPClient;
-  //JSONData := NewJSON;
-
-  //Response := HTTPClient.GetRequest('launches/latest');
-  //JSONData.SetJSONData(Response);
-
-  //WriteLn(JSONData.GetJSONData);
-  //WriteLn();
+  RocketEndpoint := NewRocketEndpoint;
+  RocketList := RocketEndpoint.All;
+  //WriteLn(Roadster.Name);
+  //Capsules.One('5e9e2c5df359185f973b2675');
 
   // stop program loop
   Terminate;

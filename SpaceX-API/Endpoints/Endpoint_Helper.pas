@@ -87,6 +87,7 @@ begin
       for Idx := 0 to Count - 1 do begin
         JSONItem := JSONData.Items(Idx);
         Item := (Model as IBaseModelList).NewItem;
+        WriteLn(JSONItem.GetJSONData);
         DeStreamer.JSONToObject(JSONItem.GetJSONData, Item as TObject);
         (Model as IBaseModelList).Add(Item);
       end;
