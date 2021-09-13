@@ -47,7 +47,7 @@ var
   JSON: string;
 begin
   Result := NewDragonList;
-  JSON := EndpointToModel(Endpoint, Result as TObject);
+  JSON := EndpointToModel(Endpoint, Result);
   WriteLn(JSON)
 end;
 
@@ -57,7 +57,7 @@ var
 begin
   Result := NewDragon;
   Path := SysUtils.ConcatPaths([Endpoint, Id]);
-  JSON := EndpointToModel(Path, Result as TObject);
+  JSON := EndpointToModel(Path, Result);
 end;
 
 end.

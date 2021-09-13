@@ -36,7 +36,7 @@ function NewSecondStage: ISecondStage;
 implementation
 
 uses
-  JSON_Helper;
+  JSON_Helper, Variants;
 
 type
 
@@ -57,6 +57,7 @@ type
     function GetReusable: Boolean;
   private
     procedure SetBurnTimeSeconds(AValue: LongWord);
+    procedure SetBurnTimeSeconds(AValue: Variant);
     procedure SetEngines(AValue: LongWord);
     procedure SetFuelAmountTons(AValue: LongWord);
     procedure SetPayloads(AValue: IRocketPotentialPayload);
@@ -64,7 +65,7 @@ type
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
-    property burn_time_sec: LongWord read GetBurnTimeSeconds write SetBurnTimeSeconds;
+    property burn_time_sec: Variant write SetBurnTimeSeconds;
     property engines: LongWord read GetEngines write SetEngines;
     property fuel_amount_tons: LongWord read GetFuelAmountTons write SetFuelAmountTons;
     //property payloads: IRocketPotentialPayload read GetPayloads write SetPayloads;
@@ -108,6 +109,13 @@ begin
   FBurnTimeSeconds := AValue;
 end;
 
+procedure TSecondStage.SetBurnTimeSeconds(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := -1;
+  FBurnTimeSeconds := AValue;
+end;
+
 procedure TSecondStage.SetEngines(AValue: LongWord);
 begin
   FEngines := AValue;
@@ -137,7 +145,7 @@ begin
 
   SubJSONData := JSONData.GetPath('payloads');
   Payloads := NewRocketPotentialPayload;
-  JSONToModel(SubJSONData.GetJSONData, Payloads as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Payloads);
   Self.FPayloads := Payloads;
 end;
 

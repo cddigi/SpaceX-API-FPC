@@ -43,7 +43,7 @@ var
   JSON: string;
 begin
   Result := NewRoadster;
-  JSON := EndpointToModel(Endpoint, Result as TObject);
+  JSON := EndpointToModel(Endpoint, Result);
   //WriteLn(JSON);
 end;
 

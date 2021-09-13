@@ -171,7 +171,11 @@ type
     procedure SetTypeInfo(AValue: string);
     procedure SetWikipedia(AValue: string);
   public
+    function ToString(): string; override;
+  public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+  public
+    destructor Destroy; override;
   published
     property active: Boolean read GetActive write SetActive;
     property boosters: LongWord read GetBoosters write SetBoosters;
@@ -180,14 +184,12 @@ type
     property country: string read GetCountry write SetCountry;
     property description: string read GetDescription write SetDescription;
     property first_flight: string write SetFirstFlight;
-    //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+    property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
     property id: string read GetId write SetId;
     property name: string read GetName write SetName;
     property stages: LongWord read GetStages write SetStages;
     property success_rate: LongWord read GetSuccessRate write SetSuccessRate;
     property wikipedia: string read GetWikipedia write SetWikipedia;
-  public
-    function ToString(): string; override;
   end;
 
   { TRocketList }
@@ -199,6 +201,7 @@ type
 function NewRocket: IRocket;
 begin
   Result := TRocket.Create;
+  Result.FlickrImages := TStringList.Create;
 end;
 
 function NewRocketList: IRocketList;
@@ -459,48 +462,55 @@ var
   SubJSONData: IJSONData;
 begin
   inherited BuildSubObjects(JSONData);
+
   SubJSONData := JSONData.GetPath('diameter');
   Diameter := NewSizeInfo;
-  JSONToModel(SubJSONData.GetJSONData, Diameter as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Diameter);
   Self.FDiameter := Diameter;
 
   SubJSONData := JSONData.GetPath('height');
   Height := NewSizeInfo;
-  JSONToModel(SubJSONData.GetJSONData, Height as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Height);
   Self.FHeight := Height;
 
   SubJSONData := JSONData.GetPath('engines');
   Engines := NewRocketEngines;
-  JSONToModel(SubJSONData.GetJSONData, Engines as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Engines);
   Self.FEngines := Engines;
 
   SubJSONData := JSONData.GetPath('first_stage');
   FirstStage := NewRocketFirstStage;
-  JSONToModel(SubJSONData.GetJSONData, FirstStage as TObject);
+  JSONToModel(SubJSONData.GetJSONData, FirstStage);
   Self.FFirstStage := FirstStage;
 
   SubJSONData := JSONData.GetPath('landing_legs');
   LandingsLegs := NewRocketLandingLegs;
-  JSONToModel(SubJSONData.GetJSONData, LandingsLegs as TObject);
+  JSONToModel(SubJSONData.GetJSONData, LandingsLegs);
   Self.FLandingLegs := LandingsLegs;
 
   SubJSONData := JSONData.GetPath('mass');
   Mass := NewMassInfo;
-  JSONToModel(SubJSONData.GetJSONData, Mass as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Mass);
   Self.FMass := Mass;
 
   SubJSONData := JSONData.GetPath('payload_weights');
   PayloadWeights := NewRocketPotentialPayloadWeightList;;
-  JSONToModel(SubJSONData.GetJSONData, PayloadWeights as TObject);
+  JSONToModel(SubJSONData.GetJSONData, PayloadWeights);
   Self.FPayloadWeights := PayloadWeights;
 
   SubJSONData := JSONData.GetPath('second_stage');
   SecondStage := NewSecondStage;
-  JSONToModel(SubJSONData.GetJSONData, SecondStage as TObject);
+  JSONToModel(SubJSONData.GetJSONData, SecondStage);
   Self.FSecondStage := SecondStage;
 
   TypeInfo := JSONData.GetPath('type').GetJSONData;
   Self.FTypeInfo := TypeInfo;
+end;
+
+destructor TRocket.Destroy;
+begin
+  FFlickrImages.Free;
+  inherited Destroy;
 end;
 
 function TRocket.ToString(): string;

@@ -44,7 +44,7 @@ end;
 function TRocketEndpoint.All: IRocketList;
 begin
   Result := NewRocketList;
-  EndpointToModel(Endpoint, Result as TObject);
+  EndpointToModel(Endpoint, Result);
 end;
 
 function TRocketEndpoint.One(const Id: string): IRocket;

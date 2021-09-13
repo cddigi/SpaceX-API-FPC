@@ -67,9 +67,9 @@ begin
   //Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
   //WriteLn(Dragon.Name);
 
-  CompanyEndpoint := NewCompanyEndpoint;
-  Company := CompanyEndpoint.Get;
-  WriteLn(Company.ToString);
+  //CompanyEndpoint := NewCompanyEndpoint;
+  //Company := CompanyEndpoint.Get;
+  //WriteLn(Company.ToString);
 
   RocketEndpoint := NewRocketEndpoint;
   RocketList := RocketEndpoint.All;

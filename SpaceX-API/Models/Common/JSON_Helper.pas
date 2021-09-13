@@ -23,7 +23,7 @@ type
     property JSONData: string read GetJSONData write SetJSONData;
   end;
 
-procedure JSONToModel(const JSON: string; const Model: TObject);
+procedure JSONToModel(const JSON: string; const Model: IInterface);
 function NewJSONData: IJSONData;
 
 implementation
@@ -51,7 +51,7 @@ type
     destructor Destroy; override;
   end;
 
-procedure JSONToModel(const JSON: string; const Model: TObject);
+procedure JSONToModel(const JSON: string; const Model: IInterface);
 var
   Count, Idx: Integer;
   DeStreamer: TJSONDeStreamer;
@@ -60,7 +60,7 @@ var
 begin
   DeStreamer := TJSONDeStreamer.Create(nil);
   try
-    if Supports(Model, IBaseModelList) then begin
+    if Model is IBaseModelList then begin
       JSONData := NewJSONData;
       JSONData.SetJSONData(JSON);
       Count := JSONData.Count;
@@ -68,16 +68,16 @@ begin
       for Idx := 0 to Count - 1 do begin
         JSONItem := JSONData.Items[Idx];
         Item := (Model as IBaseModelList).NewItem;
-        WriteLn(JSONItem.GetJSONData);
         DeStreamer.JSONToObject(JSONItem.GetJSONData, Item as TObject);
         Item.BuildSubObjects(JSONItem);
         (Model as IBaseModelList).Add(Item);
       end;
-    end else
-      DeStreamer.JSONToObject(JSON, Model);
+    end else begin
       JSONData := NewJSONData;
       JSONData.SetJSONData(JSON);
+      DeStreamer.JSONToObject(JSON, Model as TObject);
       (Model as IBaseModel).BuildSubObjects(JSONData);
+    end;
   finally
     DeStreamer.Free;
   end;

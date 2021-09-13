@@ -26,6 +26,9 @@ function NewSizeInfo: ISizeInfo;
 
 implementation
 
+uses
+  Variants;
+
 type
   { TSizeInfo }
 
@@ -38,10 +41,12 @@ type
     function GetFeet: Double;
   private
     procedure SetMeters(AValue: Double);
+    procedure SetMeters(AValue: Variant);
     procedure SetFeet(AValue: Double);
+    procedure SetFeet(AValue: Variant);
   published
-    property meters: Double read GetMeters write SetMeters;
-    property feet: Double read GetFeet write SetFeet;
+    property meters: Variant write SetMeters;
+    property feet: Variant write SetFeet;
   public
     function ToString(): string; override;
   end;
@@ -68,8 +73,22 @@ begin
   FMeters := AValue;
 end;
 
+procedure TSizeInfo.SetMeters(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := -1;
+  FMeters := AValue;
+end;
+
 procedure TSizeInfo.SetFeet(AValue: Double);
 begin
+  FFeet := AValue;
+end;
+
+procedure TSizeInfo.SetFeet(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := -1;
   FFeet := AValue;
 end;
 

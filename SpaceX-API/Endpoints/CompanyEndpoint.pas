@@ -41,7 +41,7 @@ end;
 function TCompanyEndpoint.Get: ICompany;
 begin
   Result := NewCompany;
-  EndpointToModel(Endpoint, Result as TObject);
+  EndpointToModel(Endpoint, Result);
 end;
 
 end.

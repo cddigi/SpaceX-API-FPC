@@ -26,6 +26,9 @@ function NewRocketLandingLegs: IRocketLandingLegs;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TRocketLandingLegs }
@@ -70,7 +73,7 @@ end;
 
 procedure TRocketLandingLegs.SetMaterial(AValue: Variant);
 begin
-  if AValue = Null then
+  if VarIsNull(AValue) then
     FMaterial := '';
 end;
 

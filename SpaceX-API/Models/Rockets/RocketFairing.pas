@@ -82,12 +82,12 @@ begin
 
   SubJSONData := JSONData.GetPath('diameter');
   Diameter := NewSizeInfo;
-  JSONToModel(SubJSONData.GetJSONData, Diameter as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Diameter);
   Self.FDiameter := Diameter;
 
   SubJSONData := JSONData.GetPath('height');
   Height := NewSizeInfo;
-  JSONToModel(SubJSONData.GetJSONData, Height as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Height);
   Self.FHeight := Height;
 end;
 

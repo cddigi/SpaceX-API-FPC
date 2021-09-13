@@ -7,7 +7,7 @@ interface
 uses
  Classes, SysUtils;
 
-function EndpointToModel(const Endpoint: string; const Model: TObject): string;
+function EndpointToModel(const Endpoint: string; const Model: IInterface): string;
 
 implementation
 
@@ -36,7 +36,7 @@ function NewHTTPClient: IHTTPClient; forward;
 const
   K_HOST = 'https://api.spacexdata.com/v4/';
 
-function EndpointToModel(const Endpoint: string; const Model: TObject): string;
+function EndpointToModel(const Endpoint: string; const Model: IInterface): string;
 var
   HTTPClient: IHTTPClient;
   JSONData: IJSONData;

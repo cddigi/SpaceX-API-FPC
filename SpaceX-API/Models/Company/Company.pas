@@ -342,12 +342,12 @@ begin
 
   SubJSONData := JSONData.GetPath('headquarters');
   Headquarters := NewCompanyHeadquarters;
-  JSONToModel(SubJSONData.GetJSONData, Headquarters as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Headquarters);
   Self.FHeadquarters := Headquarters;
 
   SubJSONData := JSONData.GetPath('links');
   Links := NewCompanyLinks;
-  JSONToModel(SubJSONData.GetJSONData, Links as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Links);
   Self.FLinks := Links;
 end;
 

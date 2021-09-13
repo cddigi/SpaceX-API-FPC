@@ -46,7 +46,7 @@ type
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
-    //property Fairing: IRocketFairing read GetFairing write SetFairing;
+    //property fairing: IRocketFairing read GetFairing write SetFairing;
     property option_1: string read GetOption write SetOption;
   end;
 
@@ -84,9 +84,9 @@ var
 begin
   inherited BuildSubObjects(JSONData);
 
-  SubJSONData := JSONData.GetPath('fairing');
+  SubJSONData := JSONData.GetPath('composite_fairing');
   Fairing := NewRocketFairing;
-  JSONToModel(SubJSONData.GetJSONData, Fairing as TObject);
+  JSONToModel(SubJSONData.GetJSONData, Fairing);
   Self.FFairing := Fairing;
 end;
 
