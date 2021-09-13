@@ -5,11 +5,11 @@ unit CompanyLinks;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseCompanyLinks = interface(IInterface) ['{1947D844-0B77-4B86-AA73-95960C0AA320}']
+  IBaseCompanyLinks = interface(IBaseModel) ['{1947D844-0B77-4B86-AA73-95960C0AA320}']
     function GetWebsite: string;
     function GetFlickr: string;
     function GetTwitter: string;
@@ -36,7 +36,7 @@ type
 
   { TCompanyLinks }
 
-  TCompanyLinks = class(TInterfacedObject, ICompanyLinks)
+  TCompanyLinks = class(TBaseModel, ICompanyLinks)
   private
     FWebsite: string;
     FFlickr: string;

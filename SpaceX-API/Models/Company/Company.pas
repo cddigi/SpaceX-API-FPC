@@ -5,11 +5,11 @@ unit Company;
 interface
 
 uses
-  Classes, SysUtils, CompanyHeadquarters, CompanyLinks;
+  Classes, SysUtils, BaseModel, CompanyHeadquarters, CompanyLinks;
 
 type
 
-  IBaseCompany = interface(IInterface) ['{AB9CEA45-E3B6-4C08-A2BB-15F5C7CA232E}']
+  IBaseCompany = interface(IBaseModel) ['{AB9CEA45-E3B6-4C08-A2BB-15F5C7CA232E}']
     function GetId: string;
     function GetName: string;
     function GetFounder: string;
@@ -70,11 +70,14 @@ function NewCompany: ICompany;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TCompany }
 
-  TCompany = class(TInterfacedObject, ICompany)
+  TCompany = class(TBaseModel, ICompany)
   private
     FId: string;
     FName: string;
@@ -128,6 +131,8 @@ type
     procedure SetCtoPropulsion(AValue: string);
   public
     function ToString: string; override;
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property ceo: string read GetCEO write SetCEO;
     property coo: string read GetCOO write SetCOO;
@@ -325,6 +330,25 @@ begin
     GetHeadquarters.State
     ])+ LineEnding;
   Result := Result + 'Link: ' + GetLinks.Website;
+end;
+
+procedure TCompany.BuildSubObjects(const JSONData: IJSONData);
+var                    
+  Headquarters: ICompanyHeadquarters;
+  Links: ICompanyLinks;
+  SubJSONData: IJSONData;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('headquarters');
+  Headquarters := NewCompanyHeadquarters;
+  JSONToModel(SubJSONData.GetJSONData, Headquarters as TObject);
+  Self.FHeadquarters := Headquarters;
+
+  SubJSONData := JSONData.GetPath('links');
+  Links := NewCompanyLinks;
+  JSONToModel(SubJSONData.GetJSONData, Links as TObject);
+  Self.FLinks := Links;
 end;
 
 end.
