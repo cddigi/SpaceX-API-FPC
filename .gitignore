@@ -77,3 +77,6 @@ backup/
 
 # Lazarus .res file
 *.res
+
+# Lazarus project files
+*.lps
