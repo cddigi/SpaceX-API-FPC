@@ -5,11 +5,11 @@ unit RocketPotentialPayloadWeight;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseRocketPotentialPayloadWeight = interface(IInterface) ['{5A89D92B-A810-40AF-9FC6-DB5FC1E20854}']
+  IBaseRocketPotentialPayloadWeight = interface(IBaseModel) ['{5A89D92B-A810-40AF-9FC6-DB5FC1E20854}']
     function GetId: string;
     function GetKilograms: Double;
     function GetName: string;
@@ -28,7 +28,7 @@ type
     property Pounds: Double read GetPounds write SetPounds;
   end;
 
-  IRocketPotentialPayloadWeightList = interface(IInterfaceList) ['{9BD75D9F-F862-49DA-ABA8-22A78A860D3E}']
+  IRocketPotentialPayloadWeightList = interface(IBaseModelList) ['{9BD75D9F-F862-49DA-ABA8-22A78A860D3E}']
   end;
 
 function NewRocketPotentialPayloadWeight: IRocketPotentialPayloadWeight;
@@ -40,7 +40,7 @@ type
 
   { TRocketPotentialPayloadWeight }
 
-  TRocketPotentialPayloadWeight = class(TInterfacedObject, IRocketPotentialPayloadWeight)
+  TRocketPotentialPayloadWeight = class(TBaseModel, IRocketPotentialPayloadWeight)
   private
     FId: string;
     FKilograms: Double;
@@ -63,7 +63,10 @@ type
     property lb: Double read GetPounds write SetPounds;
   end;
 
-  TRocketPotentialPayloadWightList = class(TInterfaceList, IRocketPotentialPayloadWeightList)
+  { TRocketPotentialPayloadWeightList }
+
+  TRocketPotentialPayloadWeightList = class(TBaseModelList, IRocketPotentialPayloadWeightList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewRocketPotentialPayloadWeight: IRocketPotentialPayloadWeight;
@@ -73,7 +76,14 @@ end;
 
 function NewRocketPotentialPayloadWeightList: IRocketPotentialPayloadWeightList;
 begin
-  Result := TRocketPotentialPayloadWightList.Create;
+  Result := TRocketPotentialPayloadWeightList.Create;
+end;
+
+{ TRocketPotentialPayloadWeightList }
+
+function TRocketPotentialPayloadWeightList.NewItem: IBaseModel;
+begin
+  Result := NewRocketPotentialPayloadWeight;
 end;
 
 { TRocketPotentialPayloadWeight }

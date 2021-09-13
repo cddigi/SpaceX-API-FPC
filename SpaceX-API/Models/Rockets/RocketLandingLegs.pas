@@ -39,9 +39,10 @@ type
     function GetNumber: LongWord;
   private
     procedure SetMaterial(AValue: string);
+    procedure SetMaterial(AValue: Variant);
     procedure SetNumber(AValue: LongWord);
   published
-    property material: string read GetMaterial write SetMaterial;
+    property material: Variant write SetMaterial;
     property number: LongWord read GetNumber write SetNumber;
   end;
 
@@ -65,6 +66,12 @@ end;
 procedure TRocketLandingLegs.SetMaterial(AValue: string);
 begin
   FMaterial := AValue;
+end;
+
+procedure TRocketLandingLegs.SetMaterial(AValue: Variant);
+begin
+  if AValue = Null then
+    FMaterial := '';
 end;
 
 procedure TRocketLandingLegs.SetNumber(AValue: LongWord);
