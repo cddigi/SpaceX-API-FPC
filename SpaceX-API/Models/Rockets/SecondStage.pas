@@ -5,11 +5,11 @@ unit SecondStage;
 interface
 
 uses
-  Classes, SysUtils, RocketPotentialPayload;
+  Classes, SysUtils, RocketPotentialPayload, BaseModel;
 
 type
 
-  IBaseSecondStage = interface(IInterface) ['{8954442C-5B2C-4F67-A1CF-526A27A11B6A}']
+  IBaseSecondStage = interface(IBaseModel) ['{8954442C-5B2C-4F67-A1CF-526A27A11B6A}']
     function GetBurnTimeSeconds: LongWord;
     function GetEngines: LongWord;
     function GetFuelAmountTons: LongWord;
@@ -35,11 +35,14 @@ function NewSecondStage: ISecondStage;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TSecondStage }
 
-  TSecondStage = class(TInterfacedObject, ISecondStage)
+  TSecondStage = class(TBaseModel, ISecondStage)
   private
     FBurnTimeSeconds: LongWord;
     FEngines: LongWord;
@@ -58,6 +61,8 @@ type
     procedure SetFuelAmountTons(AValue: LongWord);
     procedure SetPayloads(AValue: IRocketPotentialPayload);
     procedure SetReusable(AValue: Boolean);
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property burn_time_sec: LongWord read GetBurnTimeSeconds write SetBurnTimeSeconds;
     property engines: LongWord read GetEngines write SetEngines;
@@ -121,6 +126,19 @@ end;
 procedure TSecondStage.SetReusable(AValue: Boolean);
 begin
   FReusable := AValue;
+end;
+
+procedure TSecondStage.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  Payloads: IRocketPotentialPayload;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('payloads');
+  Payloads := NewRocketPotentialPayload;
+  JSONToModel(SubJSONData.GetJSONData, Payloads as TObject);
+  Self.FPayloads := Payloads;
 end;
 
 end.

@@ -5,10 +5,10 @@ unit IspInfo;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
-  IBaseIspInfo = interface(IInterface) ['{AFE9B991-6AF5-4D28-9506-FCB0B3E94601}']
+  IBaseIspInfo = interface(IBaseModel) ['{AFE9B991-6AF5-4D28-9506-FCB0B3E94601}']
     function GetVacuum: LongWord;
     function GetSeaLevel: LongWord;
 
@@ -29,7 +29,7 @@ type
 
   { TIspInfo }
 
-  TIspInfo = class(TInterfacedObject, IIspInfo)
+  TIspInfo = class(TBaseModel, IIspInfo)
   private
     FVacuum: LongWord;
     FSeaLevel: LongWord;

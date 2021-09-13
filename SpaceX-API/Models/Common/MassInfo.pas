@@ -5,11 +5,11 @@ unit MassInfo;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseMassInfo = interface(IInterface) ['{6D9E71BA-D34F-40FF-B77E-E78DBB1F3071}']
+  IBaseMassInfo = interface(IBaseModel) ['{6D9E71BA-D34F-40FF-B77E-E78DBB1F3071}']
     function GetKilograms: Double;
     function GetPounds: Double;
 
@@ -29,7 +29,7 @@ implementation
 type
   { TMassInfo }
 
-  TMassInfo = class(TInterfacedObject, IMassInfo)
+  TMassInfo = class(TBaseModel, IMassInfo)
   private
     FKilograms: Double;
     FPounds: Double;

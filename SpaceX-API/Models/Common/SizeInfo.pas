@@ -5,11 +5,11 @@ unit SizeInfo;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseSizeInfo = interface(IInterface) ['{2D23FE84-A7EC-4511-A713-AA47CEBECC90}']
+  IBaseSizeInfo = interface(IBaseModel) ['{2D23FE84-A7EC-4511-A713-AA47CEBECC90}']
     function GetMeters: Double;
     function GetFeet: Double;
 
@@ -29,7 +29,7 @@ implementation
 type
   { TSizeInfo }
 
-  TSizeInfo = class(TInterfacedObject, ISizeInfo)
+  TSizeInfo = class(TBaseModel, ISizeInfo)
   private
     FMeters: Double;
     FFeet: Double;

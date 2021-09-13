@@ -5,11 +5,11 @@ unit VolumeInfo;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseVolumeInfo = interface(IInterface) ['{A313D343-9BEE-4548-8D30-ACD9887EEC2E}']
+  IBaseVolumeInfo = interface(IBaseModel) ['{A313D343-9BEE-4548-8D30-ACD9887EEC2E}']
     function GetCubicMeters: Double;
     function GetCubicFeet: Double;
 
@@ -30,7 +30,7 @@ type
 
   { TVolumeInfo }
 
-  TVolumeInfo = class(TInterfacedObject, IVolumeInfo)
+  TVolumeInfo = class(TBaseModel, IVolumeInfo)
   private
     FCubicMeters: Double;
     FCubicFeet: Double;

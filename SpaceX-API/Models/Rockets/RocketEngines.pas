@@ -5,11 +5,11 @@ unit RocketEngines;
 interface
 
 uses
-  Classes, SysUtils, IspInfo, ThrustInfo;
+  Classes, SysUtils, IspInfo, ThrustInfo, BaseModel;
 
 type
 
-  IBaseRocketEngines = interface(IInterface) ['{BF229EB5-97AB-4ADE-867E-FB9C1C84ADAE}']
+  IBaseRocketEngines = interface(IBaseModel) ['{BF229EB5-97AB-4ADE-867E-FB9C1C84ADAE}']
     function GetEngineLossMax: LongWord;
     function GetFirstPropellant: string;
     function GetIsp: IIspInfo;
@@ -53,11 +53,14 @@ function NewRocketEngines: IRocketEngines;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TRocketEngines }
 
-  TRocketEngines = class(TInterfacedObject, IRocketEngines)
+  TRocketEngines = class(TBaseModel, IRocketEngines)
   private
     FEngineLossMax: LongWord;
     FFirstPropellant: string;
@@ -93,14 +96,18 @@ type
     procedure SetThrustVacuum(AValue: IThrustInfo);
     procedure SetTypeInfo(AValue: string);
     procedure SetVersion(AValue: string);
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property engine_loss_max: LongWord read GetEngineLossMax write SetEngineLossMax;
     property propellant_1: string read GetFirstPropellant write SetFirstPropellant;
-    property isp: IIspInfo read GetIsp write SetIsp;
+    //property isp: IIspInfo read GetIsp write SetIsp;
     property layout: string read GetLayout write SetLayout;
     property number: LongWord read GetNumber write SetNumber;
     property propellant_2: string read GetSecondPropellant write SetSecondPropellant;
+    //property ThrustSeaLevel: IThrustInfo read GetThrustSeaLevel write SetThrustSeaLevel;
     property thrust_to_weight: Double read GetThrustToWeight write SetThrustToWeight;
+    //property ThrustVacuum: IThrustInfo read GetThrustVacuum write SetThrustVacuum;
     //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
     property version: string read GetVersion write SetVersion;
   end;
@@ -220,6 +227,34 @@ end;
 procedure TRocketEngines.SetVersion(AValue: string);
 begin
   FVersion := AValue;
+end;
+
+procedure TRocketEngines.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  Isp: IIspInfo;
+  TypeInfo: string;
+  ThrustSeaLevel, ThrustVacuum: IThrustInfo;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('isp');
+  Isp := NewIspInfo;
+  JSONToModel(SubJSONData.GetJSONData, Isp as TObject);
+  Self.FIsp := Isp;
+
+  SubJSONData := JSONData.GetPath('thrust_sea_level');
+  ThrustSeaLevel := NewThrustInfo;
+  JSONToModel(SubJSONData.GetJSONData, ThrustSeaLevel as TObject);
+  Self.FThrustSeaLevel := ThrustSeaLevel;
+
+  SubJSONData := JSONData.GetPath('thrust_vacuum');
+  ThrustVacuum := NewThrustInfo;
+  JSONToModel(SubJSONData.GetJSONData, ThrustVacuum as TObject);
+  Self.FThrustVacuum := ThrustVacuum;
+
+  TypeInfo := JSONData.GetPath('type').GetJSONData;
+  Self.FTypeInfo := TypeInfo;
 end;
 
 end.

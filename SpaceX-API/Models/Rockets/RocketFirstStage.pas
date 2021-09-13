@@ -5,11 +5,11 @@ unit RocketFirstStage;
 interface
 
 uses
-  Classes, SysUtils, ThrustInfo;
+  Classes, SysUtils, ThrustInfo, BaseModel;
 
 type
 
-  IBaseRocketFirstStage = interface(IInterface) ['{3FC10254-BC67-4C3C-95A4-05AEAD6F79AB}']
+  IBaseRocketFirstStage = interface(IBaseModel) ['{3FC10254-BC67-4C3C-95A4-05AEAD6F79AB}']
     function GetBurnTimeSeconds: LongWord;
     function GetEngines: LongWord;
     function GetFuelAmountTons: LongWord;
@@ -38,11 +38,14 @@ function NewRocketFirstStage: IRocketFirstStage;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TRocketFirstStage }
 
-  TRocketFirstStage = class(TInterfacedObject, IRocketFirstStage)
+  TRocketFirstStage = class(TBaseModel, IRocketFirstStage)
   private
     FBurnTimeSeconds: LongWord;
     FEngines: LongWord;
@@ -64,6 +67,8 @@ type
     procedure SetReusable(AValue: Boolean);
     procedure SetThrustSeaLevel(AValue: IThrustInfo);
     procedure SetThrustVacuum(AValue: IThrustInfo);
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property burn_time_sec: LongWord read GetBurnTimeSeconds write SetBurnTimeSeconds;
     property engines: LongWord read GetEngines write SetEngines;
@@ -138,6 +143,23 @@ end;
 procedure TRocketFirstStage.SetThrustVacuum(AValue: IThrustInfo);
 begin
   FThrustVacuum := AValue;
+end;
+
+procedure TRocketFirstStage.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  ThrustSealLevel, ThrustVacuum: IThrustInfo;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('thrust_sea_level');
+  ThrustSealLevel := NewThrustInfo;
+  JSONToModel(SubJSONData.GetJSONData, ThrustSealLevel as TObject);
+  Self.FThrustSeaLevel := ThrustSealLevel;
+
+  SubJSONData := JSONData.GetPath('thrust_vacuum');
+  ThrustVacuum := NewThrustInfo;
+  JSONToModel(SubJSONData.GetJSONData, ThrustVacuum as TObject);
 end;
 
 end.

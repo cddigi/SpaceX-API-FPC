@@ -92,6 +92,9 @@ function NewRocketList: IRocketList;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TRocket }
@@ -167,6 +170,8 @@ type
     procedure SetSuccessRate(AValue: LongWord);
     procedure SetTypeInfo(AValue: string);
     procedure SetWikipedia(AValue: string);
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property active: Boolean read GetActive write SetActive;
     property boosters: LongWord read GetBoosters write SetBoosters;
@@ -174,21 +179,12 @@ type
     property cost_per_launch: LongWord read GetCostPerLaunch write SetCostPerLaunch;
     property country: string read GetCountry write SetCountry;
     property description: string read GetDescription write SetDescription;
-    //property Diameter: ISizeInfo read GetDiameter write SetDiameter;
-    //property Engines: IRocketEngines read GetEngines write SetEngines;
     property first_flight: string write SetFirstFlight;
-    //property FirstStage: IRocketFirstStage read GetFirstStage write SetFirstStage;
     //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
-    //property Height: ISizeInfo read GetHeight write SetHeight;
     property id: string read GetId write SetId;
-    //property LandingLegs: IRocketLandingLegs read GetLandingLegs write SetLandingLegs;
-    //property Mass: IMassInfo read GetMass write SetMass;
     property name: string read GetName write SetName;
-    //property PayloadWeights: IRocketPotentialPayloadWeightList read GetPayloadWeights write SetPayloadWeights;
-    //property SecondStage: ISecondStage read GetSecondStage write SetSecondStage;
     property stages: LongWord read GetStages write SetStages;
     property success_rate: LongWord read GetSuccessRate write SetSuccessRate;
-    //property type_info: string read GetTypeInfo write SetTypeInfo;
     property wikipedia: string read GetWikipedia write SetWikipedia;
   public
     function ToString(): string; override;
@@ -448,6 +444,63 @@ end;
 procedure TRocket.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+procedure TRocket.BuildSubObjects(const JSONData: IJSONData);
+var
+  Diameter, Height: ISizeInfo;
+  Engines: IRocketEngines;
+  FirstStage: IRocketFirstStage;
+  LandingsLegs: IRocketLandingLegs;
+  Mass: IMassInfo;
+  PayloadWeights: IRocketPotentialPayloadWeightList;
+  SecondStage: ISecondStage;
+  TypeInfo: string;
+  SubJSONData: IJSONData;
+begin
+  inherited BuildSubObjects(JSONData);
+  SubJSONData := JSONData.GetPath('diameter');
+  Diameter := NewSizeInfo;
+  JSONToModel(SubJSONData.GetJSONData, Diameter as TObject);
+  Self.FDiameter := Diameter;
+
+  SubJSONData := JSONData.GetPath('height');
+  Height := NewSizeInfo;
+  JSONToModel(SubJSONData.GetJSONData, Height as TObject);
+  Self.FHeight := Height;
+
+  SubJSONData := JSONData.GetPath('engines');
+  Engines := NewRocketEngines;
+  JSONToModel(SubJSONData.GetJSONData, Engines as TObject);
+  Self.FEngines := Engines;
+
+  SubJSONData := JSONData.GetPath('first_stage');
+  FirstStage := NewRocketFirstStage;
+  JSONToModel(SubJSONData.GetJSONData, FirstStage as TObject);
+  Self.FFirstStage := FirstStage;
+
+  SubJSONData := JSONData.GetPath('landing_legs');
+  LandingsLegs := NewRocketLandingLegs;
+  JSONToModel(SubJSONData.GetJSONData, LandingsLegs as TObject);
+  Self.FLandingLegs := LandingsLegs;
+
+  SubJSONData := JSONData.GetPath('mass');
+  Mass := NewMassInfo;
+  JSONToModel(SubJSONData.GetJSONData, Mass as TObject);
+  Self.FMass := Mass;
+
+  SubJSONData := JSONData.GetPath('payload_weights');
+  PayloadWeights := NewRocketPotentialPayloadWeightList;;
+  JSONToModel(SubJSONData.GetJSONData, PayloadWeights as TObject);
+  Self.FPayloadWeights := PayloadWeights;
+
+  SubJSONData := JSONData.GetPath('second_stage');
+  SecondStage := NewSecondStage;
+  JSONToModel(SubJSONData.GetJSONData, SecondStage as TObject);
+  Self.FSecondStage := SecondStage;
+
+  TypeInfo := JSONData.GetPath('type').GetJSONData;
+  Self.FTypeInfo := TypeInfo;
 end;
 
 function TRocket.ToString(): string;

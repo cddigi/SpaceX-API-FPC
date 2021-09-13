@@ -42,22 +42,9 @@ end;
 { TRocketEndpoint }
 
 function TRocketEndpoint.All: IRocketList;
-var
-  JSONData: TJSONData;
-  JSON: string;
-  Diameter, Height: ISizeInfo;
-  Engines: IRocketEngines;
-  FirstStage: IRocketFirstStage;
-  LandingsLegs: IRocketLandingLegs;
-  Mass: IMassInfo;
-  PayloadWeights: IRocketPotentialPayloadWeightList;
-  SecondStage: ISecondStage;
-  TypeInfo: string;
 begin
   Result := NewRocketList;
-  JSON := EndpointToModel(Endpoint, Result as TObject);
-
-  JSONData := GetJSON(JSON);
+  EndpointToModel(Endpoint, Result as TObject);
 end;
 
 function TRocketEndpoint.One(const Id: string): IRocket;
@@ -65,12 +52,6 @@ var
   JSONData: TJSONData;
 begin
   Result := NewRocket;
-
-  //HTTPClient := NewHTTPClient;
-  //JSONData := NewJSON;
-
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
-  //WriteLn(JSONData.GetJSONData);
 end;
 
 end.

@@ -62,10 +62,10 @@ begin
 
   { add your program here }
 
-  DragonEndpoint := NewDragonEndpoint;
-  DragonList := DragonEndpoint.All;
-  Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
-  WriteLn(Dragon.Name);
+  //DragonEndpoint := NewDragonEndpoint;
+  //DragonList := DragonEndpoint.All;
+  //Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
+  //WriteLn(Dragon.Name);
 
   CompanyEndpoint := NewCompanyEndpoint;
   Company := CompanyEndpoint.Get;
@@ -73,6 +73,7 @@ begin
 
   RocketEndpoint := NewRocketEndpoint;
   RocketList := RocketEndpoint.All;
+  WriteLn((RocketList.Last as IRocket).TypeInfo);
   //WriteLn(Roadster.Name);
   //Capsules.One('5e9e2c5df359185f973b2675');
 

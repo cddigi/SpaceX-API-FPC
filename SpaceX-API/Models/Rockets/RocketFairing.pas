@@ -5,11 +5,11 @@ unit RocketFairing;
 interface
 
 uses
-  Classes, SysUtils, SizeInfo;
+  Classes, SysUtils, SizeInfo, BaseModel;
 
 type
 
-  IBaseRocketFairing = interface(IInterface) ['{01AFDD2C-BF7A-4C3A-A8B4-02E70A29B369}']
+  IBaseRocketFairing = interface(IBaseModel) ['{01AFDD2C-BF7A-4C3A-A8B4-02E70A29B369}']
     function GetDiameter: ISizeInfo;
     function GetHeight: ISizeInfo;
 
@@ -26,11 +26,14 @@ function NewRocketFairing: IRocketFairing;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TRocketFairing }
 
-  TRocketFairing = class(TInterfacedObject, IRocketFairing)
+  TRocketFairing = class(TBaseModel, IRocketFairing)
   private
     FDiameter: ISizeInfo;
     FHeight: ISizeInfo;
@@ -39,6 +42,8 @@ type
 
     procedure SetDiameter(AValue: ISizeInfo);
     procedure SetHeight(AValue: ISizeInfo);
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
   end;
 
 function NewRocketFairing: IRocketFairing;
@@ -66,6 +71,24 @@ end;
 procedure TRocketFairing.SetHeight(AValue: ISizeInfo);
 begin
   FHeight := AValue;
+end;
+
+procedure TRocketFairing.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  Diameter, Height: ISizeInfo;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('diameter');
+  Diameter := NewSizeInfo;
+  JSONToModel(SubJSONData.GetJSONData, Diameter as TObject);
+  Self.FDiameter := Diameter;
+
+  SubJSONData := JSONData.GetPath('height');
+  Height := NewSizeInfo;
+  JSONToModel(SubJSONData.GetJSONData, Height as TObject);
+  Self.FHeight := Height;
 end;
 
 end.

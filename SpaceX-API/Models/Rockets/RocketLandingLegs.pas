@@ -5,11 +5,11 @@ unit RocketLandingLegs;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseRocketLandingLegs = interface(IInterface) ['{1F2C4C51-3A40-4F12-8F81-39F77FB6BD7B}']
+  IBaseRocketLandingLegs = interface(IBaseModel) ['{1F2C4C51-3A40-4F12-8F81-39F77FB6BD7B}']
     function GetMaterial: string;
     function GetNumber: LongWord;
 
@@ -30,7 +30,7 @@ type
 
   { TRocketLandingLegs }
 
-  TRocketLandingLegs = class(TInterfacedObject, IRocketLandingLegs)
+  TRocketLandingLegs = class(TBaseModel, IRocketLandingLegs)
   private
     FMaterial: string;
     FNumber: LongWord;

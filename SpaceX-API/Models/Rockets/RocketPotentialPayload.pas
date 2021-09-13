@@ -5,11 +5,11 @@ unit RocketPotentialPayload;
 interface
 
 uses
-  Classes, SysUtils, RocketFairing;
+  Classes, SysUtils, RocketFairing, BaseModel;
 
 type
 
-  IBaseRocketPotentialPayload = interface(IInterface) ['{C03BF20A-6BC5-4A86-9648-B98D0B84EDA8}']
+  IBaseRocketPotentialPayload = interface(IBaseModel) ['{C03BF20A-6BC5-4A86-9648-B98D0B84EDA8}']
     function GetFairing: IRocketFairing;
     function GetOption: string;
 
@@ -26,11 +26,14 @@ function NewRocketPotentialPayload: IRocketPotentialPayload;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TRocketPotentialPayload }
 
-  TRocketPotentialPayload = class(TInterfacedObject, IRocketPotentialPayload)
+  TRocketPotentialPayload = class(TBaseModel, IRocketPotentialPayload)
   private
     FFairing: IRocketFairing;
     FOption: string;
@@ -40,6 +43,8 @@ type
   private
     procedure SetFairing(AValue: IRocketFairing);
     procedure SetOption(AValue: string);
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     //property Fairing: IRocketFairing read GetFairing write SetFairing;
     property option_1: string read GetOption write SetOption;
@@ -70,6 +75,19 @@ end;
 procedure TRocketPotentialPayload.SetOption(AValue: string);
 begin
   FOption := AValue;
+end;
+
+procedure TRocketPotentialPayload.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  Fairing: IRocketFairing;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('fairing');
+  Fairing := NewRocketFairing;
+  JSONToModel(SubJSONData.GetJSONData, Fairing as TObject);
+  Self.FFairing := Fairing;
 end;
 
 end.

@@ -5,11 +5,11 @@ unit ThrustInfo;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseThrustInfo = interface(IInterface) ['{01321C1D-0807-4991-93C7-B089343DB671}']
+  IBaseThrustInfo = interface(IBaseModel) ['{01321C1D-0807-4991-93C7-B089343DB671}']
     function GetKilonewtons: Double;
     function GetPoundForce: Double;
 
@@ -30,7 +30,7 @@ type
 
   { TThrustInfo }
 
-  TThrustInfo = class(TInterfacedObject, IThrustInfo)
+  TThrustInfo = class(TBaseModel, IThrustInfo)
   private
     FKilonewtons: Double;
     FPoundForce: Double;

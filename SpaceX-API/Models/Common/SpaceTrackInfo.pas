@@ -5,11 +5,11 @@ unit SpaceTrackInfo;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseSpaceTrackInfo = interface(IInterface) ['{06D3FA28-0FBE-4245-8461-41D45FF36C77}']
+  IBaseSpaceTrackInfo = interface(IBaseModel) ['{06D3FA28-0FBE-4245-8461-41D45FF36C77}']
     function GetCcsdsOmmVers: string;
     function GetComment: string;
     function GetCreationDate: TDateTime;
@@ -147,7 +147,7 @@ type
 
   { TSpaceTrackInfo }
 
-  TSpaceTrackInfo = class(TInterfacedObject, ISpaceTrackInfo)
+  TSpaceTrackInfo = class(TBaseModel, ISpaceTrackInfo)
   private
     FCcsdsOmmVers: string;
     FComment: string;
