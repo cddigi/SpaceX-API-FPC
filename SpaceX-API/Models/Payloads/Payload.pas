@@ -5,14 +5,19 @@ unit Payload;
 interface
 
 uses
-  Classes, SysUtils, DragonPayload;
+  Classes, SysUtils, DragonPayload, BaseModel, JSON_Helper;
 
 type
 
-  INoradIdsList = interface(IInterfaceList) ['{116302B1-9AFA-4BA1-A539-ABF2C939134F}']
+  { INoradId }
+
+  INoradId = interface(IBaseModel) ['{863E9E43-BA7B-4995-80C5-0D19BF3BB05A}']
   end;
 
-  IBasePayload = interface(IInterface) ['{1CAE0B0B-CB95-4B25-A709-6007D46D0E1D}']
+  INoradIdList = interface(IBaseModelList) ['{116302B1-9AFA-4BA1-A539-ABF2C939134F}']
+  end;
+
+  IBasePayload = interface(IBaseModel) ['{1CAE0B0B-CB95-4B25-A709-6007D46D0E1D}']
     function GetApoapsisKilometers: Double;
     function GetArgOfPericenter: Double;
     function GetCustomers: TStringList;
@@ -31,7 +36,7 @@ type
     function GetMeanMotion: Double;
     function GetName: string;
     function GetNationalities: TStringList;
-    function GetNoradIds: INoradIdsList;
+    function GetNoradIds: INoradIdList;
     function GetOrbit: string;
     function GetPeriapsisKilometers: Double;
     function GetPeriodMinutes: Double;
@@ -60,7 +65,7 @@ type
     procedure SetMeanMotion(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetNationalities(AValue: TStringList);
-    procedure SetNoradIds(AValue: INoradIdsList);
+    procedure SetNoradIds(AValue: INoradIdList);
     procedure SetOrbit(AValue: string);
     procedure SetPeriapsisKilometers(AValue: Double);
     procedure SetPeriodMinutes(AValue: Double);
@@ -91,7 +96,7 @@ type
     property MeanMotion: Double read GetMeanMotion write SetMeanMotion;
     property Name: string read GetName write SetName;
     property Nationalities: TStringList read GetNationalities write SetNationalities;
-    property NoradIds: INoradIdsList read GetNoradIds write SetNoradIds;
+    property NoradIds: INoradIdList read GetNoradIds write SetNoradIds;
     property Orbit: string read GetOrbit write SetOrbit;
     property PeriapsisKilometers: Double read GetPeriapsisKilometers write SetPeriapsisKilometers;
     property PeriodMinutes: Double read GetPeriodMinutes write SetPeriodMinutes;
@@ -103,20 +108,24 @@ type
     property TypeInfo: string read GetTypeInfo write SetTypeInfo;
   end;
 
-  IPayloadList = interface(IInterface) ['{442904B6-3A20-4C7E-A923-A44F31768CF5}']
+  IPayloadList = interface(IBaseModelList) ['{442904B6-3A20-4C7E-A923-A44F31768CF5}']
   end;
 
 function NewPayload: IPayload;
 function NewPayloadList: IPayloadList;
-function NewNoradIdsList: INoradIdsList;
+function NewNoradId: INoradId;
+function NewNoradIdList: INoradIdList;
 
 implementation
+
+uses
+  Variants;
 
 type
 
   { TPayload }
 
-  TPayload = class(TInterfacedObject, IPayload)
+  TPayload = class(TBaseModel, IPayload)
   private
     FApoapsisKilometers: Double;
     FArgOfPericenter: Double;
@@ -136,7 +145,7 @@ type
     FMeanMotion: Double;
     FName: string;
     FNationalities: TStringList;
-    FNoradIds: INoradIdsList;
+    FNoradIds: INoradIdList;
     FOrbit: string;
     FPeriapsisKilometers: Double;
     FPeriodMinutes: Double;
@@ -165,7 +174,7 @@ type
     function GetMeanMotion: Double;
     function GetName: string;
     function GetNationalities: TStringList;
-    function GetNoradIds: INoradIdsList;
+    function GetNoradIds: INoradIdList;
     function GetOrbit: string;
     function GetPeriapsisKilometers: Double;
     function GetPeriodMinutes: Double;
@@ -177,43 +186,102 @@ type
     function GetTypeInfo: string;
 
     procedure SetApoapsisKilometers(AValue: Double);
+    procedure SetApoapsisKilometers(AValue: Variant);
     procedure SetArgOfPericenter(AValue: Double);
+    procedure SetArgOfPericenter(AValue: Variant);
     procedure SetCustomers(AValue: TStringList);
     procedure SetDragonPayload(AValue: IDragonPayload);
     procedure SetEccentricity(AValue: Double);
+    procedure SetEccentricity(AValue: Variant);
     procedure SetEpoch(AValue: TDateTime);
+    procedure SetEpoch(AValue: Variant);
     procedure SetId(AValue: string);
     procedure SetInclinationDegrees(AValue: Double);
+    procedure SetInclinationDegrees(AValue: Variant);
     procedure SetLaunchId(AValue: string);
+    procedure SetLaunchId(AValue: Variant);
     procedure SetLifespanYears(AValue: LongWord);
+    procedure SetLifespanYears(AValue: Variant);
     procedure SetLongitude(AValue: Double);
+    procedure SetLongitude(AValue: Variant);
     procedure SetManufacturers(AValue: TStringList);
     procedure SetMassKilograms(AValue: Double);
+    procedure SetMassKilograms(AValue: Variant);
     procedure SetMassPounds(AValue: Double);
+    procedure SetMassPounds(AValue: Variant);
     procedure SetMeanAnomaly(AValue: Double);
+    procedure SetMeanAnomaly(AValue: Variant);
     procedure SetMeanMotion(AValue: Double);
+    procedure SetMeanMotion(AValue: Variant);
     procedure SetName(AValue: string);
     procedure SetNationalities(AValue: TStringList);
-    procedure SetNoradIds(AValue: INoradIdsList);
+    procedure SetNoradIds(AValue: INoradIdList);
     procedure SetOrbit(AValue: string);
+    procedure SetOrbit(AValue: Variant);
     procedure SetPeriapsisKilometers(AValue: Double);
+    procedure SetPeriapsisKilometers(AValue: Variant);
     procedure SetPeriodMinutes(AValue: Double);
+    procedure SetPeriodMinutes(AValue: Variant);
     procedure SetRaan(AValue: Double);
+    procedure SetRaan(AValue: Variant);
     procedure SetReferenceSystem(AValue: string);
+    procedure SetReferenceSystem(AValue: Variant);
     procedure SetRegime(AValue: string);
+    procedure SetRegime(AValue: Variant);
     procedure SetReused(AValue: Boolean);
+    procedure SetReused(AValue: Variant);
     procedure SetSemiMajorAxisKilometers(AValue: Double);
+    procedure SetSemiMajorAxisKilometers(AValue: Variant);
     procedure SetTypeInfo(AValue: string);
+    procedure SetTypeInfo(AValue: Variant);
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
+  published  // a lot is nullable
+    property apoapsis_km: Variant write SetApoapsisKilometers;
+    property arg_of_pericenter: Variant write SetArgOfPericenter;
+    //property Customers: TStringList read GetCustomers write SetCustomers;
+    //property DragonPayload: IDragonPayload read GetDragonPayload write SetDragonPayload;
+    property eccentricity: Variant write SetEccentricity;
+    //property Epoch: TDateTime read GetEpoch write SetEpoch;
+    property id: string read GetId write SetId;
+    property inclination_deg: Variant write SetInclinationDegrees;
+    property launch: Variant write SetLaunchId;
+    property lifespan_years: Variant write SetLifespanYears;
+    property longitude: Variant write SetLongitude;
+    //property Manufacturers: TStringList read GetManufacturers write SetManufacturers;
+    property mass_kg: Variant write SetMassKilograms;
+    property mass_lbs: Variant write SetMassPounds;
+    property mean_anomaly: Variant write SetMeanAnomaly;
+    property mean_motion: Variant write SetMeanMotion;
+    property name: string read GetName write SetName;
+    //property Nationalities: TStringList read GetNationalities write SetNationalities;
+    //property NoradIds: INoradIdList read GetNoradIds write SetNoradIds;
+    property orbit: Variant write SetOrbit;
+    property periapsis_km: Variant write SetPeriapsisKilometers;
+    property period_min: Variant write SetPeriodMinutes;
+    property raan: Variant write SetRaan;
+    property reference_system: Variant write SetReferenceSystem;
+    property regime: Variant write SetRegime;
+    property reused: Variant write SetReused;
+    property semi_major_axis_km: Variant write SetSemiMajorAxisKilometers;
+    //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
   end;
 
-  TPayloadList = class(TInterfaceList, IPayloadList)
+  { TPayloadList }
+
+  TPayloadList = class(TBaseModelList, IPayloadList)
+    function NewItem: IBaseModel; override;
+  end;
+
+  TNoradId = class(TBaseModel, INoradId)
 
   end;
 
-  TNoradIdsList = class(TInterfaceList, INoradIdsList)
+  { TNoradIdList }
 
+  TNoradIdList = class(TBaseModelList, INoradIdList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewPayload: IPayload;
@@ -226,9 +294,28 @@ begin
   Result := TPayloadList.Create;
 end;
 
-function NewNoradIdsList: INoradIdsList;
+function NewNoradId: INoradId;
 begin
-  Result := TNoradIdsList.Create;
+  Result := TNoradId.Create;
+end;
+
+function NewNoradIdList: INoradIdList;
+begin
+  Result := TNoradIdList.Create;
+end;
+
+{ TNoradIdList }
+
+function TNoradIdList.NewItem: IBaseModel;
+begin
+  Result := NewNoradId;
+end;
+
+{ TPayloadList }
+
+function TPayloadList.NewItem: IBaseModel;
+begin
+  Result := NewPayload;
 end;
 
 { TPayload }
@@ -323,7 +410,7 @@ begin
   Result := FNationalities;
 end;
 
-function TPayload.GetNoradIds: INoradIdsList;
+function TPayload.GetNoradIds: INoradIdList;
 begin
   Result := FNoradIds;
 end;
@@ -378,9 +465,25 @@ begin
   FApoapsisKilometers := AValue;
 end;
 
+procedure TPayload.SetApoapsisKilometers(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FApoapsisKilometers := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FApoapsisKilometers := AValue;
+end;
+
 procedure TPayload.SetArgOfPericenter(AValue: Double);
 begin
   FArgOfPericenter := AValue;
+end;
+
+procedure TPayload.SetArgOfPericenter(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FArgOfPericenter := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FArgOfPericenter := AValue;
 end;
 
 procedure TPayload.SetCustomers(AValue: TStringList);
@@ -398,9 +501,25 @@ begin
   FEccentricity := AValue;
 end;
 
+procedure TPayload.SetEccentricity(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FEccentricity := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FEccentricity := AValue;
+end;
+
 procedure TPayload.SetEpoch(AValue: TDateTime);
 begin
   FEpoch := AValue;
+end;
+
+procedure TPayload.SetEpoch(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FEpoch := MinDateTime;
+  end else if VarIsStr(AValue) then
+    FEpoch := AValue;
 end;
 
 procedure TPayload.SetId(AValue: string);
@@ -413,9 +532,25 @@ begin
   FInclinationDegrees := AValue;
 end;
 
+procedure TPayload.SetInclinationDegrees(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FInclinationDegrees := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FInclinationDegrees := AValue;
+end;
+
 procedure TPayload.SetLaunchId(AValue: string);
 begin
   FLaunchId := AValue;
+end;
+
+procedure TPayload.SetLaunchId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchId := '';
+  end else if VarIsStr(AValue) then
+    FLaunchId := AValue;
 end;
 
 procedure TPayload.SetLifespanYears(AValue: LongWord);
@@ -423,9 +558,24 @@ begin
   FLifespanYears := AValue;
 end;
 
+procedure TPayload.SetLifespanYears(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLifespanYears := -0;
+  end;
+end;
+
 procedure TPayload.SetLongitude(AValue: Double);
 begin
   FLongitude := AValue;
+end;
+
+procedure TPayload.SetLongitude(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLongitude := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FLongitude := AValue;
 end;
 
 procedure TPayload.SetManufacturers(AValue: TStringList);
@@ -438,9 +588,25 @@ begin
   FMassKilograms := AValue;
 end;
 
+procedure TPayload.SetMassKilograms(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMassKilograms := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FMassKilograms := AValue;
+end;
+
 procedure TPayload.SetMassPounds(AValue: Double);
 begin
   FMassPounds := AValue;
+end;
+
+procedure TPayload.SetMassPounds(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMassPounds := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FMassPounds := AValue;
 end;
 
 procedure TPayload.SetMeanAnomaly(AValue: Double);
@@ -448,9 +614,25 @@ begin
   FMeanAnomaly := AValue;
 end;
 
+procedure TPayload.SetMeanAnomaly(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMeanAnomaly := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FMeanAnomaly := AValue;
+end;
+
 procedure TPayload.SetMeanMotion(AValue: Double);
 begin
   FMeanMotion := AValue;
+end;
+
+procedure TPayload.SetMeanMotion(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMeanMotion := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FMeanMotion := AValue;
 end;
 
 procedure TPayload.SetName(AValue: string);
@@ -463,7 +645,7 @@ begin
   FNationalities := AValue;
 end;
 
-procedure TPayload.SetNoradIds(AValue: INoradIdsList);
+procedure TPayload.SetNoradIds(AValue: INoradIdList);
 begin
   FNoradIds := AValue;
 end;
@@ -473,9 +655,25 @@ begin
   FOrbit := AValue;
 end;
 
+procedure TPayload.SetOrbit(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FOrbit := '';
+  end else if VarIsStr(AValue) then
+    FOrbit := AValue;
+end;
+
 procedure TPayload.SetPeriapsisKilometers(AValue: Double);
 begin
   FPeriapsisKilometers := AValue;
+end;
+
+procedure TPayload.SetPeriapsisKilometers(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FPeriapsisKilometers := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FPeriapsisKilometers := AValue;
 end;
 
 procedure TPayload.SetPeriodMinutes(AValue: Double);
@@ -483,9 +681,25 @@ begin
   FPeriodMinutes := AValue;
 end;
 
+procedure TPayload.SetPeriodMinutes(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FPeriodMinutes := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FPeriodMinutes := AValue;
+end;
+
 procedure TPayload.SetRaan(AValue: Double);
 begin
   FRaan := AValue;
+end;
+
+procedure TPayload.SetRaan(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRaan := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FRaan := AValue;
 end;
 
 procedure TPayload.SetReferenceSystem(AValue: string);
@@ -493,9 +707,25 @@ begin
   FReferenceSystem := AValue;
 end;
 
+procedure TPayload.SetReferenceSystem(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FReferenceSystem := '';
+  end else if VarIsStr(AValue) then
+    FReferenceSystem := AValue;
+end;
+
 procedure TPayload.SetRegime(AValue: string);
 begin
   FRegime := AValue;
+end;
+
+procedure TPayload.SetRegime(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRegime := '';
+  end else if VarIsStr(AValue) then
+    FRegime := AValue;
 end;
 
 procedure TPayload.SetReused(AValue: Boolean);
@@ -503,14 +733,50 @@ begin
   FReused := AValue;
 end;
 
+procedure TPayload.SetReused(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FReused := False;
+  end else if VarIsBool(AValue) then
+    FReused := AValue;
+end;
+
 procedure TPayload.SetSemiMajorAxisKilometers(AValue: Double);
 begin
   FSemiMajorAxisKilometers := AValue;
 end;
 
+procedure TPayload.SetSemiMajorAxisKilometers(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSemiMajorAxisKilometers := -0.0;
+  end else if VarIsNumeric(AValue) then
+    FSemiMajorAxisKilometers := AValue;
+end;
+
 procedure TPayload.SetTypeInfo(AValue: string);
 begin
   FTypeInfo := AValue;
+end;
+
+procedure TPayload.SetTypeInfo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTypeInfo := '';
+  end else if VarIsStr(AValue) then
+    FTypeInfo := AValue;
+end;
+
+procedure TPayload.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  DragonPayload: IDragonPayload;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('dragon');
+  DragonPayload := NewDragonPayload;
+  JSONToModel(SubJSONData.GetJSONData, DragonPayload);
 end;
 
 function TPayload.ToString(): string;

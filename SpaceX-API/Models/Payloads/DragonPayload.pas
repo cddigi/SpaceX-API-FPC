@@ -5,11 +5,11 @@ unit DragonPayload;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel, JSON_Helper;
 
 type
 
-  IBaseDragonPayload = interface(IInterface) ['{2F53CCE8-FF4D-4676-AC78-0949B1536D54}']
+  IBaseDragonPayload = interface(IBaseModel) ['{2F53CCE8-FF4D-4676-AC78-0949B1536D54}']
     function GetCapsuleId: string;
     function GetFlightTimeSeconds: LongWord;
     function GetLandLanding: Boolean;
@@ -41,11 +41,14 @@ function NewDragonPayload: IDragonPayload;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TDragonPayload }
 
-  TDragonPayload = class(TInterfacedObject, IDragonPayload)
+  TDragonPayload = class(TBaseModel, IDragonPayload)
   private
     FCapsuleId: string;
     FFlightTimeSeconds: LongWord;
@@ -64,12 +67,27 @@ type
     function GetWaterLanding: Boolean;
 
     procedure SetCapsuleId(AValue: string);
+    procedure SetCapsuleId(AValue: Variant);
     procedure SetFlightTimeSeconds(AValue: LongWord);
+    procedure SetFlightTimeSeconds(AValue: Variant);
     procedure SetLandLanding(AValue: Boolean);
+    procedure SetLandLanding(AValue: Variant);
     procedure SetManifest(AValue: string);
+    procedure SetManifest(AValue: Variant);
     procedure SetMassReturnedKilograms(AValue: Double);
+    procedure SetMassReturnedKilograms(AValue: Variant);
     procedure SetMassReturnedPounds(AValue: Double);
+    procedure SetMassReturnedPounds(AValue: Variant);
     procedure SetWaterLanding(AValue: Boolean);
+    procedure SetWaterLanding(AValue: Variant);
+  published  // all nullable
+    property capsule: Variant write SetCapsuleId;
+    property flight_time_sec: Variant write SetFlightTimeSeconds;
+    property land_landing: Variant write SetLandLanding;
+    property manifest: Variant write SetManifest;
+    property mass_returned_kg: Variant write SetMassReturnedKilograms;
+    property mass_returned_lbs: Variant write SetMassReturnedPounds;
+    property water_landing: Variant write SetWaterLanding;
   end;
 
 function NewDragonPayload: IDragonPayload;
@@ -119,9 +137,25 @@ begin
   FCapsuleId := AValue;
 end;
 
+procedure TDragonPayload.SetCapsuleId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCapsuleId := '';
+  end else if VarIsStr(AValue) then
+    FCapsuleId := AValue;
+end;
+
 procedure TDragonPayload.SetFlightTimeSeconds(AValue: LongWord);
 begin
   FFlightTimeSeconds := AValue;
+end;
+
+procedure TDragonPayload.SetFlightTimeSeconds(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFlightTimeSeconds := -1;
+  end else if VarIsNumeric(AValue) then
+    FFlightTimeSeconds := AValue;
 end;
 
 procedure TDragonPayload.SetLandLanding(AValue: Boolean);
@@ -129,9 +163,25 @@ begin
   FLandLanding := AValue;
 end;
 
+procedure TDragonPayload.SetLandLanding(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLandLanding := False;
+  end else if VarIsBool(AValue) then
+    FLandLanding := AValue;
+end;
+
 procedure TDragonPayload.SetManifest(AValue: string);
 begin
   FManifest := AValue;
+end;
+
+procedure TDragonPayload.SetManifest(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FManifest := '';
+  end else if VarIsStr(AValue) then
+    FManifest := AValue;
 end;
 
 procedure TDragonPayload.SetMassReturnedKilograms(AValue: Double);
@@ -139,14 +189,38 @@ begin
   FMassReturnedKilograms := AValue;
 end;
 
+procedure TDragonPayload.SetMassReturnedKilograms(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMassReturnedKilograms := -1.0;
+  end else if VarIsNumeric(AValue) then
+    FMassReturnedKilograms := AValue;
+end;
+
 procedure TDragonPayload.SetMassReturnedPounds(AValue: Double);
 begin
   FMassReturnedPounds := AValue;
 end;
 
+procedure TDragonPayload.SetMassReturnedPounds(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMassReturnedPounds := -1.0;
+  end else if VarIsNumeric(AValue) then
+    FMassReturnedPounds := AValue;
+end;
+
 procedure TDragonPayload.SetWaterLanding(AValue: Boolean);
 begin
   FWaterLanding := AValue;
+end;
+
+procedure TDragonPayload.SetWaterLanding(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FWaterLanding := False;
+  end else if VarIsBool(AValue) then
+    FWaterLanding := AValue;
 end;
 
 end.
