@@ -5,13 +5,13 @@ unit Capsule;
 interface
 
 uses
-  Classes, SysUtils, CapsuleStatus;
+  Classes, SysUtils, CapsuleStatus, BaseModel, JSON_Helper;
 
 type
 
   { IBaseCapsule }
 
-  IBaseCapsule = interface(IInterface) ['{27719B67-099C-49B3-A46F-0205F69F9FD5}']
+  IBaseCapsule = interface(IBaseModel) ['{27719B67-099C-49B3-A46F-0205F69F9FD5}']
     function GetId: string;
     function GetLandLandings: LongWord;
     function GetLastUpdate: string;
@@ -46,17 +46,15 @@ type
 
   { ICapsuleList }
 
-  ICapsuleList = interface(IInterfaceList) ['{DE141E66-FCE2-4C8F-A9A4-F5CB20D41CB5}']
+  ICapsuleList = interface(IBaseModelList) ['{DE141E66-FCE2-4C8F-A9A4-F5CB20D41CB5}']
   end;
 
 function NewCapsule: ICapsule;
 function NewCapsuleList: ICapsuleList;
 
-
-
 type
   { TCapsule }
-  TCapsule = class(TInterfacedObject, ICapsule)
+  TCapsule = class(TBaseModel, ICapsule)
   private
     FId: string;
     FLandLandings: LongWord;
@@ -78,24 +76,35 @@ type
     procedure SetId(AValue: string);
     procedure SetLandLandings(AValue: LongWord);
     procedure SetLastUpdate(AValue: string);
+    procedure SetLastUpdate(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
     procedure SetSerial(AValue: string);
     procedure SetStatus(AValue: TCapsuleStatus);
     procedure SetReuseCount(AValue: LongWord);
     procedure SetWaterLandings(AValue: LongWord);
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
-    property Serial: string read GetSerial write SetSerial;
+    property id: string read GetId write SetId;
+    property land_landings: LongWord read GetLandLandings write SetLandLandings;
+    property last_update: Variant write SetLastUpdate;
+    //property launches_id: TStringList read GetLaunchesId write SetLaunchesId;
+    property serial: string read GetSerial write SetSerial;
+    property reuse_count: LongWord read GetReuseCount write SetReuseCount;
+    property water_landings: LongWord read GetWaterLandings write SetWaterLandings;
   end;
 
 implementation
 
+uses
+  Variants;
+
 type
   { TCapsuleList }
 
-  TCapsuleList = class(TInterfaceList, ICapsuleList)
-
+  TCapsuleList = class(TBaseModelList, ICapsuleList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewCapsule: ICapsule;
@@ -106,6 +115,11 @@ end;
 function NewCapsuleList: ICapsuleList;
 begin
   Result := TCapsuleList.Create;
+end;
+
+function TCapsuleList.NewItem: IBaseModel;
+begin
+  Result := NewCapsule;
 end;
 
 { TCapsule }
@@ -165,6 +179,14 @@ begin
   FLastUpdate := AValue;
 end;
 
+procedure TCapsule.SetLastUpdate(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLastUpdate := '';
+  end else if VarIsStr(AValue) then
+    FLastUpdate := VarToStr(AValue);
+end;
+
 procedure TCapsule.SetLaunchesId(AValue: TStringList);
 begin
   FLaunchesId := AValue;
@@ -188,6 +210,18 @@ end;
 procedure TCapsule.SetWaterLandings(AValue: LongWord);
 begin
   FWaterLandings := AValue;
+end;
+
+procedure TCapsule.BuildSubObjects(const JSONData: IJSONData);
+var
+  CapsuleStatus: TCapsuleStatus;
+  SubJSONData: IJSONData;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('status');
+  CapsuleStatus := CodeToCapsuleStatus(SubJSONData.GetJSONData.Split(['"'])[1]);
+  Self.FStatus := CapsuleStatus;
 end;
 
 function TCapsule.ToString(): string;

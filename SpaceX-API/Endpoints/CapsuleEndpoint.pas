@@ -19,7 +19,7 @@ function NewCapsuleEndpoint: ICapsuleEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper, fpjson;
 
 const
   Endpoint = 'capsules/';
@@ -41,34 +41,21 @@ end;
 { TCapsulesEndpoint }
 
 function TCapsuleEndpoint.All: ICapsuleList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewCapsuleList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData);
+  EndpointToModel(Endpoint, Result);
 end;
 
 function TCapsuleEndpoint.One(const Id: string): ICapsule;
 var
   Path, Response: string;
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewCapsule;
   Path := SysUtils.ConcatPaths([Endpoint, Id]);
 
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  Response := HTTPClient.GetRequest(Path);
-  JSONData.SetJSONData(Response);
-  WriteLn(JSONData.GetJSONData);
+  //Response := HTTPClient.GetRequest(Path);
+  //JSONData.SetJSONData(Response);
+  //WriteLn(JSONData.GetJSONData);
 
 end;
 

@@ -41,6 +41,8 @@ var
   DragonEndpoint: IDragonEndpoint;
   RocketList: IRocketList;
   RocketEndpoint: IRocketEndpoint;
+  CapsuleList: ICapsuleList;
+  CapsuleEndpoint: ICapsuleEndpoint;
   Company: ICompany;
   CompanyEndpoint: ICompanyEndpoint;
   ErrorMsg: String;
@@ -71,9 +73,12 @@ begin
   //Company := CompanyEndpoint.Get;
   //WriteLn(Company.ToString);
 
-  RocketEndpoint := NewRocketEndpoint;
-  RocketList := RocketEndpoint.All;
-  WriteLn((RocketList.Last as IRocket).TypeInfo);
+  //RocketEndpoint := NewRocketEndpoint;
+  //RocketList := RocketEndpoint.All;
+  //WriteLn((RocketList.Last as IRocket).TypeInfo);
+
+  CapsuleEndpoint := NewCapsuleEndpoint;
+  CapsuleList := CapsuleEndpoint.All;
   //WriteLn(Roadster.Name);
   //Capsules.One('5e9e2c5df359185f973b2675');
 
