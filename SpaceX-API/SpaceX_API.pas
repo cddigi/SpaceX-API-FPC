@@ -51,6 +51,8 @@ var
   CrewEndpoint: ICrewEndpoint;
   LandpadList: ILandpadList;
   LandpadEndpoint: ILandpadEndpoint;
+  LaunchpadList: ILaunchpadList;
+  LaunchpadEndpoint: ILaunchpadEndpoint;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -94,8 +96,11 @@ begin
   //CrewEndpoint := NewCrewEndpoint;
   //CrewList := CrewEndpoint.All;
 
-  LandpadEndpoint := NewLandpadEndpoint;
-  LandpadList := LandpadEndpoint.All;
+  //LandpadEndpoint := NewLandpadEndpoint;
+  //LandpadList := LandpadEndpoint.All;
+
+  LaunchpadEndpoint := NewLaunchpadEndpoint;
+  LaunchpadList := LaunchpadEndpoint.All;
 
   // stop program loop
   Terminate;
