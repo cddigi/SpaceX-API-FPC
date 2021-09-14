@@ -16,7 +16,7 @@ var
   TLaunchpadStatusCodeSync_Code_2: string = 'inactive';
   TLaunchpadStatusCodeSync_Code_3: string = 'retired';
   TLaunchpadStatusCodeSync_Code_4: string = 'lost';
-  TLaunchpadStatusCodeSync_Code_5: string = 'under_construction';
+  TLaunchpadStatusCodeSync_Code_5: string = 'under construction';
 
 function CodeToLaunchpadStatus(AValue: string): TLaunchpadStatus;
 function LaunchpadStatusToCode(AValue: TLaunchpadStatus): string;

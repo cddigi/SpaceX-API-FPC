@@ -16,7 +16,7 @@ var
   TLandpadStatusCodeSync_Code_2: string = 'inactive';
   TLandpadStatusCodeSync_Code_3: string = 'retired';
   TLandpadStatusCodeSync_Code_4: string = 'lost';
-  TLandpadStatusCodeSync_Code_5: string = 'under_construction';
+  TLandpadStatusCodeSync_Code_5: string = 'under construction';
 
 function CodeToLandpadStatus(AValue: string): TLandpadStatus;
 function LandpadStatusToCode(AValue: TLandpadStatus): string;
