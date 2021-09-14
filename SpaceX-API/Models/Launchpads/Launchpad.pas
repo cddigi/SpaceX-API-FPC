@@ -313,7 +313,7 @@ begin
   inherited BuildSubObjects(JSONData);
 
   SubJSONData := JSONData.GetPath('status');
-  LaunchpadStatus := DoCodeToLaunchpadStatus(SubJSONData.GetJSONData.Split('"')[1]);
+  LaunchpadStatus := CodeToLaunchpadStatus(SubJSONData.GetJSONData.Split('"')[1]);
   Self.FStatus := LaunchpadStatus;
 end;
 

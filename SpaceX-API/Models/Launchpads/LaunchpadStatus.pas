@@ -18,7 +18,7 @@ var
   TLaunchpadStatusCodeSync_Code_4: string = 'lost';
   TLaunchpadStatusCodeSync_Code_5: string = 'under_construction';
 
-function DoCodeToLaunchpadStatus(AValue: string): TLaunchpadStatus;
+function CodeToLaunchpadStatus(AValue: string): TLaunchpadStatus;
 function LaunchpadStatusToCode(AValue: TLaunchpadStatus): string;
 
 implementation
@@ -26,7 +26,7 @@ implementation
 uses
   Variants;
 
-function DoCodeToLaunchpadStatus(AValue: string): TLaunchpadStatus;
+function CodeToLaunchpadStatus(AValue: string): TLaunchpadStatus;
 begin
   if SameText(TLaunchpadStatusCodeSync_Code_0, AValue) then begin
     Result := launchUnknown;
