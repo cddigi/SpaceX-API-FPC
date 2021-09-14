@@ -8,7 +8,7 @@ uses
   Classes, SysUtils;
 
 type
-  TCapsuleStatus = (csUnknown, csActive, csRetired, csDestroyed);
+  TCapsuleStatus = (capsUnknown, capsActive, capsRetired, capsDestroyed);
 
 var
   TCapsuleStatusCodeSync_Code_0: string = 'unknown';
@@ -27,13 +27,13 @@ uses
 function CodeToCapsuleStatus(AValue: string): TCapsuleStatus;
 begin
   if SameText(TCapsuleStatusCodeSync_Code_0, AValue) then begin
-    Result := csUnknown;
+    Result := capsUnknown;
   end else if SameText(TCapsuleStatusCodeSync_Code_1, AValue) then begin
-    Result := csActive;
+    Result := capsActive;
   end else if SameText(TCapsuleStatusCodeSync_Code_2, AValue) then begin
-    Result := csRetired;
+    Result := capsRetired;
   end else if SameText(TCapsuleStatusCodeSync_Code_3, AValue) then begin
-    Result := csDestroyed;
+    Result := capsDestroyed;
   end else
     raise Exception.CreateFmt(
       'CodeToCapsuleStatus(AValue: string): Unable to find valid CapsuleStatus for Code, [%s]',
@@ -43,13 +43,13 @@ end;
 function CapsuleStatusToCode(AValue: TCapsuleStatus): string;
 begin
   case AValue of
-    csUnknown:
+    capsUnknown:
       Result := TCapsuleStatusCodeSync_Code_0;
-    csActive:
+    capsActive:
       Result := TCapsuleStatusCodeSync_Code_1;
-    csRetired:
+    capsRetired:
       Result := TCapsuleStatusCodeSync_Code_2;
-    csDestroyed:
+    capsDestroyed:
       Result := TCapsuleStatusCodeSync_Code_3;
   end;
 end;

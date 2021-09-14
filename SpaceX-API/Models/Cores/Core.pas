@@ -5,11 +5,11 @@ unit Core;
 interface
 
 uses
-  Classes, SysUtils, CoreStatus;
+  Classes, SysUtils, CoreStatus, BaseModel, JSON_Helper;
 
 type
 
-  IBaseCore = interface(IInterface) ['{00F93490-4378-4E56-B193-B69B5B1B9ACE}']
+  IBaseCore = interface(IBaseModel) ['{00F93490-4378-4E56-B193-B69B5B1B9ACE}']
     function GetAsdsAttempts: LongWord;
     function GetAsdsLandings: LongWord;
     function GetBlock: LongWord;
@@ -49,7 +49,7 @@ type
     property Status: TCoreStatus read GetStatus write SetStatus;
   end;
 
-  ICoreList = interface(IInterfaceList) ['{6280AF36-5EE5-4714-ACC7-65787AA56325}']
+  ICoreList = interface(IBaseModelList) ['{6280AF36-5EE5-4714-ACC7-65787AA56325}']
   end;
 
 function NewCore: ICore;
@@ -57,11 +57,14 @@ function NewCoreList: ICoreList;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TCore }
 
-  TCore = class(TInterfacedObject, ICore)
+  TCore = class(TBaseModel, ICore)
   private
     FAsdsAttempts: LongWord;
     FAsdsLandings: LongWord;
@@ -98,10 +101,25 @@ type
     procedure SetSerial(AValue: string);
     procedure SetStatus(AValue: TCoreStatus);
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
+  published
+    property asds_attempts: LongWord read GetAsdsAttempts write SetAsdsAttempts;
+    property asds_landings: LongWord read GetAsdsLandings write SetAsdsLandings;
+    property block: LongWord read GetBlock write SetBlock;
+    property id: string read GetId write SetId;
+    property last_update: string read GetLastUpdate write SetLastUpdate;
+    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property reuse_count: LongWord read GetReuseCount write SetReuseCount;
+    property rtls_attempts: LongWord read GetRtlsAttempts write SetRtlsAttempts;
+    property rtls_landings: LongWord read GetRtlsLandings write SetRtlsLandings;
+    property serial: string read GetSerial write SetSerial;
   end;
 
-  TCoreList = class(TInterfaceList, ICoreList)
+  { TCoreList }
+
+  TCoreList = class(TBaseModelList, ICoreList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewCore: ICore;
@@ -112,6 +130,13 @@ end;
 function NewCoreList: ICoreList;
 begin
   Result := TCoreList.Create;
+end;
+
+{ TCoreList }
+
+function TCoreList.NewItem: IBaseModel;
+begin
+  Result := NewCore;
 end;
 
 { TCore }
@@ -224,6 +249,18 @@ end;
 procedure TCore.SetStatus(AValue: TCoreStatus);
 begin
   FStatus := AValue;
+end;
+
+procedure TCore.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  CoreStatus: TCoreStatus;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('status');
+  CoreStatus := CodeToCoreStatus(SubJSONData.GetJSONData.Split('"')[1]);
+  Self.FStatus := CoreStatus;
 end;
 
 function TCore.ToString(): string;

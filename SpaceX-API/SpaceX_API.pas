@@ -45,6 +45,8 @@ var
   CapsuleEndpoint: ICapsuleEndpoint;
   Company: ICompany;
   CompanyEndpoint: ICompanyEndpoint;
+  CoreList: ICoreList;
+  CoreEndpoint: ICoreEndpoint;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -77,10 +79,13 @@ begin
   //RocketList := RocketEndpoint.All;
   //WriteLn((RocketList.Last as IRocket).TypeInfo);
 
-  CapsuleEndpoint := NewCapsuleEndpoint;
-  CapsuleList := CapsuleEndpoint.All;
+  //CapsuleEndpoint := NewCapsuleEndpoint;
+  //CapsuleList := CapsuleEndpoint.All;
   //WriteLn(Roadster.Name);
   //Capsules.One('5e9e2c5df359185f973b2675');
+
+  CoreEndpoint := NewCoreEndpoint;
+  CoreList := CoreEndpoint.All;
 
   // stop program loop
   Terminate;

@@ -45,6 +45,7 @@ begin
   JSONData := NewJSONData;
   JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
   Result := JSONData.GetJSONData;
+  WriteLn(Result); // leaving printouts on during development, this is just really useful in debugging
   JSONToModel(Result, Model);
 end;
 
