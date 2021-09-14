@@ -5,11 +5,11 @@ unit Landpad;
 interface
 
 uses
-  Classes, SysUtils, LandpadStatus;
+  Classes, SysUtils, LandpadStatus, BaseModel, JSON_Helper;
 
 type
 
-  IBaseLandpad = interface(IInterface) ['{02F620CC-2902-4A22-9F91-7B563274523E}']
+  IBaseLandpad = interface(IBaseModel) ['{02F620CC-2902-4A22-9F91-7B563274523E}']
     function GetDetails: string;
     function GetFullName: string;
     function GetId: string;
@@ -58,7 +58,7 @@ type
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
-  ILandpadList = interface(IInterface) ['{F407C7A0-0C87-41BA-84E3-073C93830B98}']
+  ILandpadList = interface(IBaseModelList) ['{F407C7A0-0C87-41BA-84E3-073C93830B98}']
   end;
 
 function NewLandpad: ILandpad;
@@ -66,11 +66,14 @@ function NewLandpadList: ILandpadList;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TLandpad }
 
-  TLandpad = class(TInterfacedObject, ILandpad)
+  TLandpad = class(TBaseModel, ILandpad)
   private
     FDetails: string;
     FFullName: string;
@@ -116,10 +119,29 @@ type
     procedure SetTypeInfo(AValue: string);
     procedure SetWikipedia(AValue: string);
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
+  published
+    property details: string read GetDetails write SetDetails;
+    property full_name: string read GetFullName write SetFullName;
+    property id: string read GetId write SetId;
+    property landing_attempts: LongWord read GetLandingAttempts write SetLandingAttempts;
+    property landing_successes: LongWord read GetLandingSuccesses write SetLandingSuccesses;
+    property latitude: Double read GetLatitude write SetLatitude;
+    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property locality: string read GetLocality write SetLocality;
+    property longitude: Double read GetLongitude write SetLongitude;
+    property name: string read GetName write SetName;
+    property region: string read GetRegion write SetRegion;
+    property status: TLandpadStatus read GetStatus write SetStatus;
+    //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
+    property wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
-  TLandpadList = class(TInterfacedObject, ILandpadList)
+  { TLandpadList }
+
+  TLandpadList = class(TBaseModelList, ILandpadList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewLandpad: ILandpad;
@@ -130,6 +152,13 @@ end;
 function NewLandpadList: ILandpadList;
 begin
   Result := TLandpadList.Create;
+end;
+
+{ TLandpadList }
+
+function TLandpadList.NewItem: IBaseModel;
+begin
+  Result := NewLandpad;
 end;
 
 { TLandpad }
@@ -272,6 +301,18 @@ end;
 procedure TLandpad.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+procedure TLandpad.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  LandpadStatus: TLandpadStatus;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('status');
+  LandpadStatus := CodeToLandpadStatus(SubJSONData.GetJSONData.Split('"')[1]);
+  Self.FStatus := LandpadStatus;
 end;
 
 function TLandpad.ToString(): string;
