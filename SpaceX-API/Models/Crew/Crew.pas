@@ -5,11 +5,11 @@ unit Crew;
 interface
 
 uses
-  Classes, SysUtils, CrewStatus;
+  Classes, SysUtils, CrewStatus, BaseModel, JSON_Helper;
 
 type
 
-  IBaseCrew = interface(IInterface) ['{DA70EF6F-6B72-4891-A598-5928D05F6232}']
+  IBaseCrew = interface(IBaseModel) ['{DA70EF6F-6B72-4891-A598-5928D05F6232}']
     function GetAgency: string;
     function GetId: string;
     function GetImage: string;
@@ -37,7 +37,7 @@ type
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
-  ICrewList = interface(IInterface) ['{4245CBC5-4C4D-42AB-8AFA-3CACD4677566}']
+  ICrewList = interface(IBaseModelList) ['{4245CBC5-4C4D-42AB-8AFA-3CACD4677566}']
   end;
 
 function NewCrew: ICrew;
@@ -45,11 +45,14 @@ function NewCrewList: ICrewList;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TCrew }
 
-  TCrew = class(TInterfacedObject, ICrew)
+  TCrew = class(TBaseModel, ICrew)
   private
     FAgency: string;
     FId: string;
@@ -74,10 +77,21 @@ type
     procedure SetStatus(AValue: TCrewStatus);
     procedure SetWikipedia(AValue: string);
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
+  published
+    property agency: string read GetAgency write SetAgency;
+    property id: string read GetId write SetId;
+    property image: string read GetImage write SetImage;
+    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property name: string read GetName write SetName;
+    property wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
-  TCrewList = class(TInterfaceList, ICrewList)
+  { TCrewList }
+
+  TCrewList = class(TBaseModelList, ICrewList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewCrew: ICrew;
@@ -88,6 +102,13 @@ end;
 function NewCrewList: ICrewList;
 begin
   Result := TCrewList.Create;
+end;
+
+{ TCrewList }
+
+function TCrewList.NewItem: IBaseModel;
+begin
+  Result := NewCrew;
 end;
 
 { TCrew }
@@ -160,6 +181,18 @@ end;
 procedure TCrew.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+procedure TCrew.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  CrewStatus: TCrewStatus;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('status');
+  CrewStatus := CodeToCrewStatus(SubJSONData.GetJSONData.Split('"')[1]);
+  Self.FStatus := CrewStatus;
 end;
 
 function TCrew.ToString(): string;

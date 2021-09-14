@@ -47,6 +47,8 @@ var
   CompanyEndpoint: ICompanyEndpoint;
   CoreList: ICoreList;
   CoreEndpoint: ICoreEndpoint;
+  CrewList: ICrewList;
+  CrewEndpoint: ICrewEndpoint;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -84,8 +86,11 @@ begin
   //WriteLn(Roadster.Name);
   //Capsules.One('5e9e2c5df359185f973b2675');
 
-  CoreEndpoint := NewCoreEndpoint;
-  CoreList := CoreEndpoint.All;
+  //CoreEndpoint := NewCoreEndpoint;
+  //CoreList := CoreEndpoint.All;
+
+  CrewEndpoint := NewCrewEndpoint;
+  CrewList := CrewEndpoint.All;
 
   // stop program loop
   Terminate;
