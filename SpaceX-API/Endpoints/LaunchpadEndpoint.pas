@@ -21,7 +21,7 @@ function NewLaunchpadEndpoint: ILaunchpadEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper;
 
 const
   Endpoint = 'launchpads/';
@@ -43,31 +43,15 @@ end;
 { TLaunchEndpoint }
 
 function TLaunchEndpoint.All: ILaunchpadList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLaunchpadList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData);
+  EndpointToModel(Endpoint, Result);
 end;
 
 function TLaunchEndpoint.One(const Id: string): ILaunchpad;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLaunchpad;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
-  WriteLn(JSONData.GetJSONData);
+  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
 end;
 
 end.

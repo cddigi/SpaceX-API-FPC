@@ -19,7 +19,7 @@ function NewCoreEndpoint: ICoreEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper;
 
 const
   Endpoint = 'cores/';
@@ -41,32 +41,14 @@ end;
 { TCoreEndpoint }
 
 function TCoreEndpoint.All: ICoreList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewCoreList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData);
+  EndpointToModel(Endpoint, Result);
 end;
 
 function TCoreEndpoint.One(const Id: string): ICore;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewCore;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
-  WriteLn(JSONData.GetJSONData);
-
 end;
 
 end.

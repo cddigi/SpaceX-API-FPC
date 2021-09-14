@@ -19,7 +19,7 @@ function NewLandpadEndpoint: ILandpadEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper;
 
 const
   Endpoint = 'landpads/';
@@ -41,31 +41,14 @@ end;
 { TLandpadEndpoint }
 
 function TLandpadEndpoint.All: ILandpadList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLandpadList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData)
+  EndpointToModel(Endpoint, Result);
 end;
 
 function TLandpadEndpoint.One(const Id: string): ILandpad;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLandpad;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
-  WriteLn(JSONData.GetJSONData)
 end;
 
 end.
