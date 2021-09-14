@@ -5,11 +5,11 @@ unit Launchpad;
 interface
 
 uses
-  Classes, SysUtils, LaunchpadStatus;
+  Classes, SysUtils, LaunchpadStatus, BaseModel, JSON_Helper;
 
 type
 
-  IBaseLaunchpad = interface(IInterface) ['{5F822B68-8F65-426B-87BB-DAB668569845}']
+  IBaseLaunchpad = interface(IBaseModel) ['{5F822B68-8F65-426B-87BB-DAB668569845}']
     function GetDetails: string;
     function GetFullName: string;
     function GetId: string;
@@ -58,7 +58,7 @@ type
     property TimeZone: string read GetTimeZone write SetTimeZone;
   end;
 
-  ILaunchpadList = interface(IInterface) ['{8EB54717-9CC1-4B35-B23C-805979B2ED91}']
+  ILaunchpadList = interface(IBaseModelList) ['{8EB54717-9CC1-4B35-B23C-805979B2ED91}']
   end;
 
 function NewLaunchpad: ILaunchpad;
@@ -66,11 +66,14 @@ function NewLaunchpadList: ILaunchpadList;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TLaunchpad }
 
-  TLaunchpad = class(TInterfacedObject, ILaunchpad)
+  TLaunchpad = class(TBaseModel, ILaunchpad)
   private
     FDetails: string;
     FFullName: string;
@@ -118,11 +121,29 @@ type
     procedure SetStatus(AValue: TLaunchpadStatus);
     procedure SetTimeZone(AValue: string);
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
+  published
+    property details: string read GetDetails write SetDetails;
+    property full_name: string read GetFullName write SetFullName;
+    property id: string read GetId write SetId;
+    property latitude: Double read GetLatitude write SetLatitude;
+    property launch_attempts: LongWord read GetLaunchAttempts write SetLaunchAttempts;
+    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property launch_successes: LongWord read GetLaunchSuccesses write SetLaunchSuccesses;
+    property locality: string read GetLocality write SetLocality;
+    property longitude: Double read GetLongitude write SetLongitude;
+    property name: string read GetName write SetName;
+    property region: string read GetRegion write SetRegion;
+    //property rockets_id: TStringList read GetRocketsId write SetRocketsId;
+    //property Status: TLaunchpadStatus read GetStatus write SetStatus;
+    property time_zone: string read GetTimeZone write SetTimeZone;
   end;
 
-  TLaunchpadList = class(TInterfacedObject, ILaunchpadList)
+  { TLaunchpadList }
 
+  TLaunchpadList = class(TBaseModelList, ILaunchpadList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewLaunchpad: ILaunchpad;
@@ -133,6 +154,13 @@ end;
 function NewLaunchpadList: ILaunchpadList;
 begin
   Result := TLaunchpadList.Create;
+end;
+
+{ TLaunchpadList }
+
+function TLaunchpadList.NewItem: IBaseModel;
+begin
+  Result := NewLaunchpad;
 end;
 
 { TLaunchpad }
@@ -275,6 +303,18 @@ end;
 procedure TLaunchpad.SetTimeZone(AValue: string);
 begin
   FTimeZone := AValue;
+end;
+
+procedure TLaunchpad.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  LaunchpadStatus: TLaunchpadStatus;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('status');
+  LaunchpadStatus := DoCodeToLaunchpadStatus(SubJSONData.GetJSONData.Split('"')[1]);
+  Self.FStatus := LaunchpadStatus;
 end;
 
 function TLaunchpad.ToString(): string;
