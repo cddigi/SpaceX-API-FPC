@@ -19,8 +19,7 @@ function NewRocketEndpoint: IRocketEndpoint;
 implementation
 
 uses
-  Endpoint_Helper, fpjson, SizeInfo, RocketEngines, RocketFirstStage, RocketLandingLegs, MassInfo,
-  RocketPotentialPayloadWeight, SecondStage;
+  Endpoint_Helper, fpjson;
 
 const
   Endpoint = 'rockets/';
