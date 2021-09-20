@@ -59,6 +59,8 @@ var
   LaunchEndpoint: ILaunchEndpoint;
   Roadster: IRoadster;
   RoadsterEndpoint: IRoadsterEndpoint;
+  ShipList: IShipList;
+  ShipEndpoint: IShipEndpoint;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -115,10 +117,13 @@ begin
   //LaunchEndpoint := NewLaunchEndpoint;
   //LaunchList := LaunchEndpoint.All;
 
-  RoadsterEndpoint := NewRoadsterEndpoint;
-  Roadster := RoadsterEndpoint.All;
-  WriteLn(Roadster.DateTimeUtc);
-  WriteLn(Roadster.name);
+  //RoadsterEndpoint := NewRoadsterEndpoint;
+  //Roadster := RoadsterEndpoint.All;
+  //WriteLn(Roadster.DateTimeUtc);
+  //WriteLn(Roadster.name);
+
+  ShipEndpoint := NewShipEndpoint;
+  ShipList := ShipEndpoint.All;
 
   // stop program loop
   Terminate;

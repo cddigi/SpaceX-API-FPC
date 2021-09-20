@@ -19,7 +19,7 @@ function NewShipEndpoint: IShipEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper;
 
 const
   Endpoint = 'ships/';
@@ -41,31 +41,17 @@ end;
 { TShipEndpoint }
 
 function TShipEndpoint.All: IShipList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewShipList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData);
+  EndpointToModel(Endpoint, Result);
 end;
 
 function TShipEndpoint.One(const Id: string): IShip;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewShip;
 
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
-  WriteLn(JSONData.GetJSONData);
+  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
+  //WriteLn(JSONData.GetJSONData);
 end;
 
 end.
