@@ -5,11 +5,11 @@ unit LaunchFailure;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseLaunchFailure = interface(IInterface) ['{26543CE7-0F08-49A6-B521-986265333702}']
+  IBaseLaunchFailure = interface(IBaseModel) ['{26543CE7-0F08-49A6-B521-986265333702}']
     function GetAltitude: LongWord;
     function GetReason: string;
     function GetTime: Integer;
@@ -25,7 +25,7 @@ type
     property Time: Integer read GetTime write SetTime;
   end;
 
-  ILaunchFailureList = interface(IInterfaceList) ['{A9F0FE41-CB13-4DDF-9E5D-00F5826091A7}']
+  ILaunchFailureList = interface(IBaseModelList) ['{A9F0FE41-CB13-4DDF-9E5D-00F5826091A7}']
   end;
 
 function NewLaunchFailure: ILaunchFailure;
@@ -33,11 +33,14 @@ function NewLaunchFailureList: ILaunchFailureList;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TLaunchFailure }
 
-  TLaunchFailure = class(TInterfacedObject, ILaunchFailure)
+  TLaunchFailure = class(TBaseModel, ILaunchFailure)
   private
     FAltitude: LongWord;
     FReason: string;
@@ -47,11 +50,22 @@ type
     function GetTime: Integer;
 
     procedure SetAltitude(AValue: LongWord);
+    procedure SetAltitude(AValue: Variant);
     procedure SetReason(AValue: string);
+    procedure SetReason(AValue: Variant);
     procedure SetTime(AValue: Integer);
+    procedure SetTime(AValue: Variant);
+  published
+    property altitude: Variant write SetAltitude;
+    property reason: Variant write SetReason;
+    property time: Variant write SetTime;
   end;
 
-  TLaunchFailureList = class(TInterfaceList, ILaunchFailureList);
+  { TLaunchFailureList }
+
+  TLaunchFailureList = class(TBaseModelList, ILaunchFailureList)
+    function NewItem: IBaseModel; override;
+  end;
 
 function NewLaunchFailure: ILaunchFailure;
 begin
@@ -61,6 +75,13 @@ end;
 function NewLaunchFailureList: ILaunchFailureList;
 begin
   Result := TLaunchFailureList.Create;
+end;
+
+{ TLaunchFailureList }
+
+function TLaunchFailureList.NewItem: IBaseModel;
+begin
+  Result := NewLaunchFailure;
 end;
 
 { TLaunchFailure }
@@ -85,14 +106,38 @@ begin
   FAltitude := AValue;
 end;
 
+procedure TLaunchFailure.SetAltitude(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FAltitude := -0;
+  end else if VarIsNumeric(AValue) then
+    FAltitude := AValue;
+end;
+
 procedure TLaunchFailure.SetReason(AValue: string);
 begin
   FReason := AValue;
 end;
 
+procedure TLaunchFailure.SetReason(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FReason := '';
+  end else if VarIsStr(AValue) then
+    FReason := AValue;
+end;
+
 procedure TLaunchFailure.SetTime(AValue: Integer);
 begin
   FTime := AValue;
+end;
+
+procedure TLaunchFailure.SetTime(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTime := -0;
+  end else if VarIsNumeric(AValue) then
+    FTime := AValue;
 end;
 
 end.

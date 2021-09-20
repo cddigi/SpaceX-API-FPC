@@ -5,11 +5,11 @@ unit LaunchFairings;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel, JSON_Helper;
 
 type
 
-  IBaseLaunchFairings = interface(IInterface) ['{C2C2C1EB-1AA0-4578-9348-C7E1197767E0}']
+  IBaseLaunchFairings = interface(IBaseModel) ['{C2C2C1EB-1AA0-4578-9348-C7E1197767E0}']
     function GetRecovered: Boolean;
     function GetRecoveryAttempt: Boolean;
     function GetReused: Boolean;
@@ -32,11 +32,14 @@ function NewLaunchFairings: ILaunchFairings;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TLaunchFairings }
 
-  TLaunchFairings = class(TInterfacedObject, ILaunchFairings)
+  TLaunchFairings = class(TBaseModel, ILaunchFairings)
     FRecovered: Boolean;
     FRecoveryAttempt: Boolean;
     FReused: Boolean;
@@ -48,9 +51,17 @@ type
     function GetShipsId: TStringList;
 
     procedure SetRecovered(AValue: Boolean);
+    procedure SetRecovered(AValue: Variant);
     procedure SetRecoveryAttempt(AValue: Boolean);
+    procedure SetRecoveryAttempt(AValue: Variant);
     procedure SetReused(AValue: Boolean);
+    procedure SetReused(AValue: Variant);
     procedure SetShipsId(AValue: TStringList);
+  published
+    property recovered: Variant write SetRecovered;
+    property recovery_attempt: Variant write SetRecoveryAttempt;
+    property reused: Variant write SetReused;
+    //property ships_id: TStringList read GetShipsId write SetShipsId;
   end;
 
 function NewLaunchFairings: ILaunchFairings;
@@ -85,14 +96,38 @@ begin
   FRecovered := AValue;
 end;
 
+procedure TLaunchFairings.SetRecovered(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRecovered := False;
+  end else if VarIsBool(AValue) then
+    FRecovered := AValue;
+end;
+
 procedure TLaunchFairings.SetRecoveryAttempt(AValue: Boolean);
 begin
   FRecoveryAttempt := AValue;
 end;
 
+procedure TLaunchFairings.SetRecoveryAttempt(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRecoveryAttempt := False;
+  end else if VarIsBool(AValue) then
+    FRecoveryAttempt := AValue;
+end;
+
 procedure TLaunchFairings.SetReused(AValue: Boolean);
 begin
   FReused := AValue;
+end;
+
+procedure TLaunchFairings.SetReused(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FReused := False;
+  end else if VarIsBool(AValue) then
+    FReused := AValue;
 end;
 
 procedure TLaunchFairings.SetShipsId(AValue: TStringList);

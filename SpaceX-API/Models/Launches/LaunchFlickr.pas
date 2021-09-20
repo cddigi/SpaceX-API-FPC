@@ -5,11 +5,11 @@ unit LaunchFlickr;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseLaunchFlickr = interface(IInterface) ['{9D9DA20F-6818-4955-8530-9C4745D10DD2}']
+  IBaseLaunchFlickr = interface(IBaseModel) ['{9D9DA20F-6818-4955-8530-9C4745D10DD2}']
     function GetOriginal: TStringList;
     function GetSmall: TStringList;
 
@@ -28,7 +28,7 @@ type
 
   { TLaunchFlickr }
 
-  TLaunchFlickr = class(TInterfacedObject, ILaunchFlickr)
+  TLaunchFlickr = class(TBaseModel, ILaunchFlickr)
   private
     FOriginal: TStringList;
     FSmall: TStringList;
@@ -37,6 +37,9 @@ type
 
     procedure SetOriginal(AValue: TStringList);
     procedure SetSmall(AValue: TStringList);
+  published
+    //property Original: TStringList read GetOriginal write SetOriginal;
+    //property Small: TStringList read GetSmall write SetSmall;
   end;
 
 { TLaunchFlickr }

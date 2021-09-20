@@ -23,7 +23,7 @@ function NewLaunchEndpoint: ILaunchEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper;
 
 const
   Endpoint = 'launches/';
@@ -49,87 +49,39 @@ end;
 { TLaunchEndpoint }
 
 function TLaunchEndpoint.All: ILaunchList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLaunchList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-  WriteLn(JSONData.GetJSONData);
+  EndpointToModel(Endpoint, Result);
 end;
 
 function TLaunchEndpoint.Latest: ILaunch;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLaunch;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'latest'])));
-  WriteLn(JSONData.GetJSONData);
+  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'latest'])));
 end;
 
 function TLaunchEndpoint.Next: ILaunch;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLaunch;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'next'])));
-  WriteLn(JSONData.GetJSONData);
+  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'next'])));
 end;
 
 function TLaunchEndpoint.One(const Id: string): ILaunch;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLaunch;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
-  WriteLn(JSONData.GetJSONData);
+  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
 end;
 
 function TLaunchEndpoint.Past: ILaunchList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLaunchList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'past'])));
-  WriteLn(JSONData.GetJSONData);
+  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'past'])));
 end;
 
 function TLaunchEndpoint.Upcoming: ILaunchList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewLaunchList;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'upcoming'])));
-  WriteLn(JSONData.GetJSONData);
+  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'upcoming'])));
 end;
 
 end.

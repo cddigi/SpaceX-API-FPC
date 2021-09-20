@@ -5,11 +5,11 @@ unit Launch;
 interface
 
 uses
-  Classes, SysUtils, LaunchCore, LaunchLinks, LaunchFairings, LaunchFailure, DatePrecision;
+  Classes, SysUtils, LaunchCore, LaunchLinks, LaunchFairings, LaunchFailure, DatePrecision, BaseModel, JSON_Helper;
 
 type
 
-  IBaseLaunch = interface(IInterface) ['{F5B330BA-09F7-4B0B-8164-FF319A07F28A}']
+  IBaseLaunch = interface(IBaseModel) ['{F5B330BA-09F7-4B0B-8164-FF319A07F28A}']
     function GetAutoUpdate: Boolean;
     function GetCapsulesId: TStringList;
     function GetCrewId: TStringList;
@@ -94,7 +94,7 @@ type
     property Window: UInt64 read GetWindow write SetWindow;
   end;
 
-  ILaunchList = interface(IInterfaceList) ['{5CD79962-6E62-4B0A-881B-F7C5205B9E61}']
+  ILaunchList = interface(IBaseModelList) ['{5CD79962-6E62-4B0A-881B-F7C5205B9E61}']
   end;
 
 function NewLaunch: ILaunch;
@@ -102,11 +102,14 @@ function NewLaunchList: ILaunchList;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TLaunch }
 
-  TLaunch = class(TInterfacedObject, ILaunch)
+  TLaunch = class(TBaseModel, ILaunch)
   private
     FAutoUpdate: Boolean;
     FCapsulesId: TStringList;
@@ -168,37 +171,83 @@ type
     function GetWindow: UInt64;
 
     procedure SetAutoUpdate(AValue: Boolean);
+    procedure SetAutoUpdate(AValue: Variant);
     procedure SetCapsulesId(AValue: TStringList);
     procedure SetCrewId(AValue: TStringList);
     procedure SetCores(AValue: ILaunchCoreList);
     procedure SetDateUtc(AValue: TDateTime);
+    procedure SetDateUtc(AValue: Variant);
     procedure SetDateLocal(AValue: TDateTime);
+    procedure SetDateLocal(AValue: Variant);
     procedure SetDatePrecision(AValue: TDatePrecision);
     procedure SetDateUnix(AValue: UInt64);
+    procedure SetDateUnix(AValue: Variant);
     procedure SetDetails(AValue: string);
+    procedure SetDetails(AValue: Variant);
     procedure SetFailures(AValue: ILaunchFailureList);
     procedure SetFairings(AValue: ILaunchFairings);
     procedure SetFlightNumber(AValue: LongWord);
+    procedure SetFlightNumber(AValue: Variant);
     procedure SetId(AValue: string);
+    procedure SetId(AValue: Variant);
     procedure SetLaunchpadId(AValue: string);
+    procedure SetLaunchpadId(AValue: Variant);
     procedure SetLinks(AValue: ILaunchLinks);
     procedure SetName(AValue: string);
+    procedure SetName(AValue: Variant);
     procedure SetNotEarlierThan(AValue: Boolean);
+    procedure SetNotEarlierThan(AValue: Variant);
     procedure SetPayloadsId(AValue: TStringList);
     procedure SetRocketId(AValue: string);
+    procedure SetRocketId(AValue: Variant);
     procedure SetShipsId(AValue: TStringList);
     procedure SetStaticFireDateUnix(AValue: UInt64);
+    procedure SetStaticFireDateUnix(AValue: Variant);
     procedure SetStaticFireDateUtc(AValue: TDateTime);
+    procedure SetStaticFireDateUtc(AValue: Variant);
     procedure SetSuccess(AValue: Boolean);
+    procedure SetSuccess(AValue: Variant);
     procedure SetToBeDated(AValue: Boolean);
+    procedure SetToBeDated(AValue: Variant);
     procedure SetUpcoming(AValue: Boolean);
+    procedure SetUpcoming(AValue: Variant);
     procedure SetWindow(AValue: UInt64);
+    procedure SetWindow(AValue: Variant);
   public
     function ToString(): string; override;
+  published
+    property auto_update: Variant write SetAutoUpdate;
+    //property CapsulesId: TStringList read GetCapsulesId write SetCapsulesId;
+    //property CrewId: TStringList read GetCrewId write SetCrewId;
+    //property Cores: ILaunchCoreList read GetCores write SetCores;
+    property date_utc: Variant write SetDateUtc;
+    property date_local: Variant write SetDateLocal;
+    //property Date_precision: TDatePrecision read GetDatePrecision write SetDatePrecision;
+    property date_unix: Variant write SetDateUnix;
+    property details: Variant write SetDetails;
+    //property Failures: ILaunchFailureList read GetFailures write SetFailures;
+    //property Fairings: ILaunchFairings read GetFairings write SetFairings;
+    property flight_number: Variant write SetFlightNumber;
+    property id: Variant write SetId;
+    property launchpad: Variant write SetLaunchpadId;
+    //property Links: ILaunchLinks read GetLinks write SetLinks;
+    property name: Variant write SetName;
+    property net: Variant write SetNotEarlierThan;
+    //property PayloadsId: TStringList read GetPayloadsId write SetPayloadsId;
+    property rocket: Variant write SetRocketId;
+    //property ShipsId: TStringList read GetShipsId write SetShipsId;
+    property static_fire_date_unix: Variant write SetStaticFireDateUnix;
+    property static_fire_date_utc: Variant write SetStaticFireDateUtc;
+    property success: Variant write SetSuccess;
+    property tbd: Variant write SetToBeDated;
+    property upcoming: Variant write SetUpcoming;
+    property window: Variant write SetWindow;
   end;
 
-  TLaunchList = class(TInterfaceList, ILaunchList)
+  { TLaunchList }
 
+  TLaunchList = class(TBaseModelList, ILaunchList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewLaunch: ILaunch;
@@ -209,6 +258,13 @@ end;
 function NewLaunchList: ILaunchList;
 begin
   Result := TLaunchList.Create;
+end;
+
+{ TLaunchList }
+
+function TLaunchList.NewItem: IBaseModel;
+begin
+  Result := NewLaunch;
 end;
 
 { TLaunch }
@@ -348,6 +404,14 @@ begin
   FAutoUpdate := AValue;
 end;
 
+procedure TLaunch.SetAutoUpdate(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FAutoUpdate := False;
+  end else if VarIsBool(AValue) then
+    FAutoUpdate := AValue;
+end;
+
 procedure TLaunch.SetCapsulesId(AValue: TStringList);
 begin
   FCapsulesId := AValue;
@@ -368,9 +432,25 @@ begin
   FDateUtc := AValue;
 end;
 
+procedure TLaunch.SetDateUtc(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDateUtc := MinDateTime;
+  end else if VarIsStr(AValue) then
+    FDateUtc := AValue;
+end;
+
 procedure TLaunch.SetDateLocal(AValue: TDateTime);
 begin
   FDateLocal := AValue;
+end;
+
+procedure TLaunch.SetDateLocal(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    SetDateLocal(MinDateTime);
+  end else if VarIsStr(AValue) then
+    FDateLocal := AValue;
 end;
 
 procedure TLaunch.SetDatePrecision(AValue: TDatePrecision);
@@ -383,9 +463,25 @@ begin
   FDateUnix := AValue;
 end;
 
+procedure TLaunch.SetDateUnix(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    SetDateUnix(-0);
+  end else if VarIsNumeric(AValue) then
+    FDateUnix := AValue;
+end;
+
 procedure TLaunch.SetDetails(AValue: string);
 begin
   FDetails := AValue;
+end;
+
+procedure TLaunch.SetDetails(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    SetDetails('');
+  end else if VarIsStr(AValue) then
+    FDetails := AValue;
 end;
 
 procedure TLaunch.SetFailures(AValue: ILaunchFailureList);
@@ -403,14 +499,38 @@ begin
   FFlightNumber := AValue;
 end;
 
+procedure TLaunch.SetFlightNumber(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFlightNumber := -0;
+  end else if VarIsNumeric(AValue) then
+    FFlightNumber := AValue;
+end;
+
 procedure TLaunch.SetId(AValue: string);
 begin
   FId := AValue;
 end;
 
+procedure TLaunch.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TLaunch.SetLaunchpadId(AValue: string);
 begin
   FLaunchpadId := AValue;
+end;
+
+procedure TLaunch.SetLaunchpadId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchpadId := '';
+  end else if VarIsStr(AValue) then
+    FLaunchpadId := AValue;
 end;
 
 procedure TLaunch.SetLinks(AValue: ILaunchLinks);
@@ -423,9 +543,25 @@ begin
   FName := AValue;
 end;
 
+procedure TLaunch.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
+end;
+
 procedure TLaunch.SetNotEarlierThan(AValue: Boolean);
 begin
   FNotEarlierThan := AValue;
+end;
+
+procedure TLaunch.SetNotEarlierThan(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FNotEarlierThan := False;
+  end else if VarIsBool(AValue) then
+    FNotEarlierThan := AValue;
 end;
 
 procedure TLaunch.SetPayloadsId(AValue: TStringList);
@@ -438,6 +574,14 @@ begin
   FRocketId := AValue;
 end;
 
+procedure TLaunch.SetRocketId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRocketId := '';
+  end else if VarIsStr(AValue) then
+    FRocketId := AValue;
+end;
+
 procedure TLaunch.SetShipsId(AValue: TStringList);
 begin
   FShipsId := AValue;
@@ -448,9 +592,25 @@ begin
   FStaticFireDateUnix := AValue;
 end;
 
+procedure TLaunch.SetStaticFireDateUnix(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FStaticFireDateUnix := -0;
+  end else if VarIsNumeric(AValue) then
+    FStaticFireDateUnix := AValue;
+end;
+
 procedure TLaunch.SetStaticFireDateUtc(AValue: TDateTime);
 begin
   FStaticFireDateUtc := AValue;
+end;
+
+procedure TLaunch.SetStaticFireDateUtc(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FStaticFireDateUtc := MinDateTime;
+  end else if VarIsStr(AValue) then
+    FStaticFireDateUtc := AValue;
 end;
 
 procedure TLaunch.SetSuccess(AValue: Boolean);
@@ -458,9 +618,25 @@ begin
   FSuccess := AValue;
 end;
 
+procedure TLaunch.SetSuccess(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSuccess := False;
+  end else if VarIsBool(AValue) then
+    FSuccess := AValue;
+end;
+
 procedure TLaunch.SetToBeDated(AValue: Boolean);
 begin
   FToBeDated := AValue;
+end;
+
+procedure TLaunch.SetToBeDated(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FToBeDated := False;
+  end else if VarIsBool(AValue) then
+    FToBeDated := AValue;
 end;
 
 procedure TLaunch.SetUpcoming(AValue: Boolean);
@@ -468,9 +644,25 @@ begin
   FUpcoming := AValue;
 end;
 
+procedure TLaunch.SetUpcoming(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FUpcoming := False;
+  end else if VarIsBool(AValue) then
+    FUpcoming := AValue;
+end;
+
 procedure TLaunch.SetWindow(AValue: UInt64);
 begin
   FWindow := AValue;
+end;
+
+procedure TLaunch.SetWindow(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FWindow := -0;
+  end else if VarIsNumeric(AValue) then
+    FWindow := AValue;
 end;
 
 function TLaunch.ToString(): string;

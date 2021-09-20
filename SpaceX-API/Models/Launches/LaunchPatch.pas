@@ -5,11 +5,11 @@ unit LaunchPatch;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseLaunchPatch = interface(IInterface) ['{7DC64C34-50AB-48E2-927D-E6206AA28A45}']
+  IBaseLaunchPatch = interface(IBaseModel) ['{7DC64C34-50AB-48E2-927D-E6206AA28A45}']
     function GetLarge: string;
     function GetSmall: string;
 
@@ -26,11 +26,14 @@ function NewLaunchPatch: ILaunchPatch;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TLaunchPatch }
 
-  TLaunchPatch = class(TInterfacedObject, ILaunchPatch)
+  TLaunchPatch = class(TBaseModel, ILaunchPatch)
   private
     FLarge: string;
     FSmall: string;
@@ -38,7 +41,12 @@ type
     function GetSmall: string;
 
     procedure SetLarge(AValue: string);
+    procedure SetLarge(AValue: Variant);
     procedure SetSmall(AValue: string);
+    procedure SetSmall(AValue: Variant);
+  published
+    property large: Variant write SetLarge;
+    property small: Variant write SetSmall;
   end;
 
 function NewLaunchPatch: ILaunchPatch;
@@ -63,9 +71,25 @@ begin
   FLarge := AValue;
 end;
 
+procedure TLaunchPatch.SetLarge(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLarge := '';
+  end else if VarIsStr(AValue) then
+    FLarge := AValue;
+end;
+
 procedure TLaunchPatch.SetSmall(AValue: string);
 begin
   FSmall := AValue;
+end;
+
+procedure TLaunchPatch.SetSmall(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSmall := '';
+  end else if VarIsStr(AValue) then
+    FSmall := AValue;
 end;
 
 end.

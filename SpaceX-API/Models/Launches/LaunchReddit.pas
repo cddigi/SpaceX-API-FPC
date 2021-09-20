@@ -5,11 +5,11 @@ unit LaunchReddit;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseLaunchReddit = interface(IInterface) ['{9159D6AA-11F4-4705-B2EF-144184C1BC01}']
+  IBaseLaunchReddit = interface(IBaseModel) ['{9159D6AA-11F4-4705-B2EF-144184C1BC01}']
     function GetCampaign: string;
     function GetLaunch: string;
     function GetMedia: string;
@@ -32,11 +32,14 @@ function NewLaunchReddit: ILaunchReddit;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TLaunchReddit }
 
-  TLaunchReddit = class(TInterfacedObject, ILaunchReddit)
+  TLaunchReddit = class(TBaseModel, ILaunchReddit)
   private
     FCampaign: string;
     FLaunch: string;
@@ -48,9 +51,18 @@ type
     function GetRecovery: string;
 
     procedure SetCampaign(AValue: string);
+    procedure SetCampaign(AValue: Variant);
     procedure SetLaunch(AValue: string);
+    procedure SetLaunch(AValue: Variant);
     procedure SetMedia(AValue: string);
+    procedure SetMedia(AValue: Variant);
     procedure SetRecovery(AValue: string);
+    procedure SetRecovery(AValue: Variant);
+  published
+    property campaign: Variant write SetCampaign;
+    property launch: Variant write SetLaunch;
+    property media: Variant write SetMedia;
+    property recovery: Variant write SetRecovery;
   end;
 
 function NewLaunchReddit: ILaunchReddit;
@@ -85,9 +97,25 @@ begin
   FCampaign := AValue;
 end;
 
+procedure TLaunchReddit.SetCampaign(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCampaign := '';
+  end else if VarIsStr(AValue) then
+    FCampaign := AValue;
+end;
+
 procedure TLaunchReddit.SetLaunch(AValue: string);
 begin
   FLaunch := AValue;
+end;
+
+procedure TLaunchReddit.SetLaunch(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunch := '';
+  end else if VarIsStr(AValue) then
+    FLaunch := AValue;
 end;
 
 procedure TLaunchReddit.SetMedia(AValue: string);
@@ -95,9 +123,25 @@ begin
   FMedia := AValue;
 end;
 
+procedure TLaunchReddit.SetMedia(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMedia := '';
+  end else if VarIsStr(AValue) then
+    FMedia := AValue;
+end;
+
 procedure TLaunchReddit.SetRecovery(AValue: string);
 begin
   FRecovery := AValue;
+end;
+
+procedure TLaunchReddit.SetRecovery(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRecovery := '';
+  end else if VarIsStr(AValue) then
+    FRecovery := AValue;
 end;
 
 end.

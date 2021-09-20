@@ -55,6 +55,8 @@ var
   LaunchpadEndpoint: ILaunchpadEndpoint;
   PayloadList: IPayloadList;
   PayloadEndpoint: IPayloadEndpoint;
+  LaunchList: ILaunchList;
+  LaunchEndpoint: ILaunchEndpoint;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -104,9 +106,12 @@ begin
   //LaunchpadEndpoint := NewLaunchpadEndpoint;
   //LaunchpadList := LaunchpadEndpoint.All;
 
-  PayloadEndpoint := NewPayloadEndpoint;
-  PayloadList := PayloadEndpoint.All;
-  WriteLn((PayloadList.Last as IPayload).Name);
+  //PayloadEndpoint := NewPayloadEndpoint;
+  //PayloadList := PayloadEndpoint.All;
+  //WriteLn((PayloadList.Last as IPayload).Name);
+
+  LaunchEndpoint := NewLaunchEndpoint;
+  LaunchList := LaunchEndpoint.All;
 
   // stop program loop
   Terminate;
