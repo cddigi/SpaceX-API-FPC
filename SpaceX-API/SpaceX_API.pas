@@ -61,6 +61,8 @@ var
   RoadsterEndpoint: IRoadsterEndpoint;
   ShipList: IShipList;
   ShipEndpoint: IShipEndpoint;
+  StarlinkList: IStarlinkList;
+  StarlinkEndpoint: IStarlinkEndpoint;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -122,8 +124,12 @@ begin
   //WriteLn(Roadster.DateTimeUtc);
   //WriteLn(Roadster.name);
 
-  ShipEndpoint := NewShipEndpoint;
-  ShipList := ShipEndpoint.All;
+  //ShipEndpoint := NewShipEndpoint;
+  //ShipList := ShipEndpoint.All;
+
+  //StarlinkEndpoint := NewStarlinkEndpoint;
+  //StarlinkList := StarlinkEndpoint.All;
+  //WriteLn((StarlinkList.First as IStarlink).Id);
 
   // stop program loop
   Terminate;

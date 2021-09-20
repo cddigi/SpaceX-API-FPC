@@ -5,11 +5,11 @@ unit Starlink;
 interface
 
 uses
-  Classes, SysUtils, SpaceTrackInfo;
+  Classes, SysUtils, SpaceTrackInfo, BaseModel;
 
 type
 
-  IBaseStarlink = interface(IInterface) ['{FC5F91BA-EB9F-4588-918F-744DB2BD8A54}']
+  IBaseStarlink = interface(IBaseModel) ['{FC5F91BA-EB9F-4588-918F-744DB2BD8A54}']
     function GetHeightKilometers: Double;
     function GetId: string;
     function GetLatitude: Double;
@@ -40,7 +40,7 @@ type
     property Version: string read GetVersion write SetVersion;
   end;
 
-  IStarlinkList = interface(IInterfaceList) ['{9C51D55A-D53A-4C38-A1EB-781EB557ACA7}']
+  IStarlinkList = interface(IBaseModelList) ['{9C51D55A-D53A-4C38-A1EB-781EB557ACA7}']
   end;
 
 function NewStarlink: IStarlink;
@@ -48,11 +48,14 @@ function NewStarlinkList: IStarlinkList;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TStarlink }
 
-  TStarlink = class(TInterfacedObject, IStarlink)
+  TStarlink = class(TBaseModel, IStarlink)
   private
     FHeightKilometers: Double;
     FId: string;
@@ -81,11 +84,23 @@ type
     procedure SetVelocityKilometersPerSecond(AValue: Double);
     procedure SetVersion(AValue: string);
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
+  published
+    property height_kilometers: Double read GetHeightKilometers write SetHeightKilometers;
+    property id: string read GetId write SetId;
+    property latitude: Double read GetLatitude write SetLatitude;
+    property launch_id: string read GetLaunchId write SetLaunchId;
+    property longitude: Double read GetLongitude write SetLongitude;
+    property space_track: ISpaceTrackInfo read GetSpaceTrack write SetSpaceTrack;
+    property velocity_kilometers_per_second: Double read GetVelocityKilometersPerSecond write SetVelocityKilometersPerSecond;
+    property version: string read GetVersion write SetVersion;
   end;
 
-  TStarlinkList = class(TInterfaceList, IStarlinkList)
+  { TStarlinkList }
 
+  TStarlinkList = class(TBaseModelList, IStarlinkList)
+    function NewItem: IBaseModel; override;
   end;
 
 function NewStarlink: IStarlink;
@@ -96,6 +111,13 @@ end;
 function NewStarlinkList: IStarlinkList;
 begin
   Result := TStarlinkList.Create;
+end;
+
+{ TStarlinkList }
+
+function TStarlinkList.NewItem: IBaseModel;
+begin
+  Result := NewStarlink;
 end;
 
 { TStarlink }
@@ -178,6 +200,18 @@ end;
 procedure TStarlink.SetVersion(AValue: string);
 begin
   FVersion := AValue;
+end;
+
+procedure TStarlink.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  SpaceTrack: ISpaceTrackInfo;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('spaceTrack');
+  JSONToModel(SubJSONData.GetJSONData, SpaceTrack);
+  Self.FSpaceTrack := SpaceTrack;
 end;
 
 function TStarlink.ToString(): string;
