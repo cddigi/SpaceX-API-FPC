@@ -116,8 +116,8 @@ begin
   //PayloadList := PayloadEndpoint.All;
   //WriteLn((PayloadList.Last as IPayload).Name);
 
-  //LaunchEndpoint := NewLaunchEndpoint;
-  //LaunchList := LaunchEndpoint.All;
+  LaunchEndpoint := NewLaunchEndpoint;
+  LaunchList := LaunchEndpoint.All;
 
   //RoadsterEndpoint := NewRoadsterEndpoint;
   //Roadster := RoadsterEndpoint.All;

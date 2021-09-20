@@ -219,21 +219,15 @@ type
     property auto_update: Variant write SetAutoUpdate;
     //property CapsulesId: TStringList read GetCapsulesId write SetCapsulesId;
     //property CrewId: TStringList read GetCrewId write SetCrewId;
-    //property Cores: ILaunchCoreList read GetCores write SetCores;
     property date_utc: Variant write SetDateUtc;
     property date_local: Variant write SetDateLocal;
-    //property Date_precision: TDatePrecision read GetDatePrecision write SetDatePrecision;
     property date_unix: Variant write SetDateUnix;
     property details: Variant write SetDetails;
-    //property Failures: ILaunchFailureList read GetFailures write SetFailures;
-    //property Fairings: ILaunchFairings read GetFairings write SetFairings;
     property flight_number: Variant write SetFlightNumber;
     property id: Variant write SetId;
     property launchpad: Variant write SetLaunchpadId;
-    //property Links: ILaunchLinks read GetLinks write SetLinks;
     property name: Variant write SetName;
     property net: Variant write SetNotEarlierThan;
-    //property PayloadsId: TStringList read GetPayloadsId write SetPayloadsId;
     property rocket: Variant write SetRocketId;
     //property ShipsId: TStringList read GetShipsId write SetShipsId;
     property static_fire_date_unix: Variant write SetStaticFireDateUnix;
@@ -436,8 +430,15 @@ procedure TLaunch.SetDateUtc(AValue: Variant);
 begin
   if VarIsNull(AValue) then begin
     FDateUtc := MinDateTime;
-  end else if VarIsStr(AValue) then
-    FDateUtc := AValue;
+  end else if VarIsStr(AValue) then begin
+    try
+      FormatSettings.DateSeparator := '-';
+      FormatSettings.ShortDateFormat := 'yyyy-MM-dd T HH:mm:ssZ';
+      FDateUtc := StrToDate(AValue);
+    finally
+      FormatSettings := DefaultFormatSettings;
+    end;
+  end;
 end;
 
 procedure TLaunch.SetDateLocal(AValue: TDateTime);
@@ -450,7 +451,13 @@ begin
   if VarIsNull(AValue) then begin
     SetDateLocal(MinDateTime);
   end else if VarIsStr(AValue) then
-    FDateLocal := AValue;
+    try
+      FormatSettings.DateSeparator := '-';
+      FormatSettings.ShortDateFormat := 'yyyy-MM-dd T HH:mm:ssZ';
+      FDateLocal := StrToDate(AValue);
+    finally
+      FormatSettings := DefaultFormatSettings;
+    end;
 end;
 
 procedure TLaunch.SetDatePrecision(AValue: TDatePrecision);
@@ -610,7 +617,13 @@ begin
   if VarIsNull(AValue) then begin
     FStaticFireDateUtc := MinDateTime;
   end else if VarIsStr(AValue) then
-    FStaticFireDateUtc := AValue;
+    try
+      FormatSettings.DateSeparator := '-';
+      FormatSettings.ShortDateFormat := 'yyyy-MM-dd T HH:mm:ssZ';
+      FStaticFireDateUtc := StrToDate(AValue);
+    finally
+      FormatSettings := DefaultFormatSettings;
+    end;
 end;
 
 procedure TLaunch.SetSuccess(AValue: Boolean);
