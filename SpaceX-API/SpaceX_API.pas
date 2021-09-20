@@ -127,8 +127,8 @@ begin
   //ShipEndpoint := NewShipEndpoint;
   //ShipList := ShipEndpoint.All;
 
-  //StarlinkEndpoint := NewStarlinkEndpoint;
-  //StarlinkList := StarlinkEndpoint.All;
+  StarlinkEndpoint := NewStarlinkEndpoint;
+  StarlinkList := StarlinkEndpoint.All;
   //WriteLn((StarlinkList.First as IStarlink).Id);
 
   // stop program loop

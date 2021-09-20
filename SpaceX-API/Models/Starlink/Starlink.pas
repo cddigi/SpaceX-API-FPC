@@ -49,7 +49,7 @@ function NewStarlinkList: IStarlinkList;
 implementation
 
 uses
-  JSON_Helper;
+  JSON_Helper, Variants;
 
 type
 
@@ -76,25 +76,32 @@ type
     function GetVersion: string;
 
     procedure SetHeightKilometers(AValue: Double);
+    procedure SetHeightKilometers(AValue: Variant);
     procedure SetId(AValue: string);
+    procedure SetId(AValue: Variant);
     procedure SetLatitude(AValue: Double);
+    procedure SetLatitude(AValue: Variant);
     procedure SetLaunchId(AValue: string);
+    procedure SetLaunchId(AValue: Variant);
     procedure SetLongitude(AValue: Double);
+    procedure SetLongitude(AValue: Variant);
     procedure SetSpaceTrack(AValue: ISpaceTrackInfo);
     procedure SetVelocityKilometersPerSecond(AValue: Double);
+    procedure SetVelocityKilometersPerSecond(AValue: Variant);
     procedure SetVersion(AValue: string);
+    procedure SetVersion(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
-    property height_kilometers: Double read GetHeightKilometers write SetHeightKilometers;
-    property id: string read GetId write SetId;
-    property latitude: Double read GetLatitude write SetLatitude;
-    property launch_id: string read GetLaunchId write SetLaunchId;
-    property longitude: Double read GetLongitude write SetLongitude;
-    property space_track: ISpaceTrackInfo read GetSpaceTrack write SetSpaceTrack;
-    property velocity_kilometers_per_second: Double read GetVelocityKilometersPerSecond write SetVelocityKilometersPerSecond;
-    property version: string read GetVersion write SetVersion;
+    property height_kilometers: Variant write SetHeightKilometers;
+    property id: Variant write SetId;
+    property latitude: Variant write SetLatitude;
+    property launch_id: Variant write SetLaunchId;
+    property longitude: Variant write SetLongitude;
+    property space_track: ISpaceTrackInfo write SetSpaceTrack;
+    property velocity_kilometers_per_second: Variant write SetVelocityKilometersPerSecond;
+    property version: Variant write SetVersion;
   end;
 
   { TStarlinkList }
@@ -167,9 +174,25 @@ begin
   FHeightKilometers := AValue;
 end;
 
+procedure TStarlink.SetHeightKilometers(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FHeightKilometers := -0;
+  end else if VarIsNumeric(AValue) then
+    FHeightKilometers := AValue;
+end;
+
 procedure TStarlink.SetId(AValue: string);
 begin
   FId := AValue;
+end;
+
+procedure TStarlink.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
 end;
 
 procedure TStarlink.SetLatitude(AValue: Double);
@@ -177,14 +200,38 @@ begin
   FLatitude := AValue;
 end;
 
+procedure TStarlink.SetLatitude(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLatitude := -0;
+  end else if VarIsNumeric(AValue) then
+    FLatitude := AValue;
+end;
+
 procedure TStarlink.SetLaunchId(AValue: string);
 begin
   FLaunchId := AValue;
 end;
 
+procedure TStarlink.SetLaunchId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchId := '';
+  end else if VarIsStr(AValue) then
+    FLaunchId := AValue;
+end;
+
 procedure TStarlink.SetLongitude(AValue: Double);
 begin
   FLongitude := AValue;
+end;
+
+procedure TStarlink.SetLongitude(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLongitude := -0;
+  end else if VarIsNumeric(AValue) then
+    FLongitude := AValue;
 end;
 
 procedure TStarlink.SetSpaceTrack(AValue: ISpaceTrackInfo);
@@ -197,9 +244,25 @@ begin
   FVelocityKilometersPerSecond := AValue;
 end;
 
+procedure TStarlink.SetVelocityKilometersPerSecond(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FVelocityKilometersPerSecond := -0;
+  end else if VarIsNumeric(AValue) then
+    FVelocityKilometersPerSecond := AValue;
+end;
+
 procedure TStarlink.SetVersion(AValue: string);
 begin
   FVersion := AValue;
+end;
+
+procedure TStarlink.SetVersion(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FVersion := '';
+  end else if VarIsStr(AValue) then
+    FVersion := AValue;
 end;
 
 procedure TStarlink.BuildSubObjects(const JSONData: IJSONData);
@@ -210,6 +273,7 @@ begin
   inherited BuildSubObjects(JSONData);
 
   SubJSONData := JSONData.GetPath('spaceTrack');
+  SpaceTrack := NewSpaceTrackInfo;
   JSONToModel(SubJSONData.GetJSONData, SpaceTrack);
   Self.FSpaceTrack := SpaceTrack;
 end;

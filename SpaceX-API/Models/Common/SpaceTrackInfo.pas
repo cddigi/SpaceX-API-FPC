@@ -143,6 +143,9 @@ function NewSpaceTrackInfo: ISpaceTrackInfo;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TSpaceTrackInfo }
@@ -268,6 +271,7 @@ type
     procedure SetLaunchDate(AValue: TDateTime);
     procedure SetSite(AValue: string);
     procedure SetDecayDate(AValue: TDateTime);
+    procedure SetDecayDate(AValue: Variant);
     procedure SetDecayed(AValue: LongWord);
     procedure SetFileInfo(AValue: LongWord);
     procedure SetGpId(AValue: LongWord);
@@ -309,7 +313,7 @@ type
     property COUNTRY_CODE: string read GetCountryCode write SetCountryCode;
     property LAUNCH_DATE: TDateTime read GetLaunchDate write SetLaunchDate;
     property SITE: string read GetSite write SetSite;
-    property DECAY_DATE: TDateTime read GetDecayDate write SetDecayDate;
+    property DECAY_DATE: Variant write SetDecayDate;
     property DECAYED: LongWord read GetDecayed write SetDecayed;
     property FILE_INFO: LongWord read GetFileInfo write SetFileInfo;
     property GP_ID: LongWord read GetGpId write SetGpId;
@@ -703,6 +707,14 @@ end;
 procedure TSpaceTrackInfo.SetDecayDate(AValue: TDateTime);
 begin
   FDecayDate := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetDecayDate(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDecayDate := MinDateTime;
+  end else if VarIsStr(AValue) then
+    FDecayDate := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetDecayed(AValue: LongWord);

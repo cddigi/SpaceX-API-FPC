@@ -19,7 +19,7 @@ function NewStarlinkEndpoint: IStarlinkEndpoint;
 implementation
 
 uses
-  BaseEndpoint;
+  Endpoint_Helper;
 
 const
   Endpoint = 'starlink/';
@@ -41,31 +41,15 @@ end;
 { TStarlinkEndpoint }
 
 function TStarlinkEndpoint.All: IStarlinkList;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
    Result := NewStarlinkList;
-
-   HTTPClient := NewHTTPClient;
-   JSONData := NewJSON;
-
-   JSONData.SetJSONData(HTTPClient.GetRequest(Endpoint));
-   WriteLn(JSONData.GetJSONData);
+   EndpointToModel(Endpoint, Result);
 end;
 
 function TStarlinkEndpoint.One(const Id: string): IStarlink;
-var
-  HTTPClient: IHTTPClient;
-  JSONData: IJSONData;
 begin
   Result := NewStarlink;
-
-  HTTPClient := NewHTTPClient;
-  JSONData := NewJSON;
-
-  JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
-  WriteLn(JSONData.GetJSONData);
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 end.
