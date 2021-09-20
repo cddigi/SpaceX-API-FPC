@@ -90,30 +90,39 @@ type
     function GetStatus: TCoreStatus;
 
     procedure SetAsdsAttempts(AValue: LongWord);
+    procedure SetAsdsAttempts(AValue: Variant);
     procedure SetAsdsLandings(AValue: LongWord);
+    procedure SetAsdsLandings(AValue: Variant);
     procedure SetBlock(AValue: LongWord);
+    procedure SetBlock(AValue: Variant);
     procedure SetId(AValue: string);
+    procedure SetId(AValue: Variant);
     procedure SetLastUpdate(AValue: string);
+    procedure SetLastUpdate(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
     procedure SetReuseCount(AValue: LongWord);
+    procedure SetReuseCount(AValue: Variant);
     procedure SetRtlsAttempts(AValue: LongWord);
+    procedure SetRtlsAttempts(AValue: Variant);
     procedure SetRtlsLandings(AValue: LongWord);
+    procedure SetRtlsLandings(AValue: Variant);
     procedure SetSerial(AValue: string);
+    procedure SetSerial(AValue: Variant);
     procedure SetStatus(AValue: TCoreStatus);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
-    property asds_attempts: LongWord read GetAsdsAttempts write SetAsdsAttempts;
-    property asds_landings: LongWord read GetAsdsLandings write SetAsdsLandings;
-    property block: LongWord read GetBlock write SetBlock;
-    property id: string read GetId write SetId;
-    property last_update: string read GetLastUpdate write SetLastUpdate;
+    property asds_attempts: Variant write SetAsdsAttempts;
+    property asds_landings: Variant write SetAsdsLandings;
+    property block: Variant write SetBlock;
+    property id: Variant write SetId;
+    property last_update: Variant write SetLastUpdate;
     //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
-    property reuse_count: LongWord read GetReuseCount write SetReuseCount;
-    property rtls_attempts: LongWord read GetRtlsAttempts write SetRtlsAttempts;
-    property rtls_landings: LongWord read GetRtlsLandings write SetRtlsLandings;
-    property serial: string read GetSerial write SetSerial;
+    property reuse_count: Variant write SetReuseCount;
+    property rtls_attempts: Variant write SetRtlsAttempts;
+    property rtls_landings: Variant write SetRtlsLandings;
+    property serial: Variant write SetSerial;
   end;
 
   { TCoreList }
@@ -201,9 +210,25 @@ begin
   FAsdsAttempts := AValue;
 end;
 
+procedure TCore.SetAsdsAttempts(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FAsdsAttempts := -0;
+  end else if VarIsNumeric(AValue) then
+    FAsdsAttempts := AValue;
+end;
+
 procedure TCore.SetAsdsLandings(AValue: LongWord);
 begin
   FAsdsLandings := AValue;
+end;
+
+procedure TCore.SetAsdsLandings(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FAsdsLandings := -0;
+  end else if VarIsNumeric(AValue) then
+    FAsdsLandings := AValue;
 end;
 
 procedure TCore.SetBlock(AValue: LongWord);
@@ -211,14 +236,38 @@ begin
   FBlock := AValue;
 end;
 
+procedure TCore.SetBlock(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FBlock := -0;
+  end else if VarIsNumeric(AValue) then
+    FBlock := AValue;
+end;
+
 procedure TCore.SetId(AValue: string);
 begin
   FId := AValue;
 end;
 
+procedure TCore.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TCore.SetLastUpdate(AValue: string);
 begin
   FLastUpdate := AValue;
+end;
+
+procedure TCore.SetLastUpdate(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLastUpdate := '';
+  end else if VarIsStr(AValue) then
+    FLastUpdate := AValue;
 end;
 
 procedure TCore.SetLaunchesId(AValue: TStringList);
@@ -231,9 +280,25 @@ begin
   FReuseCount := AValue;
 end;
 
+procedure TCore.SetReuseCount(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FReuseCount := -0;
+  end else if VarIsNumeric(AValue) then
+    FReuseCount := AValue;
+end;
+
 procedure TCore.SetRtlsAttempts(AValue: LongWord);
 begin
   FRtlsAttempts := AValue;
+end;
+
+procedure TCore.SetRtlsAttempts(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRtlsAttempts := -0;
+  end else if VarIsNumeric(AValue) then
+    FRtlsAttempts := AValue;
 end;
 
 procedure TCore.SetRtlsLandings(AValue: LongWord);
@@ -241,9 +306,25 @@ begin
   FRtlsLandings := AValue;
 end;
 
+procedure TCore.SetRtlsLandings(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRtlsLandings := -0;
+  end else if VarIsNumeric(AValue) then
+    FRtlsLandings := AValue;
+end;
+
 procedure TCore.SetSerial(AValue: string);
 begin
   FSerial := AValue;
+end;
+
+procedure TCore.SetSerial(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSerial := '';
+  end else if VarIsStr(AValue) then
+    FSerial := AValue;
 end;
 
 procedure TCore.SetStatus(AValue: TCoreStatus);
