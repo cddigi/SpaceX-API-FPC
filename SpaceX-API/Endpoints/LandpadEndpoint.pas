@@ -49,6 +49,7 @@ end;
 function TLandpadEndpoint.One(const Id: string): ILandpad;
 begin
   Result := NewLandpad;
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 end.

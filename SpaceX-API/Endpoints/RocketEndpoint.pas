@@ -47,10 +47,9 @@ begin
 end;
 
 function TRocketEndpoint.One(const Id: string): IRocket;
-var
-  JSONData: TJSONData;
 begin
   Result := NewRocket;
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 end.

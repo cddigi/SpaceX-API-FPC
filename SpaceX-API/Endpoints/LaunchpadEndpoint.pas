@@ -51,7 +51,7 @@ end;
 function TLaunchEndpoint.One(const Id: string): ILaunchpad;
 begin
   Result := NewLaunchpad;
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 end.

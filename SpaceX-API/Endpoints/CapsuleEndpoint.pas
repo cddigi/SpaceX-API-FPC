@@ -47,16 +47,9 @@ begin
 end;
 
 function TCapsuleEndpoint.One(const Id: string): ICapsule;
-var
-  Path, Response: string;
 begin
   Result := NewCapsule;
-  Path := SysUtils.ConcatPaths([Endpoint, Id]);
-
-  //Response := HTTPClient.GetRequest(Path);
-  //JSONData.SetJSONData(Response);
-  //WriteLn(JSONData.GetJSONData);
-
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 

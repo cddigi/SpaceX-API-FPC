@@ -49,9 +49,7 @@ end;
 function TShipEndpoint.One(const Id: string): IShip;
 begin
   Result := NewShip;
-
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
-  //WriteLn(JSONData.GetJSONData);
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 end.

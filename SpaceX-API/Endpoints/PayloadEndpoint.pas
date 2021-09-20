@@ -49,7 +49,7 @@ end;
 function TPayloadEndpoint.One(const Id: string): IPayload;
 begin
   Result := NewPayload;
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 end.

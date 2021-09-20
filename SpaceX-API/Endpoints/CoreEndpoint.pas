@@ -49,6 +49,7 @@ end;
 function TCoreEndpoint.One(const Id: string): ICore;
 begin
   Result := NewCore;
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 end.

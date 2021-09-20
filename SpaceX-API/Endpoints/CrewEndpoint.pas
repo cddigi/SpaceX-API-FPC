@@ -49,7 +49,7 @@ end;
 function TCrewEndpoint.One(const Id: string): ICrew;
 begin
   Result := NewCrew;
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 end.
