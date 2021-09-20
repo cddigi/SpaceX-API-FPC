@@ -57,6 +57,8 @@ var
   PayloadEndpoint: IPayloadEndpoint;
   LaunchList: ILaunchList;
   LaunchEndpoint: ILaunchEndpoint;
+  Roadster: IRoadster;
+  RoadsterEndpoint: IRoadsterEndpoint;
   ErrorMsg: String;
 begin
   // quick check parameters
@@ -110,8 +112,13 @@ begin
   //PayloadList := PayloadEndpoint.All;
   //WriteLn((PayloadList.Last as IPayload).Name);
 
-  LaunchEndpoint := NewLaunchEndpoint;
-  LaunchList := LaunchEndpoint.All;
+  //LaunchEndpoint := NewLaunchEndpoint;
+  //LaunchList := LaunchEndpoint.All;
+
+  RoadsterEndpoint := NewRoadsterEndpoint;
+  Roadster := RoadsterEndpoint.All;
+  WriteLn(Roadster.DateTimeUtc);
+  WriteLn(Roadster.name);
 
   // stop program loop
   Terminate;

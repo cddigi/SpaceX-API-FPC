@@ -39,12 +39,9 @@ end;
 { TRoadsterEndpoint }
 
 function TRoadsterEndpoint.All: IRoadster;
-var
-  JSON: string;
 begin
   Result := NewRoadster;
-  JSON := EndpointToModel(Endpoint, Result);
-  //WriteLn(JSON);
+  EndpointToModel(Endpoint, Result);
 end;
 
 end.

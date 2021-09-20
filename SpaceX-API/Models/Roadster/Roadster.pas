@@ -195,6 +195,8 @@ type
   published
     property apoapsis_au: Double read GetApoapsisAu write SetApoapsisAu;
     property details: string read GetDetails write SetDetails;
+    property launch_date_unix: UInt64 read GetDateTimeUnix write SetDateTimeUnix;
+    property launch_date_utc: TDateTime read GetDateTimeUtc write SetDateTimeUtc;
     property earth_distance_km: Double read GetEarthDistanceKilometers write SetEarthDistanceKilometers;
     property earth_distance_mi: Double read GetEarthDistanceMiles write SetEarthDistanceMiles;
     property eccentricity: Double read GetEccentricity write SetEccentricity;
@@ -202,8 +204,6 @@ type
     //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
     property id: string read GetId write SetId;
     property inclination: Double read GetInclination write SetInclination;
-    property launch_date_unix: UInt64 read GetDateTimeUnix write SetDateTimeUnix;
-    property launch_date_utc: TDateTime read GetDateTimeUtc write SetDateTimeUtc;
     property launch_mass_kg: Double read GetLaunchMassKilograms write SetLaunchMassKilograms;
     property launch_mass_lbs: Double read GetLaunchMassPounds write SetLaunchMassPounds;
     property longitude: Double read GetLongitude write SetLongitude;
