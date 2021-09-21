@@ -152,10 +152,10 @@ end;
 
 procedure TDragonPayload.SetFlightTimeSeconds(AValue: Variant);
 begin
-  if VarIsNull(AValue) then begin
-    FFlightTimeSeconds := -1;
-  end else if VarIsNumeric(AValue) then
-    FFlightTimeSeconds := AValue;
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FFlightTimeSeconds := AValue;
 end;
 
 procedure TDragonPayload.SetLandLanding(AValue: Boolean);

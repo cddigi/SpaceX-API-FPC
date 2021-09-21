@@ -43,12 +43,12 @@ type
     procedure SetMeters(AValue: Double);
     procedure SetMeters(AValue: Variant);
     procedure SetFeet(AValue: Double);
-    procedure SetFeet(AValue: Variant);
+    procedure SetFeet(AValue: Variant);   
+  public
+    function ToString(): string; override;
   published
     property meters: Variant write SetMeters;
     property feet: Variant write SetFeet;
-  public
-    function ToString(): string; override;
   end;
 
 function NewSizeInfo: ISizeInfo;
@@ -76,7 +76,8 @@ end;
 procedure TSizeInfo.SetMeters(AValue: Variant);
 begin
   if VarIsNull(AValue) then
-    AValue := -1;
+    AValue := 0;
+
   FMeters := AValue;
 end;
 
@@ -88,13 +89,20 @@ end;
 procedure TSizeInfo.SetFeet(AValue: Variant);
 begin
   if VarIsNull(AValue) then
-    AValue := -1;
+    AValue := 0;
+
   FFeet := AValue;
 end;
 
 function TSizeInfo.ToString(): string;
 begin
-  Result := GetMeters.ToString() + ' m (' + GetFeet.ToString() + ' ft)';
+  Result := Format(''
+    + '%fm ('
+    + '%fft)'
+    , [
+      GetMeters,
+      GetFeet
+    ]);
 end;
 
 end.

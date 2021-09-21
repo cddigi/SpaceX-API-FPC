@@ -32,6 +32,9 @@ function NewDragonHeatShield: IDragonHeatShield;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TDragonHeatshield }
@@ -41,15 +44,25 @@ type
     FMaterial: string;
     FSizeMeters: Double;
     FTemperatureDegrees: LongWord;
+
     function GetDevPartner: string;
     function GetMaterial: string;
     function GetSizeMeters: Double;
     function GetTemperatureDegrees: LongWord;
 
     procedure SetDevPartner(AValue: string);
+    procedure SetDevPartner(AValue: Variant);
     procedure SetMaterial(AValue: string);
+    procedure SetMaterial(AValue: Variant);
     procedure SetSizeMeters(AValue: Double);
+    procedure SetSizeMeters(AValue: Variant);
     procedure SetTemperatureDegrees(AValue: LongWord);
+    procedure SetTemperatureDegrees(AValue: Variant);
+
+    property dev_partner: Variant write SetDevPartner;
+    property material: Variant write SetMaterial;
+    property size_meters: Variant write SetSizeMeters;
+    property temperature_degrees: Variant write SetTemperatureDegrees;
   end;
 
 function NewDragonHeatShield: IDragonHeatShield;
@@ -84,8 +97,24 @@ begin
   FDevPartner := AValue;
 end;
 
+procedure TDragonHeatshield.SetDevPartner(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FDevPartner := AValue;
+end;
+
 procedure TDragonHeatshield.SetMaterial(AValue: string);
 begin
+  FMaterial := AValue;
+end;
+
+procedure TDragonHeatshield.SetMaterial(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
   FMaterial := AValue;
 end;
 
@@ -94,8 +123,24 @@ begin
   FSizeMeters := AValue;
 end;
 
+procedure TDragonHeatshield.SetSizeMeters(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FSizeMeters := AValue;
+end;
+
 procedure TDragonHeatshield.SetTemperatureDegrees(AValue: LongWord);
 begin
+  FTemperatureDegrees := AValue;
+end;
+
+procedure TDragonHeatshield.SetTemperatureDegrees(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
   FTemperatureDegrees := AValue;
 end;
 

@@ -95,8 +95,16 @@ type
   ILaunchList = interface(IBaseModelList) ['{5CD79962-6E62-4B0A-881B-F7C5205B9E61}']
   end;
 
+  { TLaunchEnumerator }
+
+  TLaunchEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: ILaunch;
+    property Current : ILaunch read GetCurrent;
+  end;
+
 function NewLaunch: ILaunch;
 function NewLaunchList: ILaunchList;
+operator enumerator(AList: ILaunchList): TLaunchEnumerator;
 
 implementation
 
@@ -242,6 +250,12 @@ type
     function NewItem: IBaseModel; override;
   end;
 
+operator enumerator(AList: ILaunchList): TLaunchEnumerator;
+begin
+  Result := TLaunchEnumerator.Create;
+  Result.FList := AList;
+end;
+
 function NewLaunch: ILaunch;
 begin
   Result := TLaunch.Create;
@@ -250,6 +264,13 @@ end;
 function NewLaunchList: ILaunchList;
 begin
   Result := TLaunchList.Create;
+end;
+
+{ TLaunchEnumerator }
+
+function TLaunchEnumerator.GetCurrent: ILaunch;
+begin
+  Result := FCurrent as ILaunch;
 end;
 
 { TLaunchList }
@@ -368,7 +389,7 @@ end;
 
 function TLaunch.GetStaticFireDateUtc: TDateTime;
 begin
-  Result := FStaticFireDateUtc;
+  Result := UnixToDateTime(FStaticFireDateUnix);
 end;
 
 function TLaunch.GetSuccess: Boolean;
@@ -432,7 +453,7 @@ end;
 procedure TLaunch.SetDateUnix(AValue: Variant);
 begin
   if VarIsNull(AValue) then begin
-    SetDateUnix(-0);
+    FDateUnix := 0
   end else if VarIsNumeric(AValue) then
     FDateUnix := AValue;
 end;

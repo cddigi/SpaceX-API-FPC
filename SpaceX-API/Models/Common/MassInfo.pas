@@ -26,6 +26,9 @@ function NewMassInfo: IMassInfo;
 
 implementation
 
+uses
+  Variants;
+
 type
   { TMassInfo }
 
@@ -38,12 +41,14 @@ type
     function GetPounds: Double;
   private
     procedure SetKilograms(AValue: Double);
+    procedure SetKilograms(AValue: Variant);
     procedure SetPounds(AValue: Double);
-  published
-    property kg: Double read GetKilograms write SetKilograms;
-    property lb: Double read GetPounds write SetPounds;
+    procedure SetPounds(AValue: Variant);
   public
     function ToString(): string; override;
+  published
+    property kg: Variant write SetKilograms;
+    property lb: Variant write SetPounds;
   end;
 
 function NewMassInfo: IMassInfo;
@@ -68,14 +73,36 @@ begin
   FKilograms := AValue;
 end;
 
+procedure TMassInfo.SetKilograms(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FKilograms := AValue;
+end;
+
 procedure TMassInfo.SetPounds(AValue: Double);
 begin
   FPounds := AValue;
 end;
 
+procedure TMassInfo.SetPounds(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FPounds := AValue;
+end;
+
 function TMassInfo.ToString(): string;
 begin
-  Result := GetKilograms.ToString() + ' kg (' + GetPounds.ToString() + ' lb)';       // consider replacing with Format()
+  Result := Format(''
+    + '%fkg ('
+    + '%flb)'
+    , [
+      GetKilograms,
+      GetPounds
+    ]);
 end;
 
 end.

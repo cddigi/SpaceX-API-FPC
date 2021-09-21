@@ -46,8 +46,6 @@ type
   end;
 
   ICompany = interface(IBaseCompany) ['{81A8951C-05DE-4FC7-8277-5D8B38549FA2}']
-    function ToString: string;
-
     property CEO: string read GetCEO write SetCEO;
     property COO: string read GetCOO write SetCOO;
     property CTO: string read GetCTO write SetCTO;

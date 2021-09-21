@@ -26,6 +26,9 @@ function NewThrustInfo: IThrustInfo;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TThrustInfo }
@@ -39,12 +42,14 @@ type
     function GetPoundForce: Double;
   private
     procedure SetKilonewtons(AValue: Double);
+    procedure SetKilonewtons(AValue: Variant);
     procedure SetPoundForce(AValue: Double);
-  published
-    property kN: Double read GetKilonewtons write SetKilonewtons;
-    property lbf: Double read GetPoundForce write SetPoundForce;
+    procedure SetPoundForce(AValue: Variant);
   public
-    function ToString(): string; override;
+    function ToString: string; override;
+  published
+    property kN: Variant write SetKilonewtons;
+    property lbf: Variant write SetPoundForce;
   end;
 
 function NewThrustInfo: IThrustInfo;
@@ -69,14 +74,36 @@ begin
   FKilonewtons := AValue;
 end;
 
+procedure TThrustInfo.SetKilonewtons(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FKilonewtons := AValue;
+end;
+
 procedure TThrustInfo.SetPoundForce(AValue: Double);
 begin
   FPoundForce := AValue;
 end;
 
-function TThrustInfo.ToString(): string;
+procedure TThrustInfo.SetPoundForce(AValue: Variant);
 begin
-  Result := GetKilonewtons.ToString() + ' kn (' + GetPoundForce.ToString() + ' lbf)';
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FPoundForce := AValue;
+end;
+
+function TThrustInfo.ToString: string;
+begin
+  Result := Format(''
+    + '%fkN ('
+    + '%flbf)'
+    , [
+      GetKilonewtons,
+      GetPoundForce
+    ]);
 end;
 
 end.
