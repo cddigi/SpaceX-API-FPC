@@ -25,6 +25,9 @@ function NewIspInfo: IIspInfo;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TIspInfo }
@@ -38,10 +41,14 @@ type
     function GetSeaLevel: LongWord;
   private
     procedure SetVacuum(AValue: LongWord);
+    procedure SetVacuum(AValue: Variant);
     procedure SetSeaLevel(AValue: LongWord);
+    procedure SetSeaLevel(AValue: Variant);   
+  public
+    function ToString: string; override;
   published
-    property vacuum: LongWord read GetVacuum write SetVacuum;
-    property sea_level: LongWord read GetSeaLevel write SetSeaLevel;
+    property vacuum: Variant write SetVacuum;
+    property sea_level: Variant write SetSeaLevel;
   end;
 
 function NewIspInfo: IIspInfo;
@@ -66,9 +73,36 @@ begin
   FVacuum := AValue;
 end;
 
+procedure TIspInfo.SetVacuum(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FVacuum := AValue;
+end;
+
 procedure TIspInfo.SetSeaLevel(AValue: LongWord);
 begin
   FSeaLevel := AValue;
+end;
+
+procedure TIspInfo.SetSeaLevel(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FSeaLevel := AValue;
+end;
+
+function TIspInfo.ToString: string;
+begin
+  Result := Format(''
+    + '%f Isp, '
+    + '%f Isp'
+    , [
+      GetSeaLevel,
+      GetVacuum
+    ]);
 end;
 
 end.

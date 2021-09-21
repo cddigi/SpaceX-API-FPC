@@ -26,6 +26,9 @@ function NewVolumeInfo: IVolumeInfo;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TVolumeInfo }
@@ -39,12 +42,14 @@ type
     function GetCubicFeet: Double;
   private
     procedure SetCubicMeters(AValue: Double);
+    procedure SetCubicMeters(AValue: Variant);
     procedure SetCubicFeet(AValue: Double);
-  published
-    property cubic_meters: Double read GetCubicMeters write SetCubicMeters;
-    property cubic_feet: Double read GetCubicFeet write SetCubicFeet;
+    procedure SetCubicFeet(AValue: Variant); 
   public
-    function ToString(): string; override;
+    function ToString: string; override;
+  published
+    property cubic_meters: Variant write SetCubicMeters;
+    property cubic_feet: Variant write SetCubicFeet;
   end;
 
 function NewVolumeInfo: IVolumeInfo;
@@ -67,14 +72,36 @@ begin
   FCubicMeters := AValue;
 end;
 
+procedure TVolumeInfo.SetCubicMeters(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FCubicMeters := AValue;
+end;
+
 procedure TVolumeInfo.SetCubicFeet(AValue: Double);
 begin
   FCubicFeet := AValue;
 end;
 
+procedure TVolumeInfo.SetCubicFeet(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FCubicFeet := AValue;
+end;
+
 function TVolumeInfo.ToString(): string;
 begin
-  Result := GetCubicFeet.ToString() + ' m^3 ' + GetCubicFeet.ToString() + ' ft^3';
+  Result := Format(''
+    + '%fm^3 ('
+    + '%fft^3)'
+    , [
+      GetCubicMeters,
+      GetCubicFeet
+    ]);
 end;
 
 end.
