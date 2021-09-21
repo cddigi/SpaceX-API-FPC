@@ -5,7 +5,8 @@ unit Launch;
 interface
 
 uses
-  Classes, SysUtils, LaunchCore, LaunchLinks, LaunchFairings, LaunchFailure, DatePrecision, BaseModel, JSON_Helper;
+  Classes, SysUtils, LaunchCore, LaunchLinks, LaunchFairings, LaunchFailure,
+  DatePrecision, BaseModel, JSON_Helper;
 
 type
 
@@ -41,8 +42,6 @@ type
     procedure SetCapsulesId(AValue: TStringList);
     procedure SetCrewId(AValue: TStringList);
     procedure SetCores(AValue: ILaunchCoreList);
-    procedure SetDateUtc(AValue: TDateTime);
-    procedure SetDateLocal(AValue: TDateTime);
     procedure SetDatePrecision(AValue: TDatePrecision);
     procedure SetDateUnix(AValue: UInt64);
     procedure SetDetails(AValue: string);
@@ -58,7 +57,6 @@ type
     procedure SetRocketId(AValue: string);
     procedure SetShipsId(AValue: TStringList);
     procedure SetStaticFireDateUnix(AValue: UInt64);
-    procedure SetStaticFireDateUtc(AValue: TDateTime);
     procedure SetSuccess(AValue: Boolean);
     procedure SetToBeDated(AValue: Boolean);
     procedure SetUpcoming(AValue: Boolean);
@@ -70,8 +68,8 @@ type
     property CapsulesId: TStringList read GetCapsulesId write SetCapsulesId;
     property CrewId: TStringList read GetCrewId write SetCrewId;
     property Cores: ILaunchCoreList read GetCores write SetCores;
-    property DateUtc: TDateTime read GetDateUtc write SetDateUtc;
-    property DateLocal: TDateTime read GetDateLocal write SetDateLocal;
+    property DateUtc: TDateTime read GetDateUtc;
+    property DateLocal: TDateTime read GetDateLocal;
     property DatePrecision: TDatePrecision read GetDatePrecision write SetDatePrecision;
     property DateUnix: UInt64 read GetDateUnix write SetDateUnix;
     property Details: string read GetDetails write SetDetails;
@@ -87,7 +85,7 @@ type
     property RocketId: string read GetRocketId write SetRocketId;
     property ShipsId: TStringList read GetShipsId write SetShipsId;
     property StaticFireDateUnix: UInt64 read GetStaticFireDateUnix write SetStaticFireDateUnix;
-    property StaticFireDateUtc: TDateTime read GetStaticFireDateUtc write SetStaticFireDateUtc;
+    property StaticFireDateUtc: TDateTime read GetStaticFireDateUtc;
     property Success: Boolean read GetSuccess write SetSuccess;
     property ToBeDated: Boolean read GetToBeDated write SetToBeDated;
     property Upcoming: Boolean read GetUpcoming write SetUpcoming;
@@ -103,7 +101,7 @@ function NewLaunchList: ILaunchList;
 implementation
 
 uses
-  Variants;
+  DateUtils, Variants;
 
 type
 
@@ -175,10 +173,10 @@ type
     procedure SetCapsulesId(AValue: TStringList);
     procedure SetCrewId(AValue: TStringList);
     procedure SetCores(AValue: ILaunchCoreList);
-    procedure SetDateUtc(AValue: TDateTime);
-    procedure SetDateUtc(AValue: Variant);
-    procedure SetDateLocal(AValue: TDateTime);
-    procedure SetDateLocal(AValue: Variant);
+    //procedure SetDateUtc(AValue: TDateTime);
+    //procedure SetDateUtc(AValue: Variant);
+    //procedure SetDateLocal(AValue: TDateTime);
+    //procedure SetDateLocal(AValue: Variant);
     procedure SetDatePrecision(AValue: TDatePrecision);
     procedure SetDateUnix(AValue: UInt64);
     procedure SetDateUnix(AValue: Variant);
@@ -203,8 +201,8 @@ type
     procedure SetShipsId(AValue: TStringList);
     procedure SetStaticFireDateUnix(AValue: UInt64);
     procedure SetStaticFireDateUnix(AValue: Variant);
-    procedure SetStaticFireDateUtc(AValue: TDateTime);
-    procedure SetStaticFireDateUtc(AValue: Variant);
+    //procedure SetStaticFireDateUtc(AValue: TDateTime);
+    //procedure SetStaticFireDateUtc(AValue: Variant);
     procedure SetSuccess(AValue: Boolean);
     procedure SetSuccess(AValue: Variant);
     procedure SetToBeDated(AValue: Boolean);
@@ -219,8 +217,8 @@ type
     property auto_update: Variant write SetAutoUpdate;
     //property CapsulesId: TStringList read GetCapsulesId write SetCapsulesId;
     //property CrewId: TStringList read GetCrewId write SetCrewId;
-    property date_utc: Variant write SetDateUtc;
-    property date_local: Variant write SetDateLocal;
+    //property date_utc: Variant write SetDateUtc;
+    //property date_local: Variant write SetDateLocal;
     property date_unix: Variant write SetDateUnix;
     property details: Variant write SetDetails;
     property flight_number: Variant write SetFlightNumber;
@@ -231,7 +229,7 @@ type
     property rocket: Variant write SetRocketId;
     //property ShipsId: TStringList read GetShipsId write SetShipsId;
     property static_fire_date_unix: Variant write SetStaticFireDateUnix;
-    property static_fire_date_utc: Variant write SetStaticFireDateUtc;
+    //property static_fire_date_utc: Variant write SetStaticFireDateUtc;
     property success: Variant write SetSuccess;
     property tbd: Variant write SetToBeDated;
     property upcoming: Variant write SetUpcoming;
@@ -285,12 +283,12 @@ end;
 
 function TLaunch.GetDateUtc: TDateTime;
 begin
-  Result := FDateUtc;
+  Result := UnixToDateTime(FDateUnix);
 end;
 
 function TLaunch.GetDateLocal: TDateTime;
 begin
-  Result := FDateLocal;
+  Result := UnixToDateTime(FDateUnix, False);
 end;
 
 function TLaunch.GetDatePrecision: TDatePrecision;
@@ -419,45 +417,6 @@ end;
 procedure TLaunch.SetCores(AValue: ILaunchCoreList);
 begin
   FCores := AValue;
-end;
-
-procedure TLaunch.SetDateUtc(AValue: TDateTime);
-begin
-  FDateUtc := AValue;
-end;
-
-procedure TLaunch.SetDateUtc(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FDateUtc := MinDateTime;
-  end else if VarIsStr(AValue) then begin
-    try
-      FormatSettings.DateSeparator := '-';
-      FormatSettings.ShortDateFormat := 'yyyy-MM-dd T HH:mm:ssZ';
-      FDateUtc := StrToDate(AValue);
-    finally
-      FormatSettings := DefaultFormatSettings;
-    end;
-  end;
-end;
-
-procedure TLaunch.SetDateLocal(AValue: TDateTime);
-begin
-  FDateLocal := AValue;
-end;
-
-procedure TLaunch.SetDateLocal(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    SetDateLocal(MinDateTime);
-  end else if VarIsStr(AValue) then
-    try
-      FormatSettings.DateSeparator := '-';
-      FormatSettings.ShortDateFormat := 'yyyy-MM-dd T HH:mm:ssZ';
-      FDateLocal := StrToDate(AValue);
-    finally
-      FormatSettings := DefaultFormatSettings;
-    end;
 end;
 
 procedure TLaunch.SetDatePrecision(AValue: TDatePrecision);
@@ -602,28 +561,9 @@ end;
 procedure TLaunch.SetStaticFireDateUnix(AValue: Variant);
 begin
   if VarIsNull(AValue) then begin
-    FStaticFireDateUnix := -0;
+    FStaticFireDateUnix := 0;
   end else if VarIsNumeric(AValue) then
     FStaticFireDateUnix := AValue;
-end;
-
-procedure TLaunch.SetStaticFireDateUtc(AValue: TDateTime);
-begin
-  FStaticFireDateUtc := AValue;
-end;
-
-procedure TLaunch.SetStaticFireDateUtc(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FStaticFireDateUtc := MinDateTime;
-  end else if VarIsStr(AValue) then
-    try
-      FormatSettings.DateSeparator := '-';
-      FormatSettings.ShortDateFormat := 'yyyy-MM-dd T HH:mm:ssZ';
-      FStaticFireDateUtc := StrToDate(AValue);
-    finally
-      FormatSettings := DefaultFormatSettings;
-    end;
 end;
 
 procedure TLaunch.SetSuccess(AValue: Boolean);
