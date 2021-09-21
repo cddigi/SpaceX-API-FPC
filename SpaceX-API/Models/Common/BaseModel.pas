@@ -12,6 +12,7 @@ type
   { IBaseModel }
 
   IBaseModel = interface ['{C20679C1-201D-4930-BF24-021F211FC3F8}']
+    function ToString: string;
     procedure BuildSubObjects(const JSONData: IJSONData);
   end;
 
