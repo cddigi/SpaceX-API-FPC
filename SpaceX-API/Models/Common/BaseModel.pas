@@ -36,7 +36,39 @@ type
     function GetItem(Idx: Integer): IBaseModel;
   end;
 
+  { TBaseModelEnumerator }
+
+  TBaseModelEnumerator = class
+    FCurrent : IBaseModel;
+    FList: IBaseModelList;
+    FIdx : Integer;
+    function MoveNext : Boolean;
+    property Current : IBaseModel read FCurrent;
+  end;
+
+operator enumerator(AList: IBaseModelList): TBaseModelEnumerator;
+
 implementation
+
+{ TBaseModelEnumerator }
+
+function TBaseModelEnumerator.MoveNext: Boolean;
+begin
+  Result := FIdx < FList.Count;
+
+  if not Result then
+    FCurrent := nil
+  else begin
+    FCurrent := FList[FIdx];
+    Inc(FIdx);
+  end;
+end;
+
+operator enumerator(AList: IBaseModelList) : TBaseModelEnumerator;
+begin
+  Result := TBaseModelEnumerator.Create;
+  Result.FList := AList;
+end;
 
 { TBaseModel }
 
