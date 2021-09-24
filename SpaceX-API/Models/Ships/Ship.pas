@@ -91,8 +91,16 @@ type
   IShipList = interface(IBaseModelList) ['{C494A556-C1FC-40BA-B31F-B10B2BB99EEE}']
   end;
 
+  { TShipEnumerator }
+
+  TShipEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: IShip;
+    property Current : IShip read GetCurrent;
+  end;
+
 function NewShip: IShip;
 function NewShipList: IShipList;
+operator enumerator(AList: IShipList): TShipEnumerator;
 
 implementation
 
@@ -244,6 +252,19 @@ end;
 function NewShipList: IShipList;
 begin
   Result := TShipList.Create;
+end;
+
+operator enumerator(AList: IShipList): TShipEnumerator;
+begin
+  Result := TShipEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TShipEnumerator }
+
+function TShipEnumerator.GetCurrent: IShip;
+begin
+  Result := FCurrent as IShip;
 end;
 
 { TShipList }
