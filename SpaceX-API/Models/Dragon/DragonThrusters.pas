@@ -54,7 +54,7 @@ operator enumerator(AList: IDragonThrustersList): TDragonThrustersEnumerator;
 implementation
 
 uses
-  JSON_Helper;
+  JSON_Helper, Variants;
 
 type
 
@@ -78,21 +78,27 @@ type
     function GetTypeInfo: string;
 
     procedure SetAmount(AValue: LongWord);
+    procedure SetAmount(AValue: Variant);
     procedure SetFirstFuel(AValue: string);
+    procedure SetFirstFuel(AValue: Variant);
     procedure SetIsp(AValue: LongWord);
+    procedure SetIsp(AValue: Variant);
     procedure SetPods(AValue: LongWord);
+    procedure SetPods(AValue: Variant);
     procedure SetSecondFuel(AValue: string);
+    procedure SetSecondFuel(AValue: Variant);
     procedure SetThrust(AValue: IThrustInfo);
     procedure SetTypeInfo(AValue: string);
+    procedure SetTypeInfo(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
-    property amount: LongWord read GetAmount write SetAmount;
-    property fuel_1: string read GetFirstFuel write SetFirstFuel;
-    property isp: LongWord read GetIsp write SetIsp;
-    property pods: LongWord read GetPods write SetPods;
-    property fuel_2: string read GetSecondFuel write SetSecondFuel;
-    property type_info: string read GetTypeInfo write SetTypeInfo;
+    property amount: Variant read GetAmount write SetAmount;
+    property fuel_1: Variant read GetFirstFuel write SetFirstFuel;
+    property isp: Variant read GetIsp write SetIsp;
+    property pods: Variant read GetPods write SetPods;
+    property fuel_2: Variant read GetSecondFuel write SetSecondFuel;
+    property type_info: Variant read GetTypeInfo write SetTypeInfo;
   end;
 
   { TDragonThrustersList }
@@ -173,9 +179,25 @@ begin
   FAmount := AValue;
 end;
 
+procedure TDragonThrusters.SetAmount(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FAmount := -0;
+  end else if VarIsNumeric(AValue) then
+    FAmount := AValue;
+end;
+
 procedure TDragonThrusters.SetFirstFuel(AValue: string);
 begin
   FFirstFuel := AValue;
+end;
+
+procedure TDragonThrusters.SetFirstFuel(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFirstFuel := '';
+  end else if VarIsStr(AValue) then
+    FFirstFuel := AValue;
 end;
 
 procedure TDragonThrusters.SetIsp(AValue: LongWord);
@@ -183,14 +205,38 @@ begin
   FIsp := AValue;
 end;
 
+procedure TDragonThrusters.SetIsp(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FIsp := -0;
+  end else if VarIsNumeric(AValue) then
+    FIsp := AValue;
+end;
+
 procedure TDragonThrusters.SetPods(AValue: LongWord);
 begin
   FPods := AValue;
 end;
 
+procedure TDragonThrusters.SetPods(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FPods := -0;
+  end else if VarIsNumeric(AValue) then
+    FPods := AValue;
+end;
+
 procedure TDragonThrusters.SetSecondFuel(AValue: string);
 begin
   FSecondFuel := AValue;
+end;
+
+procedure TDragonThrusters.SetSecondFuel(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSecondFuel := '';
+  end else if VarIsStr(AValue) then
+    FSecondFuel := AValue;
 end;
 
 procedure TDragonThrusters.SetThrust(AValue: IThrustInfo);
@@ -201,6 +247,14 @@ end;
 procedure TDragonThrusters.SetTypeInfo(AValue: string);
 begin
   FTypeInfo := AValue;
+end;
+
+procedure TDragonThrusters.SetTypeInfo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTypeInfo := '';
+  end else if VarIsStr(AValue) then
+    FTypeInfo := AValue;
 end;
 
 procedure TDragonThrusters.BuildSubObjects(const JSONData: IJSONData);
