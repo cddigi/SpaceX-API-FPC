@@ -119,7 +119,6 @@ type
     procedure SetStatus(AValue: string);
     procedure SetStatus(AValue: Variant);
   public
-    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
     property asds_attempts: Variant write SetAsdsAttempts;
@@ -361,11 +360,6 @@ begin
     FStatus := '';
   end else if VarIsStr(AValue) then
     FStatus := AValue;
-end;
-
-procedure TCore.BuildSubObjects(const JSONData: IJSONData);
-begin
-  inherited BuildSubObjects(JSONData);
 end;
 
 function TCore.ToString(): string;
