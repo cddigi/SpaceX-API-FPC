@@ -110,7 +110,7 @@ operator enumerator(AList: IDragonList): TDragonEnumerator;
 implementation
 
 uses
-  JSON_Helper;
+  Variants, JSON_Helper;
 
 type
 
@@ -167,46 +167,57 @@ type
       function GetWikipedia: string;
     private
       procedure SetActive(AValue: Boolean);
+      procedure SetActive(AValue: Variant);
       procedure SetCrewCapacity(AValue: Byte);
+      procedure SetCrewCapacity(AValue: Variant);
       procedure SetDescription(AValue: string);
+      procedure SetDescription(AValue: Variant);
       procedure SetDiameter(AValue: ISizeInfo);
       procedure SetDryMassKilograms(AValue: Double);
+      procedure SetDryMassKilograms(AValue: Variant);
       procedure SetDryMassPounds(AValue: Double);
+      procedure SetDryMassPounds(AValue: Variant);
       procedure SetFirstFlight(AValue: TDateTime);
       procedure SetFirstFlight(AValue: string);
+      procedure SetFirstFlight(AValue: Variant);
       procedure SetFlickrImages(AValue: TStringList);
       procedure SetHeatShield(AValue: IDragonHeatshield);
       procedure SetHeightWithTrunk(AValue: ISizeInfo);
       procedure SetId(AValue: string);
+      procedure SetId(AValue: Variant);
       procedure SetLaunchPayloadMass(AValue: IMassInfo);
       procedure SetLaunchPayloadVolume(AValue: IVolumeInfo);
       procedure SetName(AValue: string);
+      procedure SetName(AValue: Variant);
       procedure SetOrbitDurationYears(AValue: LongWord);
+      procedure SetOrbitDurationYears(AValue: Variant);
       procedure SetPressurizedCapsule(AValue: IDragonPressurizedCapsule);
       procedure SetReturnPayloadMass(AValue: IMassInfo);
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
+      procedure SetSidewallAngleDegress(AValue: Variant);
       procedure SetThrusters(AValue: IDragonThrustersList);
       procedure SetTrunk(AValue: IDragonTrunk);
       procedure SetTypeInfo(AValue: string);
+      procedure SetTypeInfo(AValue: Variant);
       procedure SetWikipedia(AValue: string);
+      procedure SetWikipedia(AValue: Variant);
     public
       procedure BuildSubObjects(const JSONData: IJSONData); override;
       destructor Destroy; override;
     published
-      property active: Boolean read GetActive write SetActive;
-      property crew_capacity: Byte read GetCrewCapacity write SetCrewCapacity;
-      property description: string read GetDescription write SetDescription;
-      property dry_mass_kilograms: Double read GetDryMassKilograms write SetDryMassKilograms;
-      property dry_mass_pounds: Double read GetDryMassPounds write SetDryMassPounds;
-      property first_flight: string write SetFirstFlight;
-      property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
-      property id: string read GetId write SetId;
-      property name: string read GetName write SetName;
-      property orbit_duration_years: LongWord read GetOrbitDurationYears write SetOrbitDurationYears;
-      property sidewall_angle_degress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
-      property type_info: string read GetTypeInfo write SetTypeInfo;  // Type is a reserved word in pascal
-      property wikipedia: string read GetWikipedia write SetWikipedia;
+      property active: Variant write SetActive;
+      property crew_capacity: Variant write SetCrewCapacity;
+      property description: Variant write SetDescription;
+      property dry_mass_kilograms: Variant write SetDryMassKilograms;
+      property dry_mass_pounds: Variant write SetDryMassPounds;
+      property first_flight: Variant write SetFirstFlight;
+      //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+      property id: Variant write SetId;
+      property name: Variant write SetName;
+      property orbit_duration_years: Variant write SetOrbitDurationYears;
+      property sidewall_angle_degress: Variant write SetSidewallAngleDegress;
+      property wikipedia: Variant write SetWikipedia;
     end;
 
     { TDragonList }
@@ -366,14 +377,38 @@ begin
   FActive := AValue;
 end;
 
+procedure TDragon.SetActive(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FActive := False;
+  end else if VarIsBool(AValue) then
+    FActive := AValue;
+end;
+
 procedure TDragon.SetCrewCapacity(AValue: Byte);
 begin
   FCrewCapacity := AValue;
 end;
 
+procedure TDragon.SetCrewCapacity(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCrewCapacity := -0;
+  end else if VarIsNumeric(AValue) then
+    FCrewCapacity := AValue;
+end;
+
 procedure TDragon.SetDescription(AValue: string);
 begin
   FDescription := AValue;
+end;
+
+procedure TDragon.SetDescription(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDescription := '';
+  end else if VarIsStr(AValue) then
+    FDescription := AValue;
 end;
 
 procedure TDragon.SetDiameter(AValue: ISizeInfo);
@@ -386,9 +421,25 @@ begin
   FDryMassKilograms := AValue;
 end;
 
+procedure TDragon.SetDryMassKilograms(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDryMassKilograms := -0;
+  end else if VarIsNumeric(AValue) then
+    FDryMassKilograms := AValue;
+end;
+
 procedure TDragon.SetDryMassPounds(AValue: Double);
 begin
   FDryMassPounds := AValue;
+end;
+
+procedure TDragon.SetDryMassPounds(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDryMassPounds := -0;
+  end else if VarIsNumeric(AValue) then
+    FDryMassPounds := AValue;
 end;
 
 procedure TDragon.SetFirstFlight(AValue: TDateTime);
@@ -405,6 +456,14 @@ begin
   finally
     FormatSettings := DefaultFormatSettings;
   end;
+end;
+
+procedure TDragon.SetFirstFlight(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFirstFlight := MinDateTime;
+  end else if VarIsStr(AValue) then
+    SetFirstFlight(VarToStr(AValue));
 end;
 
 procedure TDragon.SetFlickrImages(AValue: TStringList);
@@ -427,6 +486,14 @@ begin
   FId := AValue;
 end;
 
+procedure TDragon.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TDragon.SetLaunchPayloadMass(AValue: IMassInfo);
 begin
   FLaunchPayloadMass := AValue;
@@ -442,9 +509,25 @@ begin
   FName := AValue;
 end;
 
+procedure TDragon.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
+end;
+
 procedure TDragon.SetOrbitDurationYears(AValue: LongWord);
 begin
   FOrbitDurationYears := AValue;
+end;
+
+procedure TDragon.SetOrbitDurationYears(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FOrbitDurationYears := -0;
+  end else if VarIsNumeric(AValue) then
+    FOrbitDurationYears := AValue;
 end;
 
 procedure TDragon.SetPressurizedCapsule(AValue: IDragonPressurizedCapsule);
@@ -467,6 +550,14 @@ begin
   FSidewallAngleDegress := AValue;
 end;
 
+procedure TDragon.SetSidewallAngleDegress(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSidewallAngleDegress := -0;
+  end else if VarIsNumeric(AValue) then
+    FSidewallAngleDegress := AValue;
+end;
+
 procedure TDragon.SetThrusters(AValue: IDragonThrustersList);
 begin
   FThrusters := AValue;
@@ -482,9 +573,25 @@ begin
   FTypeInfo := AValue;
 end;
 
+procedure TDragon.SetTypeInfo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTypeInfo := '';
+  end else if VarIsStr(AValue) then
+    FTypeInfo := AValue;
+end;
+
 procedure TDragon.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+procedure TDragon.SetWikipedia(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FWikipedia := '';
+  end else if VarIsStr(AValue) then
+    FWikipedia := AValue;
 end;
 
 procedure TDragon.BuildSubObjects(const JSONData: IJSONData);
@@ -552,6 +659,8 @@ begin
   Trunk := NewDragonTrunk;
   JSONToModel(SubJSONData.GetJSONData, Trunk);
   Self.FTrunk := Trunk;
+
+  Self.FTypeInfo := JSONData.GetPath('type').GetJSONData;
 end;
 
 destructor TDragon.Destroy;
