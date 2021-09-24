@@ -5,11 +5,11 @@ unit DragonThrusters;
 interface
 
 uses
-  Classes, SysUtils, ThrustInfo;
+  Classes, SysUtils, ThrustInfo, BaseModel;
 
 type
 
-  IBaseDragonThrusters = interface(IInterface) ['{77C1FFE5-83C7-4B8C-BA7C-3D64DA101936}']
+  IBaseDragonThrusters = interface(IBaseModel) ['{77C1FFE5-83C7-4B8C-BA7C-3D64DA101936}']
     function GetAmount: LongWord;
     function GetFirstFuel: string;
     function GetIsp: LongWord;
@@ -37,7 +37,7 @@ type
     property TypeInfo: string read GetTypeInfo write SetTypeInfo;
   end;
 
-  IDragonThrustersList = interface(IInterfaceList) ['{4DF29C16-B7C0-4C44-859C-A74FAA267F0A}']
+  IDragonThrustersList = interface(IBaseModelList) ['{4DF29C16-B7C0-4C44-859C-A74FAA267F0A}']
   end;
 
 function NewDragonThrusters: IDragonThrusters;
@@ -45,11 +45,14 @@ function NewDragonThrustersList: IDragonThrustersList;
 
 implementation
 
+uses
+  JSON_Helper;
+
 type
 
   { TDragonThrusters }
 
-  TDragonThrusters = class(TInterfacedObject, IDragonThrusters)
+  TDragonThrusters = class(TBaseModel, IDragonThrusters)
   private
     FAmount: LongWord;
     FFirstFuel: string;
@@ -73,9 +76,18 @@ type
     procedure SetSecondFuel(AValue: string);
     procedure SetThrust(AValue: IThrustInfo);
     procedure SetTypeInfo(AValue: string);
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
+  published
+    property amount: LongWord read GetAmount write SetAmount;
+    property fuel_1: string read GetFirstFuel write SetFirstFuel;
+    property isp: LongWord read GetIsp write SetIsp;
+    property pods: LongWord read GetPods write SetPods;
+    property fuel_2: string read GetSecondFuel write SetSecondFuel;
+    property type_info: string read GetTypeInfo write SetTypeInfo;
   end;
 
-  TDragonThrustersList = class(TInterfaceList, IDragonThrustersList);
+  TDragonThrustersList = class(TBaseModelList, IDragonThrustersList);
 
 function NewDragonThrusters: IDragonThrusters;
 begin
@@ -157,6 +169,19 @@ end;
 procedure TDragonThrusters.SetTypeInfo(AValue: string);
 begin
   FTypeInfo := AValue;
+end;
+
+procedure TDragonThrusters.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  Thrust: IThrustInfo;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('thrust');
+  Thrust := NewThrustInfo;
+  JSONToModel(SubJSONData.GetJSONData, Thrust);
+  Self.FThrust := Thrust;
 end;
 
 end.
