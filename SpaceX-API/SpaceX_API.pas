@@ -82,8 +82,8 @@ begin
 
   { add your program here }
 
-  //DragonEndpoint := NewDragonEndpoint;
-  //DragonList := DragonEndpoint.All;
+  DragonEndpoint := NewDragonEndpoint;
+  DragonList := DragonEndpoint.All;
   //Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
   //WriteLn(Dragon.Name);
 
@@ -104,9 +104,9 @@ begin
   //CoreList := CoreEndpoint.All;
   //WriteLn((CoreList.Last as ICore).Status);
 
-  CrewEndpoint := NewCrewEndpoint;
-  CrewList := CrewEndpoint.All;
-  WriteLn((CrewList.Last as ICrew).Status);
+  //CrewEndpoint := NewCrewEndpoint;
+  //CrewList := CrewEndpoint.All;
+  //WriteLn((CrewList.Last as ICrew).Status);
 
   //LandpadEndpoint := NewLandpadEndpoint;
   //LandpadList := LandpadEndpoint.All;
