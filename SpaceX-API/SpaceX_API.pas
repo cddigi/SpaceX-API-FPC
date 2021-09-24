@@ -8,7 +8,7 @@ uses
   {$ENDIF}
   Classes, SysUtils, CustApp, Dragon, VolumeInfo, ThrustInfo, IspInfo, SizeInfo,
   MassInfo, CompanyHeadquarters, Company, CompanyLinks, SpaceTrackInfo,
-  CapsuleStatus, Capsule, CoreStatus, Core, CrewStatus, Crew, LandpadStatus,
+  Capsule, CoreStatus, Core, CrewStatus, Crew, LandpadStatus,
   Landpad, DatePrecision, LaunchCore, LaunchFailure, LaunchFairings,
   LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch, LaunchpadStatus,
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
