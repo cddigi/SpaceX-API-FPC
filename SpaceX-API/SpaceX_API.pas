@@ -10,7 +10,7 @@ uses
   MassInfo, CompanyHeadquarters, Company, CompanyLinks, SpaceTrackInfo,
   Capsule, Core, Crew,
   Landpad, DatePrecision, LaunchCore, LaunchFailure, LaunchFairings,
-  LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch, LaunchpadStatus,
+  LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch,
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
   RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
