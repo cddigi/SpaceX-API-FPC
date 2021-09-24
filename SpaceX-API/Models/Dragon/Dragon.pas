@@ -96,8 +96,16 @@ type
 
     end;
 
+    { TDragonEnumerator }
+
+    TDragonEnumerator = class(TBaseModelEnumerator)
+      function GetCurrent: IDragon;
+      property Current : IDragon read GetCurrent;
+    end;
+
 function NewDragon: IDragon;
 function NewDragonList: IDragonList;
+operator enumerator(AList: IDragonList): TDragonEnumerator;
 
 implementation
 
@@ -216,6 +224,19 @@ end;
 function NewDragonList: IDragonList;
 begin
   Result := TDragonList.Create;
+end;
+
+operator enumerator(AList: IDragonList): TDragonEnumerator;
+begin
+  Result := TDragonEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TDragonEnumerator }
+
+function TDragonEnumerator.GetCurrent: IDragon;
+begin
+  Result := FCurrent as IDragon;
 end;
 
 function TDragonList.NewItem: IBaseModel;
