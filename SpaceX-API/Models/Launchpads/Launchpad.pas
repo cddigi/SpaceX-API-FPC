@@ -5,7 +5,7 @@ unit Launchpad;
 interface
 
 uses
-  Classes, SysUtils, LaunchpadStatus, BaseModel, JSON_Helper;
+  Classes, SysUtils, BaseModel, JSON_Helper;
 
 type
 
@@ -61,8 +61,16 @@ type
   ILaunchpadList = interface(IBaseModelList) ['{8EB54717-9CC1-4B35-B23C-805979B2ED91}']
   end;
 
+  { TLaunchpadEnumerator }
+
+  TLaunchpadEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: ILaunchpad;
+    property Current : ILaunchpad read GetCurrent;
+  end;
+
 function NewLaunchpad: ILaunchpad;
 function NewLaunchpadList: ILaunchpadList;
+operator enumerator(AList: ILaunchpadList): TLaunchpadEnumerator;
 
 implementation
 
@@ -121,7 +129,6 @@ type
     procedure SetStatus(AValue: string);
     procedure SetTimeZone(AValue: string);
   public
-    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
     property details: string read GetDetails write SetDetails;
@@ -154,6 +161,19 @@ end;
 function NewLaunchpadList: ILaunchpadList;
 begin
   Result := TLaunchpadList.Create;
+end;
+
+operator enumerator(AList: ILaunchpadList): TLaunchpadEnumerator;
+begin
+  Result := TLaunchpadEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TLaunchpadEnumerator }
+
+function TLaunchpadEnumerator.GetCurrent: ILaunchpad;
+begin
+  Result := FCurrent as ILaunchpad;
 end;
 
 { TLaunchpadList }
