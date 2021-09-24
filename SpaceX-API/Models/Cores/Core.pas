@@ -52,8 +52,16 @@ type
   ICoreList = interface(IBaseModelList) ['{6280AF36-5EE5-4714-ACC7-65787AA56325}']
   end;
 
+  { TCoreEnumerator }
+
+  TCoreEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: ICore;
+    property Current : ICore read GetCurrent;
+  end;
+
 function NewCore: ICore;
 function NewCoreList: ICoreList;
+operator enumerator(AList: ICoreList): TCoreEnumerator;
 
 implementation
 
@@ -139,6 +147,19 @@ end;
 function NewCoreList: ICoreList;
 begin
   Result := TCoreList.Create;
+end;
+
+operator enumerator(AList: ICoreList): TCoreEnumerator;
+begin
+  Result := TCoreEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TCoreEnumerator }
+
+function TCoreEnumerator.GetCurrent: ICore;
+begin
+  Result := FCurrent as ICore;
 end;
 
 { TCoreList }
