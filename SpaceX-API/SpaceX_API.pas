@@ -84,8 +84,8 @@ begin
 
   DragonEndpoint := NewDragonEndpoint;
   DragonList := DragonEndpoint.All;
-  //Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
-  //WriteLn(Dragon.Name);
+  Dragon := DragonList.Last as IDragon;
+  WriteLn(Dragon.HeatShield.Material);
 
   //CompanyEndpoint := NewCompanyEndpoint;
   //Company := CompanyEndpoint.Get;

@@ -87,7 +87,11 @@ type
     property type_info: string read GetTypeInfo write SetTypeInfo;
   end;
 
-  TDragonThrustersList = class(TBaseModelList, IDragonThrustersList);
+  { TDragonThrustersList }
+
+  TDragonThrustersList = class(TBaseModelList, IDragonThrustersList)
+    function NewItem: IBaseModel; override;
+  end;
 
 function NewDragonThrusters: IDragonThrusters;
 begin
@@ -97,6 +101,13 @@ end;
 function NewDragonThrustersList: IDragonThrustersList;
 begin
   Result := TDragonThrustersList.Create;
+end;
+
+{ TDragonThrustersList }
+
+function TDragonThrustersList.NewItem: IBaseModel;
+begin
+  Result := NewDragonThrusters;
 end;
 
 { TDragonThrusters }
