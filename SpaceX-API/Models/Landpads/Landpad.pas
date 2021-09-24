@@ -5,7 +5,7 @@ unit Landpad;
 interface
 
 uses
-  Classes, SysUtils, LandpadStatus, BaseModel, JSON_Helper;
+  Classes, SysUtils, BaseModel, JSON_Helper;
 
 type
 
@@ -21,7 +21,7 @@ type
     function GetLongitude: Double;
     function GetName: string;
     function GetRegion: string;
-    function GetStatus: TLandpadStatus;
+    function GetStatus: string;
     function GetTypeInfo: string;
     function GetWikipedia: string;
 
@@ -36,7 +36,7 @@ type
     procedure SetLongitude(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetRegion(AValue: string);
-    procedure SetStatus(AValue: TLandpadStatus);
+    procedure SetStatus(AValue: string);
     procedure SetTypeInfo(AValue: string);
     procedure SetWikipedia(AValue: string);
   end;
@@ -53,7 +53,7 @@ type
     property Longitude: Double read GetLongitude write SetLongitude;
     property Name: string read GetName write SetName;
     property Region: string read GetRegion write SetRegion;
-    property Status: TLandpadStatus read GetStatus write SetStatus;
+    property Status: string read GetStatus write SetStatus;
     property TypeInfo: string read GetTypeInfo write SetTypeInfo;
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
@@ -86,7 +86,7 @@ type
     FLongitude: Double;
     FName: string;
     FRegion: string;
-    FStatus: TLandpadStatus;
+    FStatus: string;
     FTypeInfo: string;
     FWikipedia: string;
     function GetDetails: string;
@@ -100,7 +100,7 @@ type
     function GetLongitude: Double;
     function GetName: string;
     function GetRegion: string;
-    function GetStatus: TLandpadStatus;
+    function GetStatus: string;
     function GetTypeInfo: string;
     function GetWikipedia: string;
 
@@ -115,11 +115,10 @@ type
     procedure SetLongitude(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetRegion(AValue: string);
-    procedure SetStatus(AValue: TLandpadStatus);
+    procedure SetStatus(AValue: string);
     procedure SetTypeInfo(AValue: string);
     procedure SetWikipedia(AValue: string);
   public
-    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
     property details: string read GetDetails write SetDetails;
@@ -133,7 +132,7 @@ type
     property longitude: Double read GetLongitude write SetLongitude;
     property name: string read GetName write SetName;
     property region: string read GetRegion write SetRegion;
-    property status: TLandpadStatus read GetStatus write SetStatus;
+    property status: string read GetStatus write SetStatus;
     //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
     property wikipedia: string read GetWikipedia write SetWikipedia;
   end;
@@ -218,7 +217,7 @@ begin
   Result := FRegion;
 end;
 
-function TLandpad.GetStatus: TLandpadStatus;
+function TLandpad.GetStatus: string;
 begin
   Result := FStatus;
 end;
@@ -288,7 +287,7 @@ begin
   FRegion := AValue;
 end;
 
-procedure TLandpad.SetStatus(AValue: TLandpadStatus);
+procedure TLandpad.SetStatus(AValue: string);
 begin
   FStatus := AValue;
 end;
@@ -301,18 +300,6 @@ end;
 procedure TLandpad.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
-end;
-
-procedure TLandpad.BuildSubObjects(const JSONData: IJSONData);
-var
-  SubJSONData: IJSONData;
-  LandpadStatus: TLandpadStatus;
-begin
-  inherited BuildSubObjects(JSONData);
-
-  SubJSONData := JSONData.GetPath('status');
-  LandpadStatus := CodeToLandpadStatus(SubJSONData.GetJSONData.Split('"')[1]);
-  Self.FStatus := LandpadStatus;
 end;
 
 function TLandpad.ToString(): string;
