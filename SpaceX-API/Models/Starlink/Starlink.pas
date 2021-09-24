@@ -43,8 +43,16 @@ type
   IStarlinkList = interface(IBaseModelList) ['{9C51D55A-D53A-4C38-A1EB-781EB557ACA7}']
   end;
 
+  { TStarlinkEnumerator }
+
+  TStarlinkEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: IStarlink;
+    property Current : IStarlink read GetCurrent;
+  end;
+
 function NewStarlink: IStarlink;
 function NewStarlinkList: IStarlinkList;
+operator enumerator(AList: IStarlinkList): TStarlinkEnumerator;
 
 implementation
 
@@ -118,6 +126,19 @@ end;
 function NewStarlinkList: IStarlinkList;
 begin
   Result := TStarlinkList.Create;
+end;
+
+operator enumerator(AList: IStarlinkList): TStarlinkEnumerator;
+begin
+  Result := TStarlinkEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TStarlinkEnumerator }
+
+function TStarlinkEnumerator.GetCurrent: IStarlink;
+begin
+  Result := FCurrent as IStarlink;
 end;
 
 { TStarlinkList }
