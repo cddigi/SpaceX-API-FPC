@@ -5,7 +5,7 @@ unit Core;
 interface
 
 uses
-  Classes, SysUtils, CoreStatus, BaseModel, JSON_Helper;
+  Classes, SysUtils, BaseModel, JSON_Helper;
 
 type
 
@@ -20,7 +20,7 @@ type
     function GetRtlsAttempts: LongWord;
     function GetRtlsLandings: LongWord;
     function GetSerial: string;
-    function GetStatus: TCoreStatus;
+    function GetStatus: string;
 
     procedure SetAsdsAttempts(AValue: LongWord);
     procedure SetAsdsLandings(AValue: LongWord);
@@ -32,7 +32,7 @@ type
     procedure SetRtlsAttempts(AValue: LongWord);
     procedure SetRtlsLandings(AValue: LongWord);
     procedure SetSerial(AValue: string);
-    procedure SetStatus(AValue: TCoreStatus);
+    procedure SetStatus(AValue: string);
   end;
 
   ICore = interface(IBaseCore) ['{63DB40A2-5215-4EB9-8B52-8BA3213D8A6A}']
@@ -46,7 +46,7 @@ type
     property RtlsAttempts: LongWord read GetRtlsAttempts write SetRtlsAttempts;
     property RtlsLandings: LongWord read GetRtlsLandings write SetRtlsLandings;
     property Serial: string read GetSerial write SetSerial;
-    property Status: TCoreStatus read GetStatus write SetStatus;
+    property Status: string read GetStatus write SetStatus;
   end;
 
   ICoreList = interface(IBaseModelList) ['{6280AF36-5EE5-4714-ACC7-65787AA56325}']
@@ -84,7 +84,7 @@ type
     FRtlsAttempts: LongWord;
     FRtlsLandings: LongWord;
     FSerial: string;
-    FStatus: TCoreStatus;
+    FStatus: string;
     function GetAsdsAttempts: LongWord;
     function GetAsdsLandings: LongWord;
     function GetBlock: LongWord;
@@ -95,7 +95,7 @@ type
     function GetRtlsAttempts: LongWord;
     function GetRtlsLandings: LongWord;
     function GetSerial: string;
-    function GetStatus: TCoreStatus;
+    function GetStatus: string;
 
     procedure SetAsdsAttempts(AValue: LongWord);
     procedure SetAsdsAttempts(AValue: Variant);
@@ -116,7 +116,8 @@ type
     procedure SetRtlsLandings(AValue: Variant);
     procedure SetSerial(AValue: string);
     procedure SetSerial(AValue: Variant);
-    procedure SetStatus(AValue: TCoreStatus);
+    procedure SetStatus(AValue: string);
+    procedure SetStatus(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
@@ -131,6 +132,7 @@ type
     property rtls_attempts: Variant write SetRtlsAttempts;
     property rtls_landings: Variant write SetRtlsLandings;
     property serial: Variant write SetSerial;
+    property status: Variant write SetStatus;
   end;
 
   { TCoreList }
@@ -221,7 +223,7 @@ begin
   Result := FSerial;
 end;
 
-function TCore.GetStatus: TCoreStatus;
+function TCore.GetStatus: string;
 begin
   Result := FStatus;
 end;
@@ -348,21 +350,22 @@ begin
     FSerial := AValue;
 end;
 
-procedure TCore.SetStatus(AValue: TCoreStatus);
+procedure TCore.SetStatus(AValue: string);
 begin
   FStatus := AValue;
 end;
 
+procedure TCore.SetStatus(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FStatus := '';
+  end else if VarIsStr(AValue) then
+    FStatus := AValue;
+end;
+
 procedure TCore.BuildSubObjects(const JSONData: IJSONData);
-var
-  SubJSONData: IJSONData;
-  CoreStatus: TCoreStatus;
 begin
   inherited BuildSubObjects(JSONData);
-
-  SubJSONData := JSONData.GetPath('status');
-  CoreStatus := CodeToCoreStatus(SubJSONData.GetJSONData.Split('"')[1]);
-  Self.FStatus := CoreStatus;
 end;
 
 function TCore.ToString(): string;

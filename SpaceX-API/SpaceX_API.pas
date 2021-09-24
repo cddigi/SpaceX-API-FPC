@@ -8,7 +8,7 @@ uses
   {$ENDIF}
   Classes, SysUtils, CustApp, Dragon, VolumeInfo, ThrustInfo, IspInfo, SizeInfo,
   MassInfo, CompanyHeadquarters, Company, CompanyLinks, SpaceTrackInfo,
-  Capsule, CoreStatus, Core, CrewStatus, Crew, LandpadStatus,
+  Capsule, Core, CrewStatus, Crew, LandpadStatus,
   Landpad, DatePrecision, LaunchCore, LaunchFailure, LaunchFairings,
   LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch, LaunchpadStatus,
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
@@ -100,8 +100,9 @@ begin
   //WriteLn(Roadster.Name);
   //Capsules.One('5e9e2c5df359185f973b2675');
 
-  //CoreEndpoint := NewCoreEndpoint;
-  //CoreList := CoreEndpoint.All;
+  CoreEndpoint := NewCoreEndpoint;
+  CoreList := CoreEndpoint.All;
+  WriteLn((CoreList.Last as ICore).Status);
 
   //CrewEndpoint := NewCrewEndpoint;
   //CrewList := CrewEndpoint.All;
@@ -116,8 +117,8 @@ begin
   //PayloadList := PayloadEndpoint.All;
   //WriteLn((PayloadList.Last as IPayload).Name);
 
-  LaunchEndpoint := NewLaunchEndpoint;
-  LaunchList := LaunchEndpoint.All;
+  //LaunchEndpoint := NewLaunchEndpoint;
+  //LaunchList := LaunchEndpoint.All;
 
   //RoadsterEndpoint := NewRoadsterEndpoint;
   //Roadster := RoadsterEndpoint.All;
