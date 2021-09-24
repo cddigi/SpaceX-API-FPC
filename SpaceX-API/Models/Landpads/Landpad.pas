@@ -61,8 +61,16 @@ type
   ILandpadList = interface(IBaseModelList) ['{F407C7A0-0C87-41BA-84E3-073C93830B98}']
   end;
 
+  { TLandpadEnumerator }
+
+  TLandpadEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: ILandpad;
+    property Current : ILandpad read GetCurrent;
+  end;
+
 function NewLandpad: ILandpad;
 function NewLandpadList: ILandpadList;
+operator enumerator(AList: ILandpadList): TLandpadEnumerator;
 
 implementation
 
@@ -151,6 +159,19 @@ end;
 function NewLandpadList: ILandpadList;
 begin
   Result := TLandpadList.Create;
+end;
+
+operator enumerator(AList: ILandpadList): TLandpadEnumerator;
+begin
+  Result := TLandpadEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TLandpadEnumerator }
+
+function TLandpadEnumerator.GetCurrent: ILandpad;
+begin
+  Result := FCurrent as ILandpad;
 end;
 
 { TLandpadList }
