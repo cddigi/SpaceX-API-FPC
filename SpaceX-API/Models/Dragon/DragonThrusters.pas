@@ -40,8 +40,16 @@ type
   IDragonThrustersList = interface(IBaseModelList) ['{4DF29C16-B7C0-4C44-859C-A74FAA267F0A}']
   end;
 
+  { TDragonThrustersEnumerator }
+
+  TDragonThrustersEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: IDragonThrusters;
+    property Current : IDragonThrusters read GetCurrent;
+  end;
+
 function NewDragonThrusters: IDragonThrusters;
 function NewDragonThrustersList: IDragonThrustersList;
+operator enumerator(AList: IDragonThrustersList): TDragonThrustersEnumerator;
 
 implementation
 
@@ -101,6 +109,19 @@ end;
 function NewDragonThrustersList: IDragonThrustersList;
 begin
   Result := TDragonThrustersList.Create;
+end;
+
+operator enumerator(AList: IDragonThrustersList): TDragonThrustersEnumerator;
+begin
+  Result := TDragonThrustersEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TDragonThrustersEnumerator }
+
+function TDragonThrustersEnumerator.GetCurrent: IDragonThrusters;
+begin
+  Result := FCurrent as IDragonThrusters;
 end;
 
 { TDragonThrustersList }
