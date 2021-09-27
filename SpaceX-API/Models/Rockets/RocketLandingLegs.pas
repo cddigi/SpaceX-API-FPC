@@ -44,9 +44,10 @@ type
     procedure SetMaterial(AValue: string);
     procedure SetMaterial(AValue: Variant);
     procedure SetNumber(AValue: LongWord);
+    procedure SetNumber(AValue: Variant);
   published
     property material: Variant write SetMaterial;
-    property number: LongWord read GetNumber write SetNumber;
+    property number: Variant write SetNumber;
   end;
 
 function NewRocketLandingLegs: IRocketLandingLegs;
@@ -80,6 +81,14 @@ end;
 procedure TRocketLandingLegs.SetNumber(AValue: LongWord);
 begin
   FNumber := AValue;
+end;
+
+procedure TRocketLandingLegs.SetNumber(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FNumber := -0;
+  end else if VarIsNumeric(AValue) then
+    FNumber := AValue;
 end;
 
 end.

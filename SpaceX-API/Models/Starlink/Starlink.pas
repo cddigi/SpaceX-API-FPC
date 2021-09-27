@@ -107,7 +107,6 @@ type
     property latitude: Variant write SetLatitude;
     property launch_id: Variant write SetLaunchId;
     property longitude: Variant write SetLongitude;
-    property space_track: ISpaceTrackInfo write SetSpaceTrack;
     property velocity_kilometers_per_second: Variant write SetVelocityKilometersPerSecond;
     property version: Variant write SetVersion;
   end;

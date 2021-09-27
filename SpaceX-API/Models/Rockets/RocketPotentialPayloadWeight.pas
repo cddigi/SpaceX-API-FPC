@@ -44,6 +44,9 @@ operator enumerator(AList: IRocketPotentialPayloadWeightList): TRocketPotentialP
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TRocketPotentialPayloadWeight }
@@ -61,14 +64,18 @@ type
     function GetPounds: Double;
   private
     procedure SetId(AValue: string);
+    procedure SetId(AValue: Variant);
     procedure SetKilograms(AValue: Double);
+    procedure SetKilograms(AValue: Variant);
     procedure SetName(AValue: string);
+    procedure SetName(AValue: Variant);
     procedure SetPounds(AValue: Double);
+    procedure SetPounds(AValue: Variant);
   published
-    property id: string read GetId write SetId;
-    property kg: Double read GetKilograms write SetKilograms;
-    property name: string read GetName write SetName;
-    property lb: Double read GetPounds write SetPounds;
+    property id: Variant write SetId;
+    property kg: Variant write SetKilograms;
+    property name: Variant write SetName;
+    property lb: Variant write SetPounds;
   end;
 
   { TRocketPotentialPayloadWeightList }
@@ -135,9 +142,25 @@ begin
   FId := AValue;
 end;
 
+procedure TRocketPotentialPayloadWeight.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TRocketPotentialPayloadWeight.SetKilograms(AValue: Double);
 begin
   FKilograms := AValue;
+end;
+
+procedure TRocketPotentialPayloadWeight.SetKilograms(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FKilograms := -0;
+  end else if VarIsNumeric(AValue) then
+    FKilograms := AValue;
 end;
 
 procedure TRocketPotentialPayloadWeight.SetName(AValue: string);
@@ -145,9 +168,25 @@ begin
   FName := AValue;
 end;
 
+procedure TRocketPotentialPayloadWeight.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
+end;
+
 procedure TRocketPotentialPayloadWeight.SetPounds(AValue: Double);
 begin
   FPounds := AValue;
+end;
+
+procedure TRocketPotentialPayloadWeight.SetPounds(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FPounds := -0;
+  end else if VarIsNumeric(AValue) then
+    FPounds := AValue;
 end;
 
 end.
