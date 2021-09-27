@@ -237,89 +237,132 @@ type
     function GetTleLine2: string;
   private
     procedure SetCcsdsOmmVers(AValue: string);
+    procedure SetCcsdsOmmVers(AValue: Variant);
     procedure SetComment(AValue: string);
+    procedure SetComment(AValue: Variant);
     procedure SetCreationDate(AValue: TDateTime);
     procedure SetOriginator(AValue: string);
+    procedure SetOriginator(AValue: Variant);
     procedure SetObjectName(AValue: string);
+    procedure SetObjectName(AValue: Variant);
     procedure SetObjectId(AValue: string);
+    procedure SetObjectId(AValue: Variant);
     procedure SetCenterName(AValue: string);
+    procedure SetCenterName(AValue: Variant);
     procedure SetRefFrame(AValue: string);
+    procedure SetRefFrame(AValue: Variant);
     procedure SetTimeSystem(AValue: string);
+    procedure SetTimeSystem(AValue: Variant);
     procedure SetMeanElementTheory(AValue: string);
+    procedure SetMeanElementTheory(AValue: Variant);
     procedure SetEpoch(AValue: TDateTime);
     procedure SetMeanMotion(AValue: Double);
+    procedure SetMeanMotion(AValue: Variant);
     procedure SetEccentricity(AValue: Double);
+    procedure SetEccentricity(AValue: Variant);
     procedure SetInclination(AValue: Double);
+    procedure SetInclination(AValue: Variant);
     procedure SetRaOfAscNode(AValue: Double);
+    procedure SetRaOfAscNode(AValue: Variant);
     procedure SetArgOfPericenter(AValue: Double);
+    procedure SetArgOfPericenter(AValue: Variant);
     procedure SetMeanAnomaly(AValue: Double);
+    procedure SetMeanAnomaly(AValue: Variant);
     procedure SetEphemerisType(AValue: LongWord);
+    procedure SetEphemerisType(AValue: Variant);
     procedure SetClassificationType(AValue: string);
+    procedure SetClassificationType(AValue: Variant);
     procedure SetNoradCatId(AValue: LongWord);
+    procedure SetNoradCatId(AValue: Variant);
     procedure SetNoradSetNo(AValue: LongWord);
+    procedure SetNoradSetNo(AValue: Variant);
     procedure SetRevAtEpoch(AValue: LongWord);
+    procedure SetRevAtEpoch(AValue: Variant);
     procedure SetBstar(AValue: Double);
+    procedure SetBstar(AValue: Variant);
     procedure SetMeanMotionDot(AValue: Double);
+    procedure SetMeanMotionDot(AValue: Variant);
     procedure SetMeanMotionDdot(AValue: Double);
+    procedure SetMeanMotionDdot(AValue: Variant);
     procedure SetSemimajorAxis(AValue: Double);
+    procedure SetSemimajorAxis(AValue: Variant);
     procedure SetPeriod(AValue: Double);
+    procedure SetPeriod(AValue: Variant);
     procedure SetApoapsis(AValue: Double);
+    procedure SetApoapsis(AValue: Variant);
     procedure SetPeriapsis(AValue: Double);
+    procedure SetPeriapsis(AValue: Variant);
     procedure SetObjectType(AValue: string);
+    procedure SetObjectType(AValue: Variant);
     procedure SetRcsSize(AValue: string);
+    procedure SetRcsSize(AValue: Variant);
     procedure SetCountryCode(AValue: string);
+    procedure SetCountryCode(AValue: Variant);
     procedure SetLaunchDate(AValue: TDateTime);
     procedure SetSite(AValue: string);
+    procedure SetSite(AValue: Variant);
     procedure SetDecayDate(AValue: TDateTime);
     procedure SetDecayDate(AValue: Variant);
     procedure SetDecayed(AValue: LongWord);
+    procedure SetDecayed(AValue: Variant);
     procedure SetFileInfo(AValue: LongWord);
+    procedure SetFileInfo(AValue: Variant);
     procedure SetGpId(AValue: LongWord);
+    procedure SetGpId(AValue: Variant);
     procedure SetTleLine0(AValue: string);
+    procedure SetTleLine0(AValue: Variant);
     procedure SetTleLine1(AValue: string);
+    procedure SetTleLine1(AValue: Variant);
     procedure SetTleLine2(AValue: string);
+    procedure SetTleLine2(AValue: Variant);
   published
-    property CCDS_OMM_VERS: string read GetCcsdsOmmVers write SetCcsdsOmmVers;
-    property COMMENT: string read GetComment write SetComment;
+    property CCDS_OMM_VERS: Variant write SetCcsdsOmmVers;
+    property COMMENT: Variant write SetComment;
+
     property CREATION_DATE: TDateTime read GetCreationDate write SetCreationDate;
-    property ORIGINATOR: string read GetOriginator write SetOriginator;
-    property OBJECT_NAME: string read GetObjectName write SetObjectName;
-    property OBJECT_ID: string read GetObjectId write SetObjectId;
-    property CENTER_NAME: string read GetCenterName write SetCenterName;
-    property REF_FRAME: string read GetRefFrame write SetRefFrame;
-    property TIME_SYSTEM: string read GetTimeSystem write SetTimeSystem;
-    property MEAN_ELEMENT_THEORY: string read GetMeanElementTheory write SetMeanElementTheory;
+
+    property ORIGINATOR: Variant write SetOriginator;
+    property OBJECT_NAME: Variant write SetObjectName;
+    property OBJECT_ID: Variant write SetObjectId;
+    property CENTER_NAME: Variant write SetCenterName;
+    property REF_FRAME: Variant write SetRefFrame;
+    property TIME_SYSTEM: Variant write SetTimeSystem;
+    property MEAN_ELEMENT_THEORY: Variant write SetMeanElementTheory;
+
     property EPOCH: TDateTime read GetEpoch write SetEpoch;
-    property MEAN_MOTION: Double read GetMeanMotion write SetMeanMotion;
-    property ECCENTRICITY: Double read GetEccentricity write SetEccentricity;
-    property INCLINATION: Double read GetInclination write SetInclination;
-    property RA_OF_ASC_NODE: Double read GetRaOfAscNode write SetRaOfAscNode;
-    property ARG_OF_PERICENTER: Double read GetArgOfPericenter write SetArgOfPericenter;
-    property MEAN_ANOMALY: Double read GetMeanAnomaly write SetMeanAnomaly;
-    property EPHEMERIS_TYPE: LongWord read GetEphemerisType write SetEphemerisType;
-    property CLASSIFICATION_TYPE: string read GetClassificationType write SetClassificationType;
-    property NORAD_CAT_ID: LongWord read GetNoradCatId write SetNoradCatId;
-    property ELEMENT_SET_NO: LongWord read GetNoradSetNo write SetNoradSetNo;
-    property REV_AT_EPOCH: LongWord read GetRevAtEpoch write SetRevAtEpoch;
-    property BSTAR: Double read GetBstar write SetBstar;
-    property MEAN_MOTION_DOT: Double read GetMeanMotionDot write SetMeanMotionDot;
-    property MEAN_MOTION_DDOT: Double read GetMeanMotionDdot write SetMeanMotionDdot;
-    property SEMIMAJOR_AXIS: Double read GetSemimajorAxis write SetSemimajorAxis;
-    property PERIOD: Double read GetPeriod write SetPeriod;
-    property APOAPSIS: Double read GetApoapsis write SetApoapsis;
-    property PERIAPSIS: Double read GetPeriapsis write SetPeriapsis;
-    property OBJECT_TYPE: string read GetObjectType write SetObjectType;
-    property RCS_SIZE: string read GetRcsSize write SetRcsSize;
-    property COUNTRY_CODE: string read GetCountryCode write SetCountryCode;
+
+    property MEAN_MOTION: Variant write SetMeanMotion;
+    property ECCENTRICITY: Variant write SetEccentricity;
+    property INCLINATION: Variant write SetInclination;
+    property RA_OF_ASC_NODE: Variant write SetRaOfAscNode;
+    property ARG_OF_PERICENTER: Variant write SetArgOfPericenter;
+    property MEAN_ANOMALY: Variant write SetMeanAnomaly;
+    property EPHEMERIS_TYPE: Variant write SetEphemerisType;
+    property CLASSIFICATION_TYPE: Variant write SetClassificationType;
+    property NORAD_CAT_ID: Variant write SetNoradCatId;
+    property ELEMENT_SET_NO: Variant write SetNoradSetNo;
+    property REV_AT_EPOCH: Variant write SetRevAtEpoch;
+    property BSTAR: Variant write SetBstar;
+    property MEAN_MOTION_DOT: Variant write SetMeanMotionDot;
+    property MEAN_MOTION_DDOT: Variant write SetMeanMotionDdot;
+    property SEMIMAJOR_AXIS: Variant write SetSemimajorAxis;
+    property PERIOD: Variant write SetPeriod;
+    property APOAPSIS: Variant write SetApoapsis;
+    property PERIAPSIS: Variant write SetPeriapsis;
+    property OBJECT_TYPE: Variant write SetObjectType;
+    property RCS_SIZE: Variant write SetRcsSize;
+    property COUNTRY_CODE: Variant write SetCountryCode;
+
     property LAUNCH_DATE: TDateTime read GetLaunchDate write SetLaunchDate;
-    property SITE: string read GetSite write SetSite;
+
+    property SITE: Variant write SetSite;
     property DECAY_DATE: Variant write SetDecayDate;
-    property DECAYED: LongWord read GetDecayed write SetDecayed;
-    property FILE_INFO: LongWord read GetFileInfo write SetFileInfo;
-    property GP_ID: LongWord read GetGpId write SetGpId;
-    property TLE_LINE0: string read GetTleLine0 write SetTleLine0;
-    property TLE_LINE1: string read GetTleLine1 write SetTleLine1;
-    property TLE_LINE2: string read GetTleLine2 write SetTleLine2;
+    property DECAYED: Variant write SetDecayed;
+    property FILE_INFO: Variant write SetFileInfo;
+    property GP_ID: Variant write SetGpId;
+    property TLE_LINE0: Variant write SetTleLine0;
+    property TLE_LINE1: Variant write SetTleLine1;
+    property TLE_LINE2: Variant write SetTleLine2;
   end;
 
 function NewSpaceTrackInfo: ISpaceTrackInfo;
@@ -539,9 +582,25 @@ begin
   FCcsdsOmmVers := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetCcsdsOmmVers(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCcsdsOmmVers := '';
+  end else if VarIsStr(AValue) then
+    FCcsdsOmmVers := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetComment(AValue: string);
 begin
   FComment := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetComment(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FComment := '';
+  end else if VarIsStr(AValue) then
+    FComment := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetCreationDate(AValue: TDateTime);
@@ -554,9 +613,25 @@ begin
   FOriginator := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetOriginator(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FOriginator := '';
+  end else if VarIsStr(AValue) then
+    FOriginator := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetObjectName(AValue: string);
 begin
   FObjectName := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetObjectName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FObjectName := '';
+  end else if VarIsStr(AValue) then
+    FObjectName := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetObjectId(AValue: string);
@@ -564,8 +639,24 @@ begin
   FObjectId := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetObjectId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FObjectId := '';
+  end else if VarIsStr(AValue) then
+    FObjectId := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetCenterName(AValue: string);
 begin
+  FCenterName := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetCenterName(AValue: Variant);
+begin
+ if VarIsNull(AValue) then begin
+   FCenterName := '';
+ end else if VarIsStr(AValue) then
   FCenterName := AValue;
 end;
 
@@ -574,14 +665,38 @@ begin
   FRefFrame := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetRefFrame(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRefFrame := '';
+  end else if VarIsStr(AValue) then
+    FRefFrame := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetTimeSystem(AValue: string);
 begin
   FTimeSystem := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetTimeSystem(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTimeSystem := '';
+  end else if VarIsStr(AValue) then
+    FTimeSystem := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetMeanElementTheory(AValue: string);
 begin
   FMeanElementTheory := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetMeanElementTheory(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMeanElementTheory := '';
+  end else if VarIsStr(AValue) then
+    FMeanElementTheory := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetEpoch(AValue: TDateTime);
@@ -594,9 +709,25 @@ begin
   FMeanMotion := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetMeanMotion(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMeanMotion := -0;
+  end else if VarIsNumeric(AValue) then
+    FMeanMotion := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetEccentricity(AValue: Double);
 begin
   FEccentricity := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetEccentricity(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FEccentricity := -0;
+  end else if VarIsNumeric(AValue) then
+    FEccentricity := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetInclination(AValue: Double);
@@ -604,9 +735,25 @@ begin
   FInclination := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetInclination(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FInclination := -0;
+  end else if VarIsNumeric(AValue) then
+    FInclination := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetRaOfAscNode(AValue: Double);
 begin
   FRaOfAscNode := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetRaOfAscNode(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRaOfAscNode := -0;
+  end else if VarIsNumeric(AValue) then
+    FRaOfAscNode := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetArgOfPericenter(AValue: Double);
@@ -614,9 +761,25 @@ begin
   FArgOfPericenter := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetArgOfPericenter(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FArgOfPericenter := -0;
+  end else if VarIsNumeric(AValue) then
+    FArgOfPericenter := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetMeanAnomaly(AValue: Double);
 begin
   FMeanAnomaly := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetMeanAnomaly(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMeanAnomaly := -0;
+  end else if VarIsNumeric(AValue) then
+    FMeanAnomaly := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetEphemerisType(AValue: LongWord);
@@ -624,9 +787,25 @@ begin
   FEphemerisType := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetEphemerisType(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FEphemerisType := -0;
+  end else if VarIsNumeric(FEphemerisType) then
+    FEphemerisType := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetClassificationType(AValue: string);
 begin
   FClassificationType := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetClassificationType(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FClassificationType := '';
+  end else if VarIsStr(AValue) then
+    FClassificationType := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetNoradCatId(AValue: LongWord);
@@ -634,9 +813,25 @@ begin
   FNoradCatId := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetNoradCatId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FNoradCatId := -0;
+  end else if VarIsNumeric(AValue) then
+    FNoradCatId := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetNoradSetNo(AValue: LongWord);
 begin
   FNoradSetNo := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetNoradSetNo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FNoradSetNo := -0;
+  end else if VarIsNumeric(AValue) then
+    FNoradSetNo := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetRevAtEpoch(AValue: LongWord);
@@ -644,9 +839,25 @@ begin
   FRevAtEpoch := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetRevAtEpoch(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRevAtEpoch := -0;
+  end else if VarIsNumeric(AValue) then
+    FRevAtEpoch := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetBstar(AValue: Double);
 begin
   FBstar := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetBstar(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FBstar := -0;
+  end else if VarIsNumeric(AValue) then
+    FBstar := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetMeanMotionDot(AValue: Double);
@@ -654,9 +865,25 @@ begin
   FMeanMotionDot := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetMeanMotionDot(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMeanMotionDot := -0;
+  end else if VarIsNumeric(AValue) then
+    FMeanMotionDot := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetMeanMotionDdot(AValue: Double);
 begin
   FMeanMotionDdot := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetMeanMotionDdot(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FMeanMotionDdot := -0;
+  end else if VarIsNumeric(AValue) then
+    FMeanMotionDdot := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetSemimajorAxis(AValue: Double);
@@ -664,9 +891,25 @@ begin
   FSemimajorAxis := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetSemimajorAxis(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSemimajorAxis := -0;
+  end else if VarIsNumeric(AValue) then
+    FSemimajorAxis := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetPeriod(AValue: Double);
 begin
   FPeriod := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetPeriod(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FPeriod := -0;
+  end else if VarIsNumeric(AValue) then
+    FPeriod := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetApoapsis(AValue: Double);
@@ -674,9 +917,25 @@ begin
   FApoapsis := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetApoapsis(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FApoapsis := -0;
+  end else if VarIsNumeric(AValue) then
+    FApoapsis := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetPeriapsis(AValue: Double);
 begin
   FPeriapsis := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetPeriapsis(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FPeriapsis := -0;
+  end else if VarIsNumeric(AValue) then
+    FPeriapsis := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetObjectType(AValue: string);
@@ -684,14 +943,38 @@ begin
   FObjectType := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetObjectType(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FObjectType := '';
+  end else if VarIsStr(AValue) then
+    FObjectType := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetRcsSize(AValue: string);
 begin
   FRcsSize := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetRcsSize(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRcsSize := '';
+  end else if VarIsStr(AValue) then
+    FRcsSize := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetCountryCode(AValue: string);
 begin
   FCountryCode := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetCountryCode(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCountryCode := '';
+  end else if VarIsStr(AValue) then
+    FCountryCode := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetLaunchDate(AValue: TDateTime);
@@ -702,6 +985,14 @@ end;
 procedure TSpaceTrackInfo.SetSite(AValue: string);
 begin
   FSite := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetSite(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSite := '';
+  end else if VarIsStr(AValue) then
+    FSite := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetDecayDate(AValue: TDateTime);
@@ -722,9 +1013,25 @@ begin
   FDecayed := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetDecayed(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDecayed := -0;
+  end else if VarIsNumeric(AValue) then
+    FDecayed := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetFileInfo(AValue: LongWord);
 begin
   FFileInfo := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetFileInfo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFileInfo := -0;
+  end else if VarIsNumeric(AValue) then
+    FFileInfo := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetGpId(AValue: LongWord);
@@ -732,9 +1039,25 @@ begin
   FGpId := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetGpId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FGpId := -0;
+  end else if VarIsNumeric(AValue) then
+    FGpId := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetTleLine0(AValue: string);
 begin
   FTleLine0 := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetTleLine0(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTleLine0 := '';
+  end else if VarIsStr(AValue) then
+    FTleLine0 := AValue;
 end;
 
 procedure TSpaceTrackInfo.SetTleLine1(AValue: string);
@@ -742,9 +1065,25 @@ begin
   FTleLine1 := AValue;
 end;
 
+procedure TSpaceTrackInfo.SetTleLine1(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTleLine1 := '';
+  end else if VarIsStr(AValue) then
+    FTleLine1 := AValue;
+end;
+
 procedure TSpaceTrackInfo.SetTleLine2(AValue: string);
 begin
   FTleLine2 := AValue;
+end;
+
+procedure TSpaceTrackInfo.SetTleLine2(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTleLine2 := '';
+  end else if VarIsStr(AValue) then
+    FTleLine2 := AValue;
 end;
 
 end.
