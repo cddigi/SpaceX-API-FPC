@@ -27,7 +27,7 @@ function NewRocketPotentialPayload: IRocketPotentialPayload;
 implementation
 
 uses
-  JSON_Helper;
+  JSON_Helper, Variants;
 
 type
 
@@ -43,11 +43,11 @@ type
   private
     procedure SetFairing(AValue: IRocketFairing);
     procedure SetOption(AValue: string);
+    procedure SetOption(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
-    //property fairing: IRocketFairing read GetFairing write SetFairing;
-    property option_1: string read GetOption write SetOption;
+    property option_1: Variant write SetOption;
   end;
 
 function NewRocketPotentialPayload: IRocketPotentialPayload;
@@ -75,6 +75,14 @@ end;
 procedure TRocketPotentialPayload.SetOption(AValue: string);
 begin
   FOption := AValue;
+end;
+
+procedure TRocketPotentialPayload.SetOption(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FOption := '';
+  end else if VarIsStr(AValue) then
+    FOption := AValue;
 end;
 
 procedure TRocketPotentialPayload.BuildSubObjects(const JSONData: IJSONData);

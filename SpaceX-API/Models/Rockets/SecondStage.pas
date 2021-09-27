@@ -59,17 +59,19 @@ type
     procedure SetBurnTimeSeconds(AValue: LongWord);
     procedure SetBurnTimeSeconds(AValue: Variant);
     procedure SetEngines(AValue: LongWord);
+    procedure SetEngines(AValue: Variant);
     procedure SetFuelAmountTons(AValue: LongWord);
+    procedure SetFuelAmountTons(AValue: Variant);
     procedure SetPayloads(AValue: IRocketPotentialPayload);
     procedure SetReusable(AValue: Boolean);
+    procedure SetReusable(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property burn_time_sec: Variant write SetBurnTimeSeconds;
-    property engines: LongWord read GetEngines write SetEngines;
-    property fuel_amount_tons: LongWord read GetFuelAmountTons write SetFuelAmountTons;
-    //property payloads: IRocketPotentialPayload read GetPayloads write SetPayloads;
-    property reusable: Boolean read GetReusable write SetReusable;
+    property engines: Variant write SetEngines;
+    property fuel_amount_tons: Variant write SetFuelAmountTons;
+    property reusable: Variant write SetReusable;
   end;
 
 function NewSecondStage: ISecondStage;
@@ -121,9 +123,25 @@ begin
   FEngines := AValue;
 end;
 
+procedure TSecondStage.SetEngines(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FEngines := -0;
+  end else if VarIsNumeric(AValue) then
+    FEngines := AValue;
+end;
+
 procedure TSecondStage.SetFuelAmountTons(AValue: LongWord);
 begin
   FFuelAmountTons := AValue;
+end;
+
+procedure TSecondStage.SetFuelAmountTons(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFuelAmountTons := -0;
+  end else if VarIsNumeric(AValue) then
+    FFuelAmountTons := AValue;
 end;
 
 procedure TSecondStage.SetPayloads(AValue: IRocketPotentialPayload);
@@ -134,6 +152,14 @@ end;
 procedure TSecondStage.SetReusable(AValue: Boolean);
 begin
   FReusable := AValue;
+end;
+
+procedure TSecondStage.SetReusable(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FReusable := False;
+  end else if VarIsBool(AValue) then
+    FReusable := AValue;
 end;
 
 procedure TSecondStage.BuildSubObjects(const JSONData: IJSONData);

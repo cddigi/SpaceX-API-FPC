@@ -64,19 +64,20 @@ type
     procedure SetBurnTimeSeconds(AValue: LongWord);
     procedure SetBurnTimeSeconds(AValue: Variant);
     procedure SetEngines(AValue: LongWord);
+    procedure SetEngines(AValue: Variant);
     procedure SetFuelAmountTons(AValue: LongWord);
+    procedure SetFuelAmountTons(AValue: Variant);
     procedure SetReusable(AValue: Boolean);
+    procedure SetReusable(AValue: Variant);
     procedure SetThrustSeaLevel(AValue: IThrustInfo);
     procedure SetThrustVacuum(AValue: IThrustInfo);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property burn_time_sec: Variant write SetBurnTimeSeconds;
-    property engines: LongWord read GetEngines write SetEngines;
-    property fuel_amount_tons: LongWord read GetFuelAmountTons write SetFuelAmountTons;
-    property reusable: Boolean read GetReusable write SetReusable;
-    //property ThrustSeaLevel: IThrustInfo read GetThrustSeaLevel write SetThrustSeaLevel;
-    //property ThrustVacuum: IThrustInfo read GetThrustVacuum write SetThrustVacuum;
+    property engines: Variant write SetEngines;
+    property fuel_amount_tons: Variant write SetFuelAmountTons;
+    property reusable: Variant write SetReusable;
   end;
 
 function NewRocketFirstStage: IRocketFirstStage;
@@ -133,14 +134,38 @@ begin
   FEngines := AValue;
 end;
 
+procedure TRocketFirstStage.SetEngines(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FEngines := -0;
+  end else if VarIsNumeric(AValue) then
+    FEngines := AValue;
+end;
+
 procedure TRocketFirstStage.SetFuelAmountTons(AValue: LongWord);
 begin
   FFuelAmountTons := AValue;
 end;
 
+procedure TRocketFirstStage.SetFuelAmountTons(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFuelAmountTons := -0;
+  end else if VarIsNumeric(AValue) then
+    FFuelAmountTons := AValue;
+end;
+
 procedure TRocketFirstStage.SetReusable(AValue: Boolean);
 begin
   FReusable := AValue;
+end;
+
+procedure TRocketFirstStage.SetReusable(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FReusable := False;
+  end else if VarIsBool(AValue) then
+    FReusable := AValue;
 end;
 
 procedure TRocketFirstStage.SetThrustSeaLevel(AValue: IThrustInfo);

@@ -101,7 +101,7 @@ operator enumerator(AList: IRocketList): TRocketEnumerator;
 implementation
 
 uses
-  JSON_Helper;
+  JSON_Helper, Variants;
 
 type
 
@@ -156,28 +156,41 @@ type
     function GetWikipedia: string;
   private
     procedure SetActive(AValue: Boolean);
+    procedure SetActive(AValue: Variant);
     procedure SetBoosters(AValue: LongWord);
+    procedure SetBoosters(AValue: Variant);
     procedure SetCompany(AValue: string);
+    procedure SetCompany(AValue: Variant);
     procedure SetCostPerLaunch(AValue: LongWord);
+    procedure SetCostPerLaunch(AValue: Variant);
     procedure SetCountry(AValue: string);
+    procedure SetCountry(AValue: Variant);
     procedure SetDescription(AValue: string);
+    procedure SetDescription(AValue: Variant);
     procedure SetDiameter(AValue: ISizeInfo);
     procedure SetEngines(AValue: IRocketEngines);
     procedure SetFirstFlight(AValue: TDateTime);
     procedure SetFirstFlight(AValue: string);
+    procedure SetFirstFlight(AValue: Variant);
     procedure SetFirstStage(AValue: IRocketFirstStage);
     procedure SetFlickrImages(AValue: TStringList);
     procedure SetHeight(AValue: ISizeInfo);
     procedure SetId(AValue: string);
+    procedure SetId(AValue: Variant);
     procedure SetLandingLegs(AValue: IRocketLandingLegs);
     procedure SetMass(AValue: IMassInfo);
     procedure SetName(AValue: string);
+    procedure SetName(AValue: Variant);
     procedure SetPayloadWeights(AValue: IRocketPotentialPayloadWeightList);
     procedure SetSecondStage(AValue: ISecondStage);
     procedure SetStages(AValue: LongWord);
+    procedure SetStages(AValue: Variant);
     procedure SetSuccessRate(AValue: LongWord);
+    procedure SetSuccessRate(AValue: Variant);
     procedure SetTypeInfo(AValue: string);
+    procedure SetTypeInfo(AValue: Variant);
     procedure SetWikipedia(AValue: string);
+    procedure SetWikipedia(AValue: Variant);
   public
     function ToString(): string; override;
   public
@@ -185,19 +198,19 @@ type
   public
     destructor Destroy; override;
   published
-    property active: Boolean read GetActive write SetActive;
-    property boosters: LongWord read GetBoosters write SetBoosters;
-    property company: string read GetCompany write SetCompany;
-    property cost_per_launch: LongWord read GetCostPerLaunch write SetCostPerLaunch;
-    property country: string read GetCountry write SetCountry;
-    property description: string read GetDescription write SetDescription;
-    property first_flight: string write SetFirstFlight;
-    property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
-    property id: string read GetId write SetId;
-    property name: string read GetName write SetName;
-    property stages: LongWord read GetStages write SetStages;
-    property success_rate: LongWord read GetSuccessRate write SetSuccessRate;
-    property wikipedia: string read GetWikipedia write SetWikipedia;
+    property active: Variant write SetActive;
+    property boosters: Variant write SetBoosters;
+    property company: Variant write SetCompany;
+    property cost_per_launch: Variant write SetCostPerLaunch;
+    property country: Variant write SetCountry;
+    property description: Variant write SetDescription;
+    property first_flight: Variant write SetFirstFlight;
+    //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+    property id: Variant write SetId;
+    property name: Variant write SetName;
+    property stages: Variant write SetStages;
+    property success_rate: Variant write SetSuccessRate;
+    property wikipedia: Variant write SetWikipedia;
   end;
 
   { TRocketList }
@@ -354,9 +367,25 @@ begin
   FActive := AValue;
 end;
 
+procedure TRocket.SetActive(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FActive := False;
+  end else if VarIsBool(AValue) then
+    FActive := AValue;
+end;
+
 procedure TRocket.SetBoosters(AValue: LongWord);
 begin
   FBoosters := AValue;
+end;
+
+procedure TRocket.SetBoosters(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FBoosters := -0;
+  end else if VarIsNumeric(AValue) then
+    FBoosters := AValue;
 end;
 
 procedure TRocket.SetCompany(AValue: string);
@@ -364,9 +393,25 @@ begin
   FCompany := AValue;
 end;
 
+procedure TRocket.SetCompany(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCompany := '';
+  end else if VarIsStr(AValue) then
+    FCompany := AValue;
+end;
+
 procedure TRocket.SetCostPerLaunch(AValue: LongWord);
 begin
   FCostPerLaunch := AValue;
+end;
+
+procedure TRocket.SetCostPerLaunch(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCostPerLaunch := -0;
+  end else if VarIsNumeric(AValue) then
+    FCostPerLaunch := AValue;
 end;
 
 procedure TRocket.SetCountry(AValue: string);
@@ -374,9 +419,25 @@ begin
   FCountry := AValue;
 end;
 
+procedure TRocket.SetCountry(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCountry := '';
+  end else if VarIsStr(AValue) then
+    FCountry := AValue;
+end;
+
 procedure TRocket.SetDescription(AValue: string);
 begin
   FDescription := AValue;
+end;
+
+procedure TRocket.SetDescription(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDescription := '';
+  end else if VarIsStr(AValue) then
+    FDescription := AValue;
 end;
 
 procedure TRocket.SetDiameter(AValue: ISizeInfo);
@@ -405,6 +466,14 @@ begin
   end;
 end;
 
+procedure TRocket.SetFirstFlight(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFirstFlight := MinDateTime;
+  end else if VarIsStr(AValue) then
+    SetFirstFlight(VarToStr(AValue));
+end;
+
 procedure TRocket.SetFirstStage(AValue: IRocketFirstStage);
 begin
   FFirstStage := AValue;
@@ -425,6 +494,14 @@ begin
   FId := AValue;
 end;
 
+procedure TRocket.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TRocket.SetLandingLegs(AValue: IRocketLandingLegs);
 begin
   FLandingLegs := AValue;
@@ -438,6 +515,14 @@ end;
 procedure TRocket.SetName(AValue: string);
 begin
   FName := AValue;
+end;
+
+procedure TRocket.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
 end;
 
 procedure TRocket.SetPayloadWeights(AValue: IRocketPotentialPayloadWeightList);
@@ -455,9 +540,25 @@ begin
   FStages := AValue;
 end;
 
+procedure TRocket.SetStages(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FStages := -0;
+  end else if VarIsNumeric(AValue) then
+    FStages := AValue;
+end;
+
 procedure TRocket.SetSuccessRate(AValue: LongWord);
 begin
   FSuccessRate := AValue;
+end;
+
+procedure TRocket.SetSuccessRate(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSuccessRate := -0;
+  end else if VarIsNumeric(AValue) then
+    FSuccessRate := AValue;
 end;
 
 procedure TRocket.SetTypeInfo(AValue: string);
@@ -465,9 +566,25 @@ begin
   FTypeInfo := AValue;
 end;
 
+procedure TRocket.SetTypeInfo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTypeInfo := '';
+  end else if VarIsStr(AValue) then
+    FTypeInfo := AValue;
+end;
+
 procedure TRocket.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+procedure TRocket.SetWikipedia(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FWikipedia := '';
+  end else if VarIsStr(AValue) then
+    FWikipedia := AValue;
 end;
 
 procedure TRocket.BuildSubObjects(const JSONData: IJSONData);
