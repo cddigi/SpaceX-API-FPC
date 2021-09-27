@@ -18,7 +18,7 @@ type
     function GetCEO: string;
     function GetCTO: string;
     function GetCOO: string;
-    function GetValuation: UInt64;
+    function GetValuation: Currency;
     function GetSummary: string;
     function GetHeadquarters: ICompanyHeadquarters;
     function GetLinks: ICompanyLinks;
@@ -35,7 +35,7 @@ type
     procedure SetCEO(AValue: string);
     procedure SetCTO(AValue: string);
     procedure SetCOO(AValue: string);
-    procedure SetValuation(AValue: UInt64);
+    procedure SetValuation(AValue: Currency);
     procedure SetSummary(AValue: string);
     procedure SetHeadquarters(AValue: ICompanyHeadquarters);
     procedure SetLinks(AValue: ICompanyLinks);
@@ -60,7 +60,7 @@ type
     property Name: string read GetName write SetName;
     property Summary: string read GetSummary write SetSummary;
     property TestSites: LongWord read GetTestSites write SetTestSites;
-    property Valuation: UInt64 read GetValuation write SetValuation;
+    property Valuation: Currency read GetValuation write SetValuation;
     property Vehicles: LongWord read GetVehicles write SetVehicles;
   end;
 
@@ -69,7 +69,7 @@ function NewCompany: ICompany;
 implementation
 
 uses
-  JSON_Helper;
+  JSON_Helper, Variants;
 
 type
 
@@ -85,7 +85,7 @@ type
     FCEO: string;
     FCTO: string;
     FCOO: string;
-    FValuation: UInt64; // unsigned 64bit integer, clearer than QWord
+    FValuation: Currency;
     FSummary: string;
     FHeadquarters: ICompanyHeadquarters;
     FLinks: ICompanyLinks;
@@ -102,7 +102,7 @@ type
     function GetCEO: string;
     function GetCTO: string;
     function GetCOO: string;
-    function GetValuation: UInt64;
+    function GetValuation: Currency;
     function GetSummary: string;
     function GetHeadquarters: ICompanyHeadquarters;
     function GetLinks: ICompanyLinks;
@@ -111,41 +111,55 @@ type
     function GetTestSites: LongWord;
     function GetCtoPropulsion: string;
   private
-    procedure SetId(AValue: string);
-    procedure SetName(AValue: string);
-    procedure SetFounder(AValue: string);
-    procedure SetEmployees(AValue: LongWord);
-    procedure SetVehicles(AValue: LongWord);
-    procedure SetCEO(AValue: string);
-    procedure SetCTO(AValue: string);
-    procedure SetCOO(AValue: string);
-    procedure SetValuation(AValue: UInt64);
-    procedure SetSummary(AValue: string);
+    procedure SetId(AValue: string);  
+    procedure SetId(AValue: Variant);
+    procedure SetName(AValue: string);  
+    procedure SetName(AValue: Variant);
+    procedure SetFounder(AValue: string);    
+    procedure SetFounder(AValue: Variant);
+    procedure SetEmployees(AValue: LongWord);  
+    procedure SetEmployees(AValue: Variant);
+    procedure SetVehicles(AValue: LongWord); 
+    procedure SetVehicles(AValue: Variant);
+    procedure SetCEO(AValue: string);  
+    procedure SetCEO(AValue: Variant);
+    procedure SetCTO(AValue: string);  
+    procedure SetCTO(AValue: Variant);
+    procedure SetCOO(AValue: string); 
+    procedure SetCOO(AValue: Variant);
+    procedure SetValuation(AValue: Currency);
+    procedure SetValuation(AValue: Variant);
+    procedure SetSummary(AValue: string);   
+    procedure SetSummary(AValue: Variant);
     procedure SetHeadquarters(AValue: ICompanyHeadquarters);
     procedure SetLinks(AValue: ICompanyLinks);
-    procedure SetFoundedYear(AValue: LongWord);
+    procedure SetFoundedYear(AValue: LongWord);  
+    procedure SetFoundedYear(AValue: Variant);
     procedure SetLaunchSites(AValue: LongWord);
-    procedure SetTestSites(AValue: LongWord);
+    procedure SetLaunchSites(AValue: Variant);
+    procedure SetTestSites(AValue: LongWord);  
+    procedure SetTestSites(AValue: Variant);
     procedure SetCtoPropulsion(AValue: string);
+    procedure SetCtoPropulsion(AValue: Variant);
   public
     function ToString: string; override;
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
-    property ceo: string read GetCEO write SetCEO;
-    property coo: string read GetCOO write SetCOO;
-    property cto: string read GetCTO write SetCTO;
-    property cto_propulsion: string read GetCtoPropulsion write SetCtoPropulsion;
-    property employees: LongWord read GetEmployees write SetEmployees;
-    property founded: LongWord read GetFoundedYear write SetFoundedYear;
-    property founder: string read GetFounder write SetFounder;
-    property id: string read GetId write SetId;
-    property launch_sites: LongWord read GetLaunchSites write SetLaunchSites;
-    property name: string read GetName write SetName;
-    property summary: string read GetSummary write SetSummary;
-    property test_sites: LongWord read GetTestSites write SetTestSites;
-    property valuation: UInt64 read GetValuation write SetValuation;
-    property vehicles: LongWord read GetVehicles write SetVehicles;
+    property ceo: Variant write SetCEO;
+    property coo: Variant write SetCOO;
+    property cto: Variant write SetCTO;
+    property cto_propulsion: Variant write SetCtoPropulsion;
+    property employees: Variant write SetEmployees;
+    property founded: Variant write SetFoundedYear;
+    property founder: Variant write SetFounder;
+    property id: Variant write SetId;
+    property launch_sites: Variant write SetLaunchSites;
+    property name: Variant write SetName;
+    property summary: Variant write SetSummary;
+    property test_sites: Variant write SetTestSites;
+    property valuation: Variant write SetValuation;
+    property vehicles: Variant write SetVehicles;
   end;
 
 function NewCompany: ICompany;
@@ -195,7 +209,7 @@ begin
   Result := FCOO;
 end;
 
-function TCompany.GetValuation: UInt64;
+function TCompany.GetValuation: Currency;
 begin
   Result := FValuation;
 end;
@@ -240,8 +254,24 @@ begin
   FId := AValue;
 end;
 
+procedure TCompany.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FId := AValue;
+end;
+
 procedure TCompany.SetName(AValue: string);
 begin
+  FName := AValue;
+end;
+
+procedure TCompany.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
   FName := AValue;
 end;
 
@@ -250,8 +280,24 @@ begin
   FFounder := AValue;
 end;
 
+procedure TCompany.SetFounder(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FFounder := AValue;
+end;
+
 procedure TCompany.SetEmployees(AValue: LongWord);
 begin
+  FEmployees := AValue;
+end;
+
+procedure TCompany.SetEmployees(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
   FEmployees := AValue;
 end;
 
@@ -260,8 +306,24 @@ begin
   FVehicles := AValue;
 end;
 
+procedure TCompany.SetVehicles(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FVehicles := AValue;
+end;
+
 procedure TCompany.SetCEO(AValue: string);
 begin
+  FCEO := AValue;
+end;
+
+procedure TCompany.SetCEO(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
   FCEO := AValue;
 end;
 
@@ -270,18 +332,50 @@ begin
   FCTO := AValue;
 end;
 
+procedure TCompany.SetCTO(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FCTO := AValue;
+end;
+
 procedure TCompany.SetCOO(AValue: string);
 begin
   FCOO := AValue;
 end;
 
-procedure TCompany.SetValuation(AValue: UInt64);
+procedure TCompany.SetCOO(AValue: Variant);
 begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FCOO := AValue;
+end;
+
+procedure TCompany.SetValuation(AValue: Currency);
+begin
+  FValuation := AValue;
+end;
+
+procedure TCompany.SetValuation(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
   FValuation := AValue;
 end;
 
 procedure TCompany.SetSummary(AValue: string);
 begin
+  FSummary := AValue;
+end;
+
+procedure TCompany.SetSummary(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
   FSummary := AValue;
 end;
 
@@ -300,8 +394,24 @@ begin
   FFoundedYear := AValue;
 end;
 
+procedure TCompany.SetFoundedYear(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FFoundedYear := AValue;
+end;
+
 procedure TCompany.SetLaunchSites(AValue: LongWord);
 begin
+  FLaunchSites := AValue;
+end;
+
+procedure TCompany.SetLaunchSites(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
   FLaunchSites := AValue;
 end;
 
@@ -310,24 +420,65 @@ begin
   FTestSites := AValue;
 end;
 
+procedure TCompany.SetTestSites(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := 0;
+
+  FTestSites := AValue;
+end;
+
 procedure TCompany.SetCtoPropulsion(AValue: string);
 begin
   FCtoPropulsion := AValue;
 end;
 
+procedure TCompany.SetCtoPropulsion(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FCtoPropulsion := AValue;
+end;
+
 function TCompany.ToString: string;
 begin
-  Result := '';
-  Result := Result + 'CEO: ' + ceo + LineEnding;
-  Result := Result + 'CTO Propulsion: ' + cto_propulsion + LineEnding;
-  Result := Result + 'Founder: ' + founder + LineEnding;
-  Result := Result + 'Name: ' + name + LineEnding;
-  Result := Result + 'Headquarters: ' + Format('%s, %s, %s', [
-    GetHeadquarters.Address,
-    GetHeadquarters.City,
-    GetHeadquarters.State
-    ])+ LineEnding;
-  Result := Result + 'Link: ' + GetLinks.Website;
+  Result := Format(''
+    + 'CEO: %s' + LineEnding
+    + 'COO: %s' + LineEnding
+    + 'CTO: %s' + LineEnding
+    + 'CTO Propulsion: %s' + LineEnding
+    + 'Employees: %u' + LineEnding
+    + 'Founded Year: %u' + LineEnding
+    + 'Founder: %s' + LineEnding
+    + 'Headquarters: %s' + LineEnding
+    + 'Id: %s' + LineEnding
+    + 'Launch Sites: %u' + LineEnding
+    + 'Links:' + LineEnding + '  %s'
+    + 'Name: %s' + LineEnding
+    + 'Summary: %s' + LineEnding
+    + 'Test Sites: %u' + LineEnding
+    + 'Valuation: %m' + LineEnding
+    + 'Vehicles: %u'
+    , [
+    GetCEO,
+    GetCOO,
+    GetCTO,
+    GetCtoPropulsion,
+    GetEmployees,
+    GetFoundedYear,
+    GetFounder,
+    GetHeadquarters.ToString,
+    GetId,
+    GetLaunchSites,
+    StringReplace(
+      GetLinks.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
+    GetName,
+    GetSummary,
+    GetTestSites,
+    GetValuation,
+    GetVehicles
+    ]);
 end;
 
 procedure TCompany.BuildSubObjects(const JSONData: IJSONData);
