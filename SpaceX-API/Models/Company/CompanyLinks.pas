@@ -32,6 +32,9 @@ function NewCompanyLinks: ICompanyLinks;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TCompanyLinks }
@@ -42,21 +45,27 @@ type
     FFlickr: string;
     FTwitter: string;
     FElonTwitter: string;
-
+  private
     function GetWebsite: string;
     function GetFlickr: string;
     function GetTwitter: string;
     function GetElonTwitter: string;
-
+  private
     procedure SetWebsite(AValue: string);
+    procedure SetWebsite(AValue: Variant);
     procedure SetFlickr(AValue: string);
+    procedure SetFlickr(AValue: Variant);
     procedure SetTwitter(AValue: string);
+    procedure SetTwitter(AValue: Variant);
     procedure SetElonTwitter(AValue: string);
+    procedure SetElonTwitter(AValue: Variant);
+  public
+    function ToString: string; override;
   published
-    property website: string read GetWebsite write SetWebsite;
-    property flickr: string read GetFlickr write SetFlickr;
-    property twitter: string read GetTwitter write SetTwitter;
-    property elon_twitter: string read GetElonTwitter write SetElonTwitter;
+    property website: Variant write SetWebsite;
+    property flickr: Variant write SetFlickr;
+    property twitter: Variant write SetTwitter;
+    property elon_twitter: Variant write SetElonTwitter;
   end;
 
 function NewCompanyLinks: ICompanyLinks;
@@ -91,8 +100,24 @@ begin
   FWebsite := AValue;
 end;
 
+procedure TCompanyLinks.SetWebsite(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FWebsite := AValue;
+end;
+
 procedure TCompanyLinks.SetFlickr(AValue: string);
 begin
+  FFlickr := AValue;
+end;
+
+procedure TCompanyLinks.SetFlickr(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
   FFlickr := AValue;
 end;
 
@@ -101,9 +126,40 @@ begin
   FTwitter := AValue;
 end;
 
+procedure TCompanyLinks.SetTwitter(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FTwitter := AValue;
+end;
+
 procedure TCompanyLinks.SetElonTwitter(AValue: string);
 begin
   FElonTwitter := AValue;
+end;
+
+procedure TCompanyLinks.SetElonTwitter(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FElonTwitter := AValue;
+end;
+
+function TCompanyLinks.ToString: string;
+begin
+  Result := Format(''
+    + 'Flicker: %s' + LineEnding
+    + 'Twitter: %s' + LineEnding     
+    + 'Twitter, Elon: %s' + LineEnding
+    + 'Website: %s'
+    , [
+      GetFlickr,
+      GetTwitter,
+      GetElonTwitter,
+      GetWebsite
+    ]);
 end;
 
 end.

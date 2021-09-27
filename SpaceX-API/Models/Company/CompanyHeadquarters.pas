@@ -29,6 +29,9 @@ function NewCompanyHeadquarters: ICompanyHeadquarters;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TCompanyHeadquarters }
@@ -38,19 +41,23 @@ type
     FAddress: string;
     FCity: string;
     FState: string;
-
+  private
     function GetAddress: string;
     function GetCity: string;
     function GetState: string;
-
+  private
     procedure SetAddress(AValue: string);
+    procedure SetAddress(AValue: Variant);
     procedure SetCity(AValue: string);
+    procedure SetCity(AValue: Variant);
     procedure SetState(AValue: string);
-
+    procedure SetState(AValue: Variant);
+  public
+    function ToString: string; override;
   published
-    property address: string read GetAddress write SetAddress;
-    property city: string read GetCity write SetCity;
-    property state: string read GetState write SetState;
+    property address: Variant write SetAddress;
+    property city: Variant write SetCity;
+    property state: Variant write SetState;
   end;
 
 function NewCompanyHeadquarters: ICompanyHeadquarters;
@@ -80,14 +87,43 @@ begin
   FAddress := AValue;
 end;
 
+procedure TCompanyHeadquarters.SetAddress(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FAddress := AValue;
+end;
+
 procedure TCompanyHeadquarters.SetCity(AValue: string);
 begin
+  FCity := AValue;
+end;
+
+procedure TCompanyHeadquarters.SetCity(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
   FCity := AValue;
 end;
 
 procedure TCompanyHeadquarters.SetState(AValue: string);
 begin
   FState := AValue;
+end;
+
+procedure TCompanyHeadquarters.SetState(AValue: Variant);
+begin
+  if VarIsNull(AValue) then
+    AValue := '';
+
+  FState := AValue;
+end;
+
+function TCompanyHeadquarters.ToString: string;
+begin
+  Result := Format('%s, %s, %s', [GetAddress, GetCity, GetState]);
 end;
 
 end.
