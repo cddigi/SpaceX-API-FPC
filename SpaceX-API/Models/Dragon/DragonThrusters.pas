@@ -93,12 +93,12 @@ type
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
-    property amount: Variant read GetAmount write SetAmount;
-    property fuel_1: Variant read GetFirstFuel write SetFirstFuel;
-    property isp: Variant read GetIsp write SetIsp;
-    property pods: Variant read GetPods write SetPods;
-    property fuel_2: Variant read GetSecondFuel write SetSecondFuel;
-    property type_info: Variant read GetTypeInfo write SetTypeInfo;
+    property amount: Variant write SetAmount;
+    property fuel_1: Variant write SetFirstFuel;
+    property isp: Variant write SetIsp;
+    property pods: Variant write SetPods;
+    property fuel_2: Variant write SetSecondFuel;
+    property type_info: Variant write SetTypeInfo;
   end;
 
   { TDragonThrustersList }
