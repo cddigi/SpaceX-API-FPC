@@ -5,11 +5,11 @@ unit DragonCargo;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseDragonCargo = interface(IInterface) ['{A54500B4-BAF2-4EA2-97C8-BFD6159C039A}']
+  IBaseDragonCargo = interface(IBaseModel) ['{A54500B4-BAF2-4EA2-97C8-BFD6159C039A}']
     function GetSolarArray: LongWord;
     function GetUnpressurizedCargo: Boolean;
 
@@ -26,11 +26,14 @@ function NewDragonCargo: IDragonCargo;
 
 implementation
 
+uses
+  Variants;
+
 type
 
   { TDragonCargo }
 
-  TDragonCargo = class(TInterfacedObject, IDragonCargo)
+  TDragonCargo = class(TBaseModel, IDragonCargo)
   private
     FSolarArray: LongWord;
     FUnpressurizedCargo: Boolean;
@@ -38,7 +41,12 @@ type
     function GetUnpressurizedCargo: Boolean;
 
     procedure SetSolarArray(AValue: LongWord);
+    procedure SetSolarArray(AValue: Variant);
     procedure SetUnpressurizedCargo(AValue: Boolean);
+    procedure SetUnpressurizedCargo(AValue: Variant);
+  published
+    property solar_array: Variant write SetSolarArray;
+    property unpressurized_cargo: Variant write SetUnpressurizedCargo;
   end;
 
 function NewDragonCargo: IDragonCargo;
@@ -63,9 +71,25 @@ begin
   FSolarArray := AValue;
 end;
 
+procedure TDragonCargo.SetSolarArray(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSolarArray := -0;
+  end else if VarIsNumeric(AValue) then
+    FSolarArray := AValue;
+end;
+
 procedure TDragonCargo.SetUnpressurizedCargo(AValue: Boolean);
 begin
   FUnpressurizedCargo := AValue;
+end;
+
+procedure TDragonCargo.SetUnpressurizedCargo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FUnpressurizedCargo := False;
+  end else if VarIsBool(AValue) then
+    FUnpressurizedCargo := AValue;
 end;
 
 end.

@@ -87,8 +87,16 @@ type
 
   end;
 
+  { TRocketEnumerator }
+
+  TRocketEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: IRocket;
+    property Current : IRocket read GetCurrent;
+  end;
+
 function NewRocket: IRocket;
 function NewRocketList: IRocketList;
+operator enumerator(AList: IRocketList): TRocketEnumerator;
 
 implementation
 
@@ -207,6 +215,19 @@ end;
 function NewRocketList: IRocketList;
 begin
   Result := TRocketList.Create;
+end;
+
+operator enumerator(AList: IRocketList): TRocketEnumerator;
+begin
+  Result := TRocketEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TRocketEnumerator }
+
+function TRocketEnumerator.GetCurrent: IRocket;
+begin
+  Result := FCurrent as IRocket;
 end;
 
 { TRocketList }

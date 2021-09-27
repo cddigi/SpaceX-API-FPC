@@ -5,7 +5,7 @@ unit Launchpad;
 interface
 
 uses
-  Classes, SysUtils, LaunchpadStatus, BaseModel, JSON_Helper;
+  Classes, SysUtils, BaseModel, JSON_Helper;
 
 type
 
@@ -22,7 +22,7 @@ type
     function GetName: string;
     function GetRegion: string;
     function GetRocketsId: TStringList;
-    function GetStatus: TLaunchpadStatus;
+    function GetStatus: string;
     function GetTimeZone: string;
 
     procedure SetDetails(AValue: string);
@@ -37,7 +37,7 @@ type
     procedure SetName(AValue: string);
     procedure SetRegion(AValue: string);
     procedure SetRocketsId(AValue: TStringList);
-    procedure SetStatus(AValue: TLaunchpadStatus);
+    procedure SetStatus(AValue: string);
     procedure SetTimeZone(AValue: string);
   end;
 
@@ -54,15 +54,23 @@ type
     property Name: string read GetName write SetName;
     property Region: string read GetRegion write SetRegion;
     property RocketsId: TStringList read GetRocketsId write SetRocketsId;
-    property Status: TLaunchpadStatus read GetStatus write SetStatus;
+    property Status: string read GetStatus write SetStatus;
     property TimeZone: string read GetTimeZone write SetTimeZone;
   end;
 
   ILaunchpadList = interface(IBaseModelList) ['{8EB54717-9CC1-4B35-B23C-805979B2ED91}']
   end;
 
+  { TLaunchpadEnumerator }
+
+  TLaunchpadEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: ILaunchpad;
+    property Current : ILaunchpad read GetCurrent;
+  end;
+
 function NewLaunchpad: ILaunchpad;
 function NewLaunchpadList: ILaunchpadList;
+operator enumerator(AList: ILaunchpadList): TLaunchpadEnumerator;
 
 implementation
 
@@ -87,7 +95,7 @@ type
     FName: string;
     FRegion: string;
     FRocketsId: TStringList;
-    FStatus: TLaunchpadStatus;
+    FStatus: string;
     FTimeZone: string;
     //Rockets: List<Lazy<RocketInfo>>;
     //Launches: List<Lazy<LaunchInfo>>;
@@ -103,7 +111,7 @@ type
     function GetName: string;
     function GetRegion: string;
     function GetRocketsId: TStringList;
-    function GetStatus: TLaunchpadStatus;
+    function GetStatus: string;
     function GetTimeZone: string;
 
     procedure SetDetails(AValue: string);
@@ -118,10 +126,9 @@ type
     procedure SetName(AValue: string);
     procedure SetRegion(AValue: string);
     procedure SetRocketsId(AValue: TStringList);
-    procedure SetStatus(AValue: TLaunchpadStatus);
+    procedure SetStatus(AValue: string);
     procedure SetTimeZone(AValue: string);
   public
-    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
     property details: string read GetDetails write SetDetails;
@@ -136,7 +143,7 @@ type
     property name: string read GetName write SetName;
     property region: string read GetRegion write SetRegion;
     //property rockets_id: TStringList read GetRocketsId write SetRocketsId;
-    //property Status: TLaunchpadStatus read GetStatus write SetStatus;
+    property status: string read GetStatus write SetStatus;
     property time_zone: string read GetTimeZone write SetTimeZone;
   end;
 
@@ -154,6 +161,19 @@ end;
 function NewLaunchpadList: ILaunchpadList;
 begin
   Result := TLaunchpadList.Create;
+end;
+
+operator enumerator(AList: ILaunchpadList): TLaunchpadEnumerator;
+begin
+  Result := TLaunchpadEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TLaunchpadEnumerator }
+
+function TLaunchpadEnumerator.GetCurrent: ILaunchpad;
+begin
+  Result := FCurrent as ILaunchpad;
 end;
 
 { TLaunchpadList }
@@ -225,7 +245,7 @@ begin
   Result := FRocketsId;
 end;
 
-function TLaunchpad.GetStatus: TLaunchpadStatus;
+function TLaunchpad.GetStatus: string;
 begin
   Result := FStatus;
 end;
@@ -295,7 +315,7 @@ begin
   FRocketsId := AValue;
 end;
 
-procedure TLaunchpad.SetStatus(AValue: TLaunchpadStatus);
+procedure TLaunchpad.SetStatus(AValue: string);
 begin
   FStatus := AValue;
 end;
@@ -303,18 +323,6 @@ end;
 procedure TLaunchpad.SetTimeZone(AValue: string);
 begin
   FTimeZone := AValue;
-end;
-
-procedure TLaunchpad.BuildSubObjects(const JSONData: IJSONData);
-var
-  SubJSONData: IJSONData;
-  LaunchpadStatus: TLaunchpadStatus;
-begin
-  inherited BuildSubObjects(JSONData);
-
-  SubJSONData := JSONData.GetPath('status');
-  LaunchpadStatus := CodeToLaunchpadStatus(SubJSONData.GetJSONData.Split('"')[1]);
-  Self.FStatus := LaunchpadStatus;
 end;
 
 function TLaunchpad.ToString(): string;

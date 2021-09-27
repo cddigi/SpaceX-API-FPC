@@ -5,7 +5,7 @@ unit Crew;
 interface
 
 uses
-  Classes, SysUtils, CrewStatus, BaseModel, JSON_Helper;
+  Classes, SysUtils, BaseModel, JSON_Helper;
 
 type
 
@@ -15,7 +15,7 @@ type
     function GetImage: string;
     function GetLaunchesId: TStringList;
     function GetName: string;
-    function GetStatus: TCrewStatus;
+    function GetStatus: string;
     function GetWikipedia: string;
 
     procedure SetAgency(AValue: string);
@@ -23,7 +23,7 @@ type
     procedure SetImage(AValue: string);
     procedure SetLaunchesId(AValue: TStringList);
     procedure SetName(AValue: string);
-    procedure SetStatus(AValue: TCrewStatus);
+    procedure SetStatus(AValue: string);
     procedure SetWikipedia(AValue: string);
   end;
 
@@ -33,7 +33,7 @@ type
     property Image: string read GetImage write SetImage;
     property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
     property Name: string read GetName write SetName;
-    property Status: TCrewStatus read GetStatus write SetStatus;
+    property Status: string read GetStatus write SetStatus;
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
@@ -59,14 +59,14 @@ type
     FImage: string;
     FLaunchesId: TStringList;
     FName: string;
-    FStatus: TCrewStatus;
+    FStatus: string;
     FWikipedia: string;
     function GetAgency: string;
     function GetId: string;
     function GetImage: string;
     function GetLaunchesId: TStringList;
     function GetName: string;
-    function GetStatus: TCrewStatus;
+    function GetStatus: string;
     function GetWikipedia: string;
 
     procedure SetAgency(AValue: string);
@@ -74,10 +74,9 @@ type
     procedure SetImage(AValue: string);
     procedure SetLaunchesId(AValue: TStringList);
     procedure SetName(AValue: string);
-    procedure SetStatus(AValue: TCrewStatus);
+    procedure SetStatus(AValue: string);
     procedure SetWikipedia(AValue: string);
   public
-    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
     property agency: string read GetAgency write SetAgency;
@@ -85,6 +84,7 @@ type
     property image: string read GetImage write SetImage;
     //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
     property name: string read GetName write SetName;
+    property status: string write SetStatus;
     property wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
@@ -138,7 +138,7 @@ begin
   Result := FName;
 end;
 
-function TCrew.GetStatus: TCrewStatus;
+function TCrew.GetStatus: string;
 begin
   Result := FStatus;
 end;
@@ -173,7 +173,7 @@ begin
   FName := AValue;
 end;
 
-procedure TCrew.SetStatus(AValue: TCrewStatus);
+procedure TCrew.SetStatus(AValue: string);
 begin
   FStatus := AValue;
 end;
@@ -181,18 +181,6 @@ end;
 procedure TCrew.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
-end;
-
-procedure TCrew.BuildSubObjects(const JSONData: IJSONData);
-var
-  SubJSONData: IJSONData;
-  CrewStatus: TCrewStatus;
-begin
-  inherited BuildSubObjects(JSONData);
-
-  SubJSONData := JSONData.GetPath('status');
-  CrewStatus := CodeToCrewStatus(SubJSONData.GetJSONData.Split('"')[1]);
-  Self.FStatus := CrewStatus;
 end;
 
 function TCrew.ToString(): string;

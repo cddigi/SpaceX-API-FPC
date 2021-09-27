@@ -5,11 +5,11 @@ unit DragonPressurizedCapsule;
 interface
 
 uses
-  Classes, SysUtils, VolumeInfo;
+  Classes, SysUtils, VolumeInfo, BaseModel;
 
 type
 
-  IBaseDragonPressurizedCapsule = interface(IInterface) ['{33A57FCF-0068-4320-A24F-7B83F60E20BE}']
+  IBaseDragonPressurizedCapsule = interface(IBaseModel) ['{33A57FCF-0068-4320-A24F-7B83F60E20BE}']
     function GetPayloadVolume: IVolumeInfo;
 
     procedure SetPayloadVolume(AValue: IVolumeInfo);
@@ -23,16 +23,21 @@ function NewDragonPressurizedCapsule: IDragonPressurizedCapsule;
 
 implementation
 
+uses
+  Variants, JSON_Helper;
+
 type
 
   { TDragonPressurizedCapsule }
 
-  TDragonPressurizedCapsule = class(TInterfacedObject, IDragonPressurizedCapsule)
+  TDragonPressurizedCapsule = class(TBaseModel, IDragonPressurizedCapsule)
   private
     FPayloadVolume: IVolumeInfo;
     function GetPayloadVolume: IVolumeInfo;
 
     procedure SetPayloadVolume(AValue: IVolumeInfo);
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
   end;
 
 function NewDragonPressurizedCapsule: IDragonPressurizedCapsule;
@@ -50,6 +55,19 @@ end;
 procedure TDragonPressurizedCapsule.SetPayloadVolume(AValue: IVolumeInfo);
 begin
   FPayloadVolume := AValue;
+end;
+
+procedure TDragonPressurizedCapsule.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  VolumeInfo: IVolumeInfo;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('payload_volume');
+  VolumeInfo := NewVolumeInfo;
+  JSONToModel(SubJSONData.GetJSONData, VolumeInfo);
+  Self.FPayloadVolume := VolumeInfo;
 end;
 
 end.

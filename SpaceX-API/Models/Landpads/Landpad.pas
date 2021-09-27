@@ -5,7 +5,7 @@ unit Landpad;
 interface
 
 uses
-  Classes, SysUtils, LandpadStatus, BaseModel, JSON_Helper;
+  Classes, SysUtils, BaseModel, JSON_Helper;
 
 type
 
@@ -21,7 +21,7 @@ type
     function GetLongitude: Double;
     function GetName: string;
     function GetRegion: string;
-    function GetStatus: TLandpadStatus;
+    function GetStatus: string;
     function GetTypeInfo: string;
     function GetWikipedia: string;
 
@@ -36,7 +36,7 @@ type
     procedure SetLongitude(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetRegion(AValue: string);
-    procedure SetStatus(AValue: TLandpadStatus);
+    procedure SetStatus(AValue: string);
     procedure SetTypeInfo(AValue: string);
     procedure SetWikipedia(AValue: string);
   end;
@@ -53,7 +53,7 @@ type
     property Longitude: Double read GetLongitude write SetLongitude;
     property Name: string read GetName write SetName;
     property Region: string read GetRegion write SetRegion;
-    property Status: TLandpadStatus read GetStatus write SetStatus;
+    property Status: string read GetStatus write SetStatus;
     property TypeInfo: string read GetTypeInfo write SetTypeInfo;
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
@@ -61,8 +61,16 @@ type
   ILandpadList = interface(IBaseModelList) ['{F407C7A0-0C87-41BA-84E3-073C93830B98}']
   end;
 
+  { TLandpadEnumerator }
+
+  TLandpadEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: ILandpad;
+    property Current : ILandpad read GetCurrent;
+  end;
+
 function NewLandpad: ILandpad;
 function NewLandpadList: ILandpadList;
+operator enumerator(AList: ILandpadList): TLandpadEnumerator;
 
 implementation
 
@@ -86,7 +94,7 @@ type
     FLongitude: Double;
     FName: string;
     FRegion: string;
-    FStatus: TLandpadStatus;
+    FStatus: string;
     FTypeInfo: string;
     FWikipedia: string;
     function GetDetails: string;
@@ -100,7 +108,7 @@ type
     function GetLongitude: Double;
     function GetName: string;
     function GetRegion: string;
-    function GetStatus: TLandpadStatus;
+    function GetStatus: string;
     function GetTypeInfo: string;
     function GetWikipedia: string;
 
@@ -115,11 +123,10 @@ type
     procedure SetLongitude(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetRegion(AValue: string);
-    procedure SetStatus(AValue: TLandpadStatus);
+    procedure SetStatus(AValue: string);
     procedure SetTypeInfo(AValue: string);
     procedure SetWikipedia(AValue: string);
   public
-    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
     property details: string read GetDetails write SetDetails;
@@ -133,7 +140,7 @@ type
     property longitude: Double read GetLongitude write SetLongitude;
     property name: string read GetName write SetName;
     property region: string read GetRegion write SetRegion;
-    property status: TLandpadStatus read GetStatus write SetStatus;
+    property status: string read GetStatus write SetStatus;
     //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
     property wikipedia: string read GetWikipedia write SetWikipedia;
   end;
@@ -152,6 +159,19 @@ end;
 function NewLandpadList: ILandpadList;
 begin
   Result := TLandpadList.Create;
+end;
+
+operator enumerator(AList: ILandpadList): TLandpadEnumerator;
+begin
+  Result := TLandpadEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TLandpadEnumerator }
+
+function TLandpadEnumerator.GetCurrent: ILandpad;
+begin
+  Result := FCurrent as ILandpad;
 end;
 
 { TLandpadList }
@@ -218,7 +238,7 @@ begin
   Result := FRegion;
 end;
 
-function TLandpad.GetStatus: TLandpadStatus;
+function TLandpad.GetStatus: string;
 begin
   Result := FStatus;
 end;
@@ -288,7 +308,7 @@ begin
   FRegion := AValue;
 end;
 
-procedure TLandpad.SetStatus(AValue: TLandpadStatus);
+procedure TLandpad.SetStatus(AValue: string);
 begin
   FStatus := AValue;
 end;
@@ -301,18 +321,6 @@ end;
 procedure TLandpad.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
-end;
-
-procedure TLandpad.BuildSubObjects(const JSONData: IJSONData);
-var
-  SubJSONData: IJSONData;
-  LandpadStatus: TLandpadStatus;
-begin
-  inherited BuildSubObjects(JSONData);
-
-  SubJSONData := JSONData.GetPath('status');
-  LandpadStatus := CodeToLandpadStatus(SubJSONData.GetJSONData.Split('"')[1]);
-  Self.FStatus := LandpadStatus;
 end;
 
 function TLandpad.ToString(): string;

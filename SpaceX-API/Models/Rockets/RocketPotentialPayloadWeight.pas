@@ -31,8 +31,16 @@ type
   IRocketPotentialPayloadWeightList = interface(IBaseModelList) ['{9BD75D9F-F862-49DA-ABA8-22A78A860D3E}']
   end;
 
+  { TRocketPotentialPayloadWeightEnumerator }
+
+  TRocketPotentialPayloadWeightEnumerator = class(TBaseModelEnumerator)
+    function GetCurrent: IRocketPotentialPayloadWeight;
+    property Current : IRocketPotentialPayloadWeight read GetCurrent;
+  end;
+
 function NewRocketPotentialPayloadWeight: IRocketPotentialPayloadWeight;
 function NewRocketPotentialPayloadWeightList: IRocketPotentialPayloadWeightList;
+operator enumerator(AList: IRocketPotentialPayloadWeightList): TRocketPotentialPayloadWeightEnumerator;
 
 implementation
 
@@ -77,6 +85,20 @@ end;
 function NewRocketPotentialPayloadWeightList: IRocketPotentialPayloadWeightList;
 begin
   Result := TRocketPotentialPayloadWeightList.Create;
+end;
+
+operator enumerator(AList: IRocketPotentialPayloadWeightList
+  ): TRocketPotentialPayloadWeightEnumerator;
+begin
+  Result := TRocketPotentialPayloadWeightEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TRocketPotentialPayloadWeightEnumerator }
+
+function TRocketPotentialPayloadWeightEnumerator.GetCurrent: IRocketPotentialPayloadWeight;
+begin
+  Result := FCurrent as IRocketPotentialPayloadWeight;
 end;
 
 { TRocketPotentialPayloadWeightList }

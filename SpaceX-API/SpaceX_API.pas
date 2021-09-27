@@ -8,9 +8,9 @@ uses
   {$ENDIF}
   Classes, SysUtils, CustApp, Dragon, VolumeInfo, ThrustInfo, IspInfo, SizeInfo,
   MassInfo, CompanyHeadquarters, Company, CompanyLinks, SpaceTrackInfo,
-  CapsuleStatus, Capsule, CoreStatus, Core, CrewStatus, Crew, LandpadStatus,
+  Capsule, Core, Crew,
   Landpad, DatePrecision, LaunchCore, LaunchFailure, LaunchFairings,
-  LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch, LaunchpadStatus,
+  LaunchFlickr, LaunchLinks, LaunchPatch, LaunchReddit, Launch,
   Launchpad, DragonPayload, Payload, Roadster, RocketEngines, RocketFairing,
   RocketFirstStage, RocketLandingLegs, RocketPotentialPayload,
   RocketPotentialPayloadWeight, SecondStage, Rocket, Ship, Starlink,
@@ -82,10 +82,10 @@ begin
 
   { add your program here }
 
-  //DragonEndpoint := NewDragonEndpoint;
-  //DragonList := DragonEndpoint.All;
-  //Dragon := DragonEndpoint.One((DragonList.Last as IDragon).Id);
-  //WriteLn(Dragon.Name);
+  DragonEndpoint := NewDragonEndpoint;
+  DragonList := DragonEndpoint.All;
+  Dragon := DragonList.Last as IDragon;
+  WriteLn(Dragon.HeatShield.Material);
 
   //CompanyEndpoint := NewCompanyEndpoint;
   //Company := CompanyEndpoint.Get;
@@ -102,9 +102,11 @@ begin
 
   //CoreEndpoint := NewCoreEndpoint;
   //CoreList := CoreEndpoint.All;
+  //WriteLn((CoreList.Last as ICore).Status);
 
   //CrewEndpoint := NewCrewEndpoint;
   //CrewList := CrewEndpoint.All;
+  //WriteLn((CrewList.Last as ICrew).Status);
 
   //LandpadEndpoint := NewLandpadEndpoint;
   //LandpadList := LandpadEndpoint.All;
@@ -116,8 +118,8 @@ begin
   //PayloadList := PayloadEndpoint.All;
   //WriteLn((PayloadList.Last as IPayload).Name);
 
-  LaunchEndpoint := NewLaunchEndpoint;
-  LaunchList := LaunchEndpoint.All;
+  //LaunchEndpoint := NewLaunchEndpoint;
+  //LaunchList := LaunchEndpoint.All;
 
   //RoadsterEndpoint := NewRoadsterEndpoint;
   //Roadster := RoadsterEndpoint.All;

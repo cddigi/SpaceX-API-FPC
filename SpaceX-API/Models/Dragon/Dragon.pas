@@ -33,7 +33,7 @@ type
       function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
       function GetThrusters: IDragonThrustersList;
-      function GetTrunk: TDragonTrunk;
+      function GetTrunk: IDragonTrunk;
       function GetTypeInfo: string;
       function GetWikipedia: string;
 
@@ -57,7 +57,7 @@ type
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
       procedure SetThrusters(AValue: IDragonThrustersList);
-      procedure SetTrunk(AValue: TDragonTrunk);
+      procedure SetTrunk(AValue: IDragonTrunk);
       procedure SetTypeInfo(AValue: string);
       procedure SetWikipedia(AValue: string);
     end;
@@ -68,24 +68,24 @@ type
       property Active: Boolean read GetActive write SetActive;
       property CrewCapacity: Byte read GetCrewCapacity write SetCrewCapacity;
       property Description: string read GetDescription write SetDescription;
-      //property Diameter: ISizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
+      property Diameter: ISizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
       property DryMassKilograms: Double read GetDryMassKilograms write SetDryMassKilograms;
       property DryMassPounds: Double read GetDryMassPounds write SetDryMassPounds;
       property FirstFlight: TDateTime read GetFirstFlight write SetFirstFlight;
       property FlickrImages: TStringList read GetFlickrImages write SetFlickrImages;
-      //property HeatShield: IDragonHeatshield read GetHeatShield write SetHeatShield;
-      //property HeightWithTrunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
+      property HeatShield: IDragonHeatshield read GetHeatShield write SetHeatShield;
+      property HeightWithTrunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
       property Id: string read GetId write SetId;
-      //property LaunchPayloadMass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
-      //property LaunchPayloadVolume: IVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
+      property LaunchPayloadMass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
+      property LaunchPayloadVolume: IVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
       property Name: string read GetName write SetName;
       property OrbitDurationYears: LongWord read GetOrbitDurationYears write SetOrbitDurationYears;
-      //property PressurizedCapsule: IDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
-      //property ReturnPayloadMass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
-      //property ReturnPayloadVolume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
+      property PressurizedCapsule: IDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
+      property ReturnPayloadMass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
+      property ReturnPayloadVolume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
       property SidewallAngleDegress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
-      //property Thrusters: IDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
-      //property Trunk: TDragonTrunk read GetTrunk write SetTrunk; // need to define dragontrunkinfo object
+      property Thrusters: IDragonThrustersList read GetThrusters write SetThrusters;
+      property Trunk: IDragonTrunk read GetTrunk write SetTrunk;
       property TypeInfo: string read GetTypeInfo write SetTypeInfo;  // Type is a reserved word in pascal
       property Wikipedia: string read GetWikipedia write SetWikipedia;
     end;
@@ -96,10 +96,21 @@ type
 
     end;
 
+    { TDragonEnumerator }
+
+    TDragonEnumerator = class(TBaseModelEnumerator)
+      function GetCurrent: IDragon;
+      property Current : IDragon read GetCurrent;
+    end;
+
 function NewDragon: IDragon;
 function NewDragonList: IDragonList;
+operator enumerator(AList: IDragonList): TDragonEnumerator;
 
 implementation
+
+uses
+  Variants, JSON_Helper;
 
 type
 
@@ -127,7 +138,7 @@ type
       FReturnPayloadVolume: IVolumeInfo;
       FSidewallAngleDegress: LongWord;
       FThrusters: IDragonThrustersList;
-      FTrunk: TDragonTrunk;
+      FTrunk: IDragonTrunk;
       FTypeInfo: string;
       FWikipedia: string;
     private
@@ -151,60 +162,62 @@ type
       function GetReturnPayloadVolume: IVolumeInfo;
       function GetSidewallAngleDegress: LongWord;
       function GetThrusters: IDragonThrustersList;
-      function GetTrunk: TDragonTrunk;
+      function GetTrunk: IDragonTrunk;
       function GetTypeInfo: string;
       function GetWikipedia: string;
     private
       procedure SetActive(AValue: Boolean);
+      procedure SetActive(AValue: Variant);
       procedure SetCrewCapacity(AValue: Byte);
+      procedure SetCrewCapacity(AValue: Variant);
       procedure SetDescription(AValue: string);
+      procedure SetDescription(AValue: Variant);
       procedure SetDiameter(AValue: ISizeInfo);
       procedure SetDryMassKilograms(AValue: Double);
+      procedure SetDryMassKilograms(AValue: Variant);
       procedure SetDryMassPounds(AValue: Double);
+      procedure SetDryMassPounds(AValue: Variant);
       procedure SetFirstFlight(AValue: TDateTime);
       procedure SetFirstFlight(AValue: string);
+      procedure SetFirstFlight(AValue: Variant);
       procedure SetFlickrImages(AValue: TStringList);
       procedure SetHeatShield(AValue: IDragonHeatshield);
       procedure SetHeightWithTrunk(AValue: ISizeInfo);
       procedure SetId(AValue: string);
+      procedure SetId(AValue: Variant);
       procedure SetLaunchPayloadMass(AValue: IMassInfo);
       procedure SetLaunchPayloadVolume(AValue: IVolumeInfo);
       procedure SetName(AValue: string);
+      procedure SetName(AValue: Variant);
       procedure SetOrbitDurationYears(AValue: LongWord);
+      procedure SetOrbitDurationYears(AValue: Variant);
       procedure SetPressurizedCapsule(AValue: IDragonPressurizedCapsule);
       procedure SetReturnPayloadMass(AValue: IMassInfo);
       procedure SetReturnPayloadVolume(AValue: IVolumeInfo);
       procedure SetSidewallAngleDegress(AValue: LongWord);
+      procedure SetSidewallAngleDegress(AValue: Variant);
       procedure SetThrusters(AValue: IDragonThrustersList);
-      procedure SetTrunk(AValue: TDragonTrunk);
+      procedure SetTrunk(AValue: IDragonTrunk);
       procedure SetTypeInfo(AValue: string);
+      procedure SetTypeInfo(AValue: Variant);
       procedure SetWikipedia(AValue: string);
+      procedure SetWikipedia(AValue: Variant);
     public
+      procedure BuildSubObjects(const JSONData: IJSONData); override;
       destructor Destroy; override;
     published
-      property active: Boolean read GetActive write SetActive;
-      property crew_capacity: Byte read GetCrewCapacity write SetCrewCapacity;
-      property description: string read GetDescription write SetDescription;
-      //property diameter: ISizeInfo read GetDiameter write SetDiameter; // need to define sizeinfo object
-      property dry_mass_kilograms: Double read GetDryMassKilograms write SetDryMassKilograms;
-      property dry_mass_pounds: Double read GetDryMassPounds write SetDryMassPounds;
-      property first_flight: string write SetFirstFlight;
-      property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
-      //property heat_shield: IDragonHeatshield read GetHeatShield write SetHeatShield;
-      //property height_with_trunk: ISizeInfo read GetHeightWithTrunk write SetHeightWithTrunk;
-      property id: string read GetId write SetId;
-      //property launch_payload_mass: IMassInfo read GetLaunchPayloadMass write SetLaunchPayloadMass;
-      //property launch_payload_volume: IVolumeInfo read GetLaunchPayloadVolume write SetLaunchPayloadVolume;
-      property name: string read GetName write SetName;
-      property orbit_duration_years: LongWord read GetOrbitDurationYears write SetOrbitDurationYears;
-      //property pressurized_capsule: IDragonPressurizedCapsule read GetPressurizedCapsule write SetPressurizedCapsule;
-      //property return_payload_mass: IMassInfo read GetReturnPayloadMass write SetReturnPayloadMass;
-      //property return_payload_volume: IVolumeInfo read GetReturnPayloadVolume write SetReturnPayloadVolume;
-      property sidewall_angle_degress: LongWord read GetSidewallAngleDegress write SetSidewallAngleDegress;
-      //property thrusters: IDragonThrustersList read GetThrusters write SetThrusters; // need to define dragonthrustersinfolist object
-      //property trunk: TDragonTrunk read GetTrunk write SetTrunk; // need to define dragontrunkinfo object
-      property type_info: string read GetTypeInfo write SetTypeInfo;  // Type is a reserved word in pascal
-      property wikipedia: string read GetWikipedia write SetWikipedia;
+      property active: Variant write SetActive;
+      property crew_capacity: Variant write SetCrewCapacity;
+      property description: Variant write SetDescription;
+      property dry_mass_kilograms: Variant write SetDryMassKilograms;
+      property dry_mass_pounds: Variant write SetDryMassPounds;
+      property first_flight: Variant write SetFirstFlight;
+      //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+      property id: Variant write SetId;
+      property name: Variant write SetName;
+      property orbit_duration_years: Variant write SetOrbitDurationYears;
+      property sidewall_angle_degress: Variant write SetSidewallAngleDegress;
+      property wikipedia: Variant write SetWikipedia;
     end;
 
     { TDragonList }
@@ -222,6 +235,19 @@ end;
 function NewDragonList: IDragonList;
 begin
   Result := TDragonList.Create;
+end;
+
+operator enumerator(AList: IDragonList): TDragonEnumerator;
+begin
+  Result := TDragonEnumerator.Create;
+  Result.FList := AList;
+end;
+
+{ TDragonEnumerator }
+
+function TDragonEnumerator.GetCurrent: IDragon;
+begin
+  Result := FCurrent as IDragon;
 end;
 
 function TDragonList.NewItem: IBaseModel;
@@ -331,7 +357,7 @@ begin
   Result := FThrusters;
 end;
 
-function TDragon.GetTrunk: TDragonTrunk;
+function TDragon.GetTrunk: IDragonTrunk;
 begin
   Result := FTrunk;
 end;
@@ -351,14 +377,38 @@ begin
   FActive := AValue;
 end;
 
+procedure TDragon.SetActive(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FActive := False;
+  end else if VarIsBool(AValue) then
+    FActive := AValue;
+end;
+
 procedure TDragon.SetCrewCapacity(AValue: Byte);
 begin
   FCrewCapacity := AValue;
 end;
 
+procedure TDragon.SetCrewCapacity(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FCrewCapacity := -0;
+  end else if VarIsNumeric(AValue) then
+    FCrewCapacity := AValue;
+end;
+
 procedure TDragon.SetDescription(AValue: string);
 begin
   FDescription := AValue;
+end;
+
+procedure TDragon.SetDescription(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDescription := '';
+  end else if VarIsStr(AValue) then
+    FDescription := AValue;
 end;
 
 procedure TDragon.SetDiameter(AValue: ISizeInfo);
@@ -371,9 +421,25 @@ begin
   FDryMassKilograms := AValue;
 end;
 
+procedure TDragon.SetDryMassKilograms(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDryMassKilograms := -0;
+  end else if VarIsNumeric(AValue) then
+    FDryMassKilograms := AValue;
+end;
+
 procedure TDragon.SetDryMassPounds(AValue: Double);
 begin
   FDryMassPounds := AValue;
+end;
+
+procedure TDragon.SetDryMassPounds(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDryMassPounds := -0;
+  end else if VarIsNumeric(AValue) then
+    FDryMassPounds := AValue;
 end;
 
 procedure TDragon.SetFirstFlight(AValue: TDateTime);
@@ -390,6 +456,14 @@ begin
   finally
     FormatSettings := DefaultFormatSettings;
   end;
+end;
+
+procedure TDragon.SetFirstFlight(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFirstFlight := MinDateTime;
+  end else if VarIsStr(AValue) then
+    SetFirstFlight(VarToStr(AValue));
 end;
 
 procedure TDragon.SetFlickrImages(AValue: TStringList);
@@ -412,6 +486,14 @@ begin
   FId := AValue;
 end;
 
+procedure TDragon.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TDragon.SetLaunchPayloadMass(AValue: IMassInfo);
 begin
   FLaunchPayloadMass := AValue;
@@ -427,9 +509,25 @@ begin
   FName := AValue;
 end;
 
+procedure TDragon.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
+end;
+
 procedure TDragon.SetOrbitDurationYears(AValue: LongWord);
 begin
   FOrbitDurationYears := AValue;
+end;
+
+procedure TDragon.SetOrbitDurationYears(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FOrbitDurationYears := -0;
+  end else if VarIsNumeric(AValue) then
+    FOrbitDurationYears := AValue;
 end;
 
 procedure TDragon.SetPressurizedCapsule(AValue: IDragonPressurizedCapsule);
@@ -452,12 +550,20 @@ begin
   FSidewallAngleDegress := AValue;
 end;
 
+procedure TDragon.SetSidewallAngleDegress(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FSidewallAngleDegress := -0;
+  end else if VarIsNumeric(AValue) then
+    FSidewallAngleDegress := AValue;
+end;
+
 procedure TDragon.SetThrusters(AValue: IDragonThrustersList);
 begin
   FThrusters := AValue;
 end;
 
-procedure TDragon.SetTrunk(AValue: TDragonTrunk);
+procedure TDragon.SetTrunk(AValue: IDragonTrunk);
 begin
   FTrunk := AValue;
 end;
@@ -467,9 +573,94 @@ begin
   FTypeInfo := AValue;
 end;
 
+procedure TDragon.SetTypeInfo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTypeInfo := '';
+  end else if VarIsStr(AValue) then
+    FTypeInfo := AValue;
+end;
+
 procedure TDragon.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+procedure TDragon.SetWikipedia(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FWikipedia := '';
+  end else if VarIsStr(AValue) then
+    FWikipedia := AValue;
+end;
+
+procedure TDragon.BuildSubObjects(const JSONData: IJSONData);
+var
+  SubJSONData: IJSONData;
+  Diameter: ISizeInfo;
+  HeatShield: IDragonHeatShield;
+  HeightWithTrunk: ISizeInfo;
+  LaunchPayloadMass: IMassInfo;
+  LaunchPayloadVolume: IVolumeInfo;
+  PressurizedCapsule: IDragonPressurizedCapsule;
+  ReturnPayloadMass: IMassInfo;
+  ReturnPayloadVolume: IVolumeInfo;
+  Thrusters: IDragonThrustersList;
+  Trunk: IDragonTrunk;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('diameter');
+  Diameter := NewSizeInfo;
+  JSONToModel(SubJSONData.GetJSONData, Diameter);
+  Self.FDiameter := Diameter;
+
+  SubJSONData := JSONData.GetPath('heat_shield');
+  HeatShield := NewDragonHeatShield;
+  JSONToModel(SubJSONData.GetJSONData, HeatShield);
+  Self.FHeatShield := HeatShield;
+
+  SubJSONData := JSONData.GetPath('height_w_trunk');
+  HeightWithTrunk := NewSizeInfo;
+  JSONToModel(SubJSONData.GetJSONData, HeightWithTrunk);
+  Self.FHeightWithTrunk := HeightWithTrunk;
+
+  SubJSONData := JSONData.GetPath('launch_payload_mass');
+  LaunchPayloadMass := NewMassInfo;
+  JSONToModel(SubJSONData.GetJSONData, LaunchPayloadMass);
+  Self.FLaunchPayloadMass := LaunchPayloadMass;
+
+  SubJSONData := JSONData.GetPath('launch_payload_vol');
+  LaunchPayloadVolume := NewVolumeInfo;
+  JSONToModel(SubJSONData.GetJSONData, LaunchPayloadVolume);
+  Self.FLaunchPayloadVolume := LaunchPayloadVolume;
+
+  SubJSONData := JSONData.GetPath('pressurized_capsule');
+  PressurizedCapsule := NewDragonPressurizedCapsule;
+  JSONToModel(SubJSONData.GetJSONData, PressurizedCapsule);
+  Self.FPressurizedCapsule := PressurizedCapsule;
+
+  SubJSONData := JSONData.GetPath('return_payload_mass');
+  ReturnPayloadMass := NewMassInfo;
+  JSONToModel(SubJSONData.GetJSONData, ReturnPayloadMass);
+  Self.FReturnPayloadMass := ReturnPayloadMass;
+
+  SubJSONData := JSONData.GetPath('return_payload_vol');
+  ReturnPayloadVolume := NewVolumeInfo;
+  JSONToModel(SubJSONData.GetJSONData, ReturnPayloadVolume);
+  Self.FReturnPayloadVolume := ReturnPayloadVolume;
+
+  SubJSONData := JSONData.GetPath('thrusters');
+  Thrusters := NewDragonThrustersList;
+  JSONToModel(SubJSONData.GetJSONData, Thrusters);
+  Self.FThrusters := Thrusters;
+
+  SubJSONData := JSONData.GetPath('trunk');
+  Trunk := NewDragonTrunk;
+  JSONToModel(SubJSONData.GetJSONData, Trunk);
+  Self.FTrunk := Trunk;
+
+  Self.FTypeInfo := JSONData.GetPath('type').GetJSONData;
 end;
 
 destructor TDragon.Destroy;

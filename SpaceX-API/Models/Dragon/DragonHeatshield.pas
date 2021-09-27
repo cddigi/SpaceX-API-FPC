@@ -5,11 +5,11 @@ unit DragonHeatshield;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseModel;
 
 type
 
-  IBaseDragonHeatShield = interface(IInterface) ['{7C494FB6-2264-494F-942A-DA84F2243A72}']
+  IBaseDragonHeatShield = interface(IBaseModel) ['{7C494FB6-2264-494F-942A-DA84F2243A72}']
     function GetDevPartner: string;
     function GetMaterial: string;
     function GetSizeMeters: Double;
@@ -39,7 +39,8 @@ type
 
   { TDragonHeatshield }
 
-  TDragonHeatshield = class(TInterfacedObject, IDragonHeatShield)
+  TDragonHeatshield = class(TBaseModel, IDragonHeatShield)
+  private
     FDevPartner: string;
     FMaterial: string;
     FSizeMeters: Double;
@@ -58,11 +59,11 @@ type
     procedure SetSizeMeters(AValue: Variant);
     procedure SetTemperatureDegrees(AValue: LongWord);
     procedure SetTemperatureDegrees(AValue: Variant);
-
+  published
     property dev_partner: Variant write SetDevPartner;
     property material: Variant write SetMaterial;
     property size_meters: Variant write SetSizeMeters;
-    property temperature_degrees: Variant write SetTemperatureDegrees;
+    property temp_degrees: Variant write SetTemperatureDegrees;
   end;
 
 function NewDragonHeatShield: IDragonHeatShield;
