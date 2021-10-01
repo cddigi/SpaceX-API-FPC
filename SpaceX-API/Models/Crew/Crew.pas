@@ -70,22 +70,28 @@ type
     function GetWikipedia: string;
 
     procedure SetAgency(AValue: string);
+    procedure SetAgency(AValue: Variant);
     procedure SetId(AValue: string);
+    procedure SetId(AValue: Variant);
     procedure SetImage(AValue: string);
+    procedure SetImage(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
     procedure SetName(AValue: string);
+    procedure SetName(AValue: Variant);
     procedure SetStatus(AValue: string);
+    procedure SetStatus(AValue: Variant);
     procedure SetWikipedia(AValue: string);
+    procedure SetWikipedia(AValue: Variant);
   public
     function ToString(): string; override;
   published
-    property agency: string read GetAgency write SetAgency;
-    property id: string read GetId write SetId;
-    property image: string read GetImage write SetImage;
+    property agency: Variant write SetAgency;
+    property id: Variant write SetId;
+    property image: Variant write SetImage;
     //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
-    property name: string read GetName write SetName;
-    property status: string write SetStatus;
-    property wikipedia: string read GetWikipedia write SetWikipedia;
+    property name: Variant write SetName;
+    property status: Variant write SetStatus;
+    property wikipedia: Variant write SetWikipedia;
   end;
 
   { TCrewList }
@@ -153,14 +159,38 @@ begin
   FAgency := AValue;
 end;
 
+procedure TCrew.SetAgency(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FAgency := '';
+  end else if VarIsStr(AValue) then
+    FAgency := AValue;
+end;
+
 procedure TCrew.SetId(AValue: string);
 begin
   FId := AValue;
 end;
 
+procedure TCrew.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TCrew.SetImage(AValue: string);
 begin
   FImage := AValue;
+end;
+
+procedure TCrew.SetImage(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FImage := '';
+  end else if VarIsStr(AValue) then
+    FImage := AValue;
 end;
 
 procedure TCrew.SetLaunchesId(AValue: TStringList);
@@ -173,14 +203,38 @@ begin
   FName := AValue;
 end;
 
+procedure TCrew.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
+end;
+
 procedure TCrew.SetStatus(AValue: string);
 begin
   FStatus := AValue;
 end;
 
+procedure TCrew.SetStatus(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FStatus := '';
+  end else if VarIsStr(AValue) then
+    FStatus := AValue;
+end;
+
 procedure TCrew.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+procedure TCrew.SetWikipedia(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FWikipedia := '';
+  end else if VarIsStr(AValue) then
+    FWikipedia := AValue;
 end;
 
 function TCrew.ToString(): string;
