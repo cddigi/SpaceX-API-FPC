@@ -319,8 +319,7 @@ begin
   JSONToModel(SubJSONData.GetJSONData, ThrustVacuum);
   Self.FThrustVacuum := ThrustVacuum;
 
-  TypeInfo := JSONData.GetPath('type').GetJSONData;
-  Self.FTypeInfo := TypeInfo;
+  SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
 
 end.

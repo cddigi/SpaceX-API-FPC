@@ -9,8 +9,6 @@ uses
 
 type
 
-  { IBaseCrew }
-
   IBaseCrew = interface(IBaseModel) ['{DA70EF6F-6B72-4891-A598-5928D05F6232}']
     function GetAgency: string;
     function GetId: string;
@@ -29,8 +27,6 @@ type
     procedure SetWikipedia(AValue: string);
   end;
 
-  { ICrew }
-
   ICrew = interface(IBaseCrew) ['{054BB0E4-D572-4ECA-9D8E-754F8EA9ACFA}']
     property Agency: string read GetAgency write SetAgency;
     property Id: string read GetId write SetId;
@@ -41,21 +37,11 @@ type
     property Wikipedia: string read GetWikipedia write SetWikipedia;
   end;
 
-  { ICrewList }
-
   ICrewList = interface(IBaseModelList) ['{4245CBC5-4C4D-42AB-8AFA-3CACD4677566}']
-  end;
-
-  { TCrewEnumerator }
-
-  TCrewEnumerator = class(TBaseModelEnumerator)
-    function GetCurrent: ICrew;
-    property Current : ICrew read GetCurrent;
   end;
 
 function NewCrew: ICrew;
 function NewCrewList: ICrewList;
-operator enumerator(AList: ICrewList): TCrewEnumerator;
 
 implementation
 
@@ -75,7 +61,6 @@ type
     FName: string;
     FStatus: string;
     FWikipedia: string;
-  private
     function GetAgency: string;
     function GetId: string;
     function GetImage: string;
@@ -83,10 +68,10 @@ type
     function GetName: string;
     function GetStatus: string;
     function GetWikipedia: string;
-  private
-    procedure SetAgency(AValue: string);  
+
+    procedure SetAgency(AValue: string);
     procedure SetAgency(AValue: Variant);
-    procedure SetId(AValue: string);       
+    procedure SetId(AValue: string);
     procedure SetId(AValue: Variant);
     procedure SetImage(AValue: string);
     procedure SetImage(AValue: Variant);
@@ -99,14 +84,11 @@ type
     procedure SetWikipedia(AValue: Variant);
   public
     function ToString(): string; override;
-  public
-    constructor Create;
-    destructor Destroy; override;
   published
     property agency: Variant write SetAgency;
     property id: Variant write SetId;
     property image: Variant write SetImage;
-    property launches_id: TStringList read GetLaunchesId write SetLaunchesId;
+    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
     property name: Variant write SetName;
     property status: Variant write SetStatus;
     property wikipedia: Variant write SetWikipedia;
@@ -126,19 +108,6 @@ end;
 function NewCrewList: ICrewList;
 begin
   Result := TCrewList.Create;
-end;
-
-operator enumerator(AList: ICrewList): TCrewEnumerator;
-begin
-  Result := TCrewEnumerator.Create;
-  Result.FList := AList;
-end;
-
-{ TCrewEnumerator }
-
-function TCrewEnumerator.GetCurrent: ICrew;
-begin
-  Result := FCurrent as ICrew;
 end;
 
 { TCrewList }
@@ -192,10 +161,10 @@ end;
 
 procedure TCrew.SetAgency(AValue: Variant);
 begin
-  if VarIsNull(AValue) then
-    AValue := '';
-
-  FAgency := AValue;
+  if VarIsNull(AValue) then begin
+    FAgency := '';
+  end else if VarIsStr(AValue) then
+    FAgency := AValue;
 end;
 
 procedure TCrew.SetId(AValue: string);
@@ -205,10 +174,10 @@ end;
 
 procedure TCrew.SetId(AValue: Variant);
 begin
-  if VarIsNull(AValue) then
-    AValue := '';
-
-  FId := AValue;
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
 end;
 
 procedure TCrew.SetImage(AValue: string);
@@ -218,10 +187,10 @@ end;
 
 procedure TCrew.SetImage(AValue: Variant);
 begin
-  if VarIsNull(AValue) then
-    AValue := '';
-
-  FImage := AValue;
+  if VarIsNull(AValue) then begin
+    FImage := '';
+  end else if VarIsStr(AValue) then
+    FImage := AValue;
 end;
 
 procedure TCrew.SetLaunchesId(AValue: TStringList);
@@ -236,10 +205,10 @@ end;
 
 procedure TCrew.SetName(AValue: Variant);
 begin
-  if VarIsNull(AValue) then
-    AValue := '';
-
-  FName := AValue;
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
 end;
 
 procedure TCrew.SetStatus(AValue: string);
@@ -249,10 +218,10 @@ end;
 
 procedure TCrew.SetStatus(AValue: Variant);
 begin
-  if VarIsNull(AValue) then
-    AValue := '';
-
-  FStatus := AValue;
+  if VarIsNull(AValue) then begin
+    FStatus := '';
+  end else if VarIsStr(AValue) then
+    FStatus := AValue;
 end;
 
 procedure TCrew.SetWikipedia(AValue: string);
@@ -262,45 +231,15 @@ end;
 
 procedure TCrew.SetWikipedia(AValue: Variant);
 begin
-  if VarIsNull(AValue) then
-    AValue := '';
-
-  FWikipedia := AValue;
+  if VarIsNull(AValue) then begin
+    FWikipedia := '';
+  end else if VarIsStr(AValue) then
+    FWikipedia := AValue;
 end;
 
 function TCrew.ToString(): string;
 begin
-  Result := Format(''
-    + 'Agency: %s' + LineEnding
-    + 'Id: %s' + LineEnding
-    + 'Image: %s' + LineEnding
-    + 'Launches Id: %s' + LineEnding
-    + 'Name: %s' + LineEnding
-    + 'Status: %s' + LineEnding
-    + 'Wikipedia: %s' + LineEnding
-    , [
-      GetAgency,
-      GetId,
-      GetImage,
-      GetLaunchesId.Text,
-      GetName,
-      GetStatus,
-      GetWikipedia
-    ]);
-end;
-
-constructor TCrew.Create;
-begin
-  inherited Create;
-  FLaunchesId := TStringList.Create;
-  FLaunchesId.LineBreak := ', ';
-  FLaunchesId.SkipLastLineBreak := True;
-end;
-
-destructor TCrew.Destroy;
-begin
-  FLaunchesId.Free;
-  inherited Destroy;
+  Result := GetName;
 end;
 
 end.

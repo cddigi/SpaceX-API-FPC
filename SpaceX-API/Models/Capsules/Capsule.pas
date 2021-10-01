@@ -93,6 +93,7 @@ type
     procedure SetLandLandings(AValue: LongWord);
     procedure SetLastUpdate(AValue: string);
     procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunchesId(AValue: Variant);
     procedure SetSerial(AValue: string);
     procedure SetStatus(AValue: string);
     procedure SetReuseCount(AValue: LongWord);
@@ -108,6 +109,7 @@ type
   public
     function ToString: string; override;
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     constructor Create;
     destructor Destroy; override;
   published
@@ -243,6 +245,14 @@ begin
   FLaunchesId := AValue;
 end;
 
+procedure TCapsule.SetLaunchesId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchesId := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FLaunchesId.AddDelimitedText(AValue);
+end;
+
 procedure TCapsule.SetSerial(AValue: string);
 begin
   FSerial := AValue;
@@ -299,7 +309,6 @@ constructor TCapsule.Create;
 begin
   inherited Create;
   FLaunchesId := TStringList.Create;
-  FLaunchesId.LineBreak := ', ';
   FLaunchesId.SkipLastLineBreak:=True;
 end;
 
@@ -330,6 +339,13 @@ begin
       GetStatus,
       GetWaterLandings
     ]);
+end;
+
+procedure TCapsule.BuildSubObjects(const JSONData: IJSONData);
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SetLaunchesId(JSONData.GetPath('launches').GetJSONData);
 end;
 
 end.

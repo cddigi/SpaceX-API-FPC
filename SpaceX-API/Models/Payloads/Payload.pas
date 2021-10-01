@@ -241,7 +241,6 @@ type
     property apoapsis_km: Variant write SetApoapsisKilometers;
     property arg_of_pericenter: Variant write SetArgOfPericenter;
     //property Customers: TStringList read GetCustomers write SetCustomers;
-    //property DragonPayload: IDragonPayload read GetDragonPayload write SetDragonPayload;
     property eccentricity: Variant write SetEccentricity;
     //property Epoch: TDateTime read GetEpoch write SetEpoch;
     property id: string read GetId write SetId;
@@ -265,7 +264,6 @@ type
     property regime: Variant write SetRegime;
     property reused: Variant write SetReused;
     property semi_major_axis_km: Variant write SetSemiMajorAxisKilometers;
-    //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
   end;
 
   { TPayloadList }
@@ -777,6 +775,8 @@ begin
   SubJSONData := JSONData.GetPath('dragon');
   DragonPayload := NewDragonPayload;
   JSONToModel(SubJSONData.GetJSONData, DragonPayload);
+
+  SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
 
 function TPayload.ToString(): string;

@@ -268,6 +268,8 @@ begin
   Thrust := NewThrustInfo;
   JSONToModel(SubJSONData.GetJSONData, Thrust);
   Self.FThrust := Thrust;
+
+  SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
 
 end.
