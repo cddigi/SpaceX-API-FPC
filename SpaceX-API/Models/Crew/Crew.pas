@@ -106,7 +106,7 @@ type
     property agency: Variant write SetAgency;
     property id: Variant write SetId;
     property image: Variant write SetImage;
-    property launches_id: TStringList read GetLaunchesId write SetLaunchesId;
+    property launches: TStringList read GetLaunchesId write SetLaunchesId;
     property name: Variant write SetName;
     property status: Variant write SetStatus;
     property wikipedia: Variant write SetWikipedia;
@@ -274,7 +274,7 @@ begin
     + 'Agency: %s' + LineEnding
     + 'Id: %s' + LineEnding
     + 'Image: %s' + LineEnding
-    + 'Launches Id: %s' + LineEnding
+    + 'Launches: %s' + LineEnding
     + 'Name: %s' + LineEnding
     + 'Status: %s' + LineEnding
     + 'Wikipedia: %s' + LineEnding
@@ -299,7 +299,7 @@ end;
 
 destructor TCrew.Destroy;
 begin
-  FLaunchesId.Free;
+  FreeAndNil(FLaunchesId);
   inherited Destroy;
 end;
 

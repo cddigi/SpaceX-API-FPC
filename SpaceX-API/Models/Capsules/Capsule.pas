@@ -93,7 +93,6 @@ type
     procedure SetLandLandings(AValue: LongWord);
     procedure SetLastUpdate(AValue: string);
     procedure SetLaunchesId(AValue: TStringList);
-    procedure SetLaunchesId(AValue: Variant);
     procedure SetSerial(AValue: string);
     procedure SetStatus(AValue: string);
     procedure SetReuseCount(AValue: LongWord);
@@ -116,7 +115,7 @@ type
     property id: Variant write SetId;
     property land_landings: Variant write SetLandLandings;
     property last_update: Variant write SetLastUpdate;
-    property launches_id: TStringList read GetLaunchesId write SetLaunchesId;
+    property launches: TStringList read GetLaunchesId write SetLaunchesId;
     property serial: Variant write SetSerial;
     property status: Variant write SetStatus;
     property reuse_count: Variant write SetReuseCount;
@@ -245,14 +244,6 @@ begin
   FLaunchesId := AValue;
 end;
 
-procedure TCapsule.SetLaunchesId(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FLaunchesId := TStringList.Create;
-  end else if VarIsStr(AValue) then
-    FLaunchesId.AddDelimitedText(AValue);
-end;
-
 procedure TCapsule.SetSerial(AValue: string);
 begin
   FSerial := AValue;
@@ -309,7 +300,8 @@ constructor TCapsule.Create;
 begin
   inherited Create;
   FLaunchesId := TStringList.Create;
-  FLaunchesId.SkipLastLineBreak:=True;
+  FLaunchesId.SkipLastLineBreak := True;
+  FLaunchesId.LineBreak := ', ';
 end;
 
 destructor TCapsule.Destroy;
@@ -344,8 +336,6 @@ end;
 procedure TCapsule.BuildSubObjects(const JSONData: IJSONData);
 begin
   inherited BuildSubObjects(JSONData);
-
-  SetLaunchesId(JSONData.GetPath('launches').GetJSONData);
 end;
 
 end.
