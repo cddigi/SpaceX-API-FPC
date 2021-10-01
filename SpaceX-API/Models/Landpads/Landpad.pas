@@ -113,36 +113,49 @@ type
     function GetWikipedia: string;
 
     procedure SetDetails(AValue: string);
+    procedure SetDetails(AValue: Variant);
     procedure SetFullName(AValue: string);
+    procedure SetFullName(AValue: Variant);
     procedure SetId(AValue: string);
+    procedure SetId(AValue: Variant);
     procedure SetLandingAttempts(AValue: LongWord);
+    procedure SetLandingAttempts(AValue: Variant);
     procedure SetLandingSuccesses(AValue: LongWord);
+    procedure SetLandingSuccesses(AValue: Variant);
     procedure SetLatitude(AValue: Double);
+    procedure SetLatitude(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
     procedure SetLocality(AValue: string);
+    procedure SetLocality(AValue: Variant);
     procedure SetLongitude(AValue: Double);
+    procedure SetLongitude(AValue: Variant);
     procedure SetName(AValue: string);
+    procedure SetName(AValue: Variant);
     procedure SetRegion(AValue: string);
+    procedure SetRegion(AValue: Variant);
     procedure SetStatus(AValue: string);
+    procedure SetStatus(AValue: Variant);
     procedure SetTypeInfo(AValue: string);
+    procedure SetTypeInfo(AValue: Variant);
     procedure SetWikipedia(AValue: string);
+    procedure SetWikipedia(AValue: Variant);
   public
     function ToString(): string; override;
   published
-    property details: string read GetDetails write SetDetails;
-    property full_name: string read GetFullName write SetFullName;
-    property id: string read GetId write SetId;
-    property landing_attempts: LongWord read GetLandingAttempts write SetLandingAttempts;
-    property landing_successes: LongWord read GetLandingSuccesses write SetLandingSuccesses;
-    property latitude: Double read GetLatitude write SetLatitude;
+    property details: Variant write SetDetails;
+    property full_name: Variant write SetFullName;
+    property id: Variant write SetId;
+    property landing_attempts: Variant write SetLandingAttempts;
+    property landing_successes: Variant write SetLandingSuccesses;
+    property latitude: Variant write SetLatitude;
     //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
-    property locality: string read GetLocality write SetLocality;
-    property longitude: Double read GetLongitude write SetLongitude;
-    property name: string read GetName write SetName;
-    property region: string read GetRegion write SetRegion;
-    property status: string read GetStatus write SetStatus;
+    property locality: Variant write SetLocality;
+    property longitude: Variant write SetLongitude;
+    property name: Variant write SetName;
+    property region: Variant write SetRegion;
+    property status: Variant write SetStatus;
     //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
-    property wikipedia: string read GetWikipedia write SetWikipedia;
+    property wikipedia: Variant write SetWikipedia;
   end;
 
   { TLandpadList }
@@ -258,9 +271,25 @@ begin
   FDetails := AValue;
 end;
 
+procedure TLandpad.SetDetails(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDetails := '';
+  end else if VarIsStr(AValue) then
+    FDetails := AValue;
+end;
+
 procedure TLandpad.SetFullName(AValue: string);
 begin
   FFullName := AValue;
+end;
+
+procedure TLandpad.SetFullName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFullName := '';
+  end else if VarIsStr(AValue) then
+    FFullName := AValue;
 end;
 
 procedure TLandpad.SetId(AValue: string);
@@ -268,9 +297,25 @@ begin
   FId := AValue;
 end;
 
+procedure TLandpad.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TLandpad.SetLandingAttempts(AValue: LongWord);
 begin
   FLandingAttempts := AValue;
+end;
+
+procedure TLandpad.SetLandingAttempts(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLandingAttempts := -0;
+  end else if VarIsNumeric(AValue) then
+    FLandingAttempts := AValue;
 end;
 
 procedure TLandpad.SetLandingSuccesses(AValue: LongWord);
@@ -278,9 +323,25 @@ begin
   FLandingSuccesses := AValue;
 end;
 
+procedure TLandpad.SetLandingSuccesses(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLandingSuccesses := -0;
+  end else if VarIsNumeric(AValue) then
+    FLandingSuccesses := AValue;
+end;
+
 procedure TLandpad.SetLatitude(AValue: Double);
 begin
   FLatitude := AValue;
+end;
+
+procedure TLandpad.SetLatitude(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLatitude := -0;
+  end else if VarIsNumeric(AValue) then
+    FLatitude := AValue;
 end;
 
 procedure TLandpad.SetLaunchesId(AValue: TStringList);
@@ -293,9 +354,25 @@ begin
   FLocality := AValue;
 end;
 
+procedure TLandpad.SetLocality(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLocality := '';
+  end else if VarIsStr(AValue) then
+    FLocality := AValue;
+end;
+
 procedure TLandpad.SetLongitude(AValue: Double);
 begin
   FLongitude := AValue;
+end;
+
+procedure TLandpad.SetLongitude(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLongitude := -0;
+  end else if VarIsNumeric(AValue) then
+    FLongitude := AValue;
 end;
 
 procedure TLandpad.SetName(AValue: string);
@@ -303,9 +380,25 @@ begin
   FName := AValue;
 end;
 
+procedure TLandpad.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
+end;
+
 procedure TLandpad.SetRegion(AValue: string);
 begin
   FRegion := AValue;
+end;
+
+procedure TLandpad.SetRegion(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRegion := '';
+  end else if VarIsStr(AValue) then
+    FRegion := AValue;
 end;
 
 procedure TLandpad.SetStatus(AValue: string);
@@ -313,14 +406,38 @@ begin
   FStatus := AValue;
 end;
 
+procedure TLandpad.SetStatus(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FStatus := '';
+  end else if VarIsStr(AValue) then
+    FStatus := AValue;
+end;
+
 procedure TLandpad.SetTypeInfo(AValue: string);
 begin
   FTypeInfo := AValue;
 end;
 
+procedure TLandpad.SetTypeInfo(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTypeInfo := '';
+  end else if VarIsStr(AValue) then
+    FTypeInfo := AValue;
+end;
+
 procedure TLandpad.SetWikipedia(AValue: string);
 begin
   FWikipedia := AValue;
+end;
+
+procedure TLandpad.SetWikipedia(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FWikipedia := '';
+  end else if VarIsStr(AValue) then
+    FWikipedia := AValue;
 end;
 
 function TLandpad.ToString(): string;
