@@ -115,36 +115,48 @@ type
     function GetTimeZone: string;
 
     procedure SetDetails(AValue: string);
+    procedure SetDetails(AValue: Variant);
     procedure SetFullName(AValue: string);
+    procedure SetFullName(AValue: Variant);
     procedure SetId(AValue: string);
+    procedure SetId(AValue: Variant);
     procedure SetLatitude(AValue: Double);
+    procedure SetLatitude(AValue: Variant);
     procedure SetLaunchAttempts(AValue: LongWord);
+    procedure SetLaunchAttempts(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
     procedure SetLaunchSuccesses(AValue: LongWord);
+    procedure SetLaunchSuccesses(AValue: Variant);
     procedure SetLocality(AValue: string);
+    procedure SetLocality(AValue: Variant);
     procedure SetLongitude(AValue: Double);
+    procedure SetLongitude(AValue: Variant);
     procedure SetName(AValue: string);
+    procedure SetName(AValue: Variant);
     procedure SetRegion(AValue: string);
+    procedure SetRegion(AValue: Variant);
     procedure SetRocketsId(AValue: TStringList);
     procedure SetStatus(AValue: string);
+    procedure SetStatus(AValue: Variant);
     procedure SetTimeZone(AValue: string);
+    procedure SetTimeZone(AValue: Variant);
   public
     function ToString(): string; override;
   published
-    property details: string read GetDetails write SetDetails;
-    property full_name: string read GetFullName write SetFullName;
-    property id: string read GetId write SetId;
-    property latitude: Double read GetLatitude write SetLatitude;
-    property launch_attempts: LongWord read GetLaunchAttempts write SetLaunchAttempts;
+    property details: Variant write SetDetails;
+    property full_name: Variant write SetFullName;
+    property id: Variant write SetId;
+    property latitude: Variant write SetLatitude;
+    property launch_attempts: Variant write SetLaunchAttempts;
     //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
-    property launch_successes: LongWord read GetLaunchSuccesses write SetLaunchSuccesses;
-    property locality: string read GetLocality write SetLocality;
-    property longitude: Double read GetLongitude write SetLongitude;
-    property name: string read GetName write SetName;
-    property region: string read GetRegion write SetRegion;
+    property launch_successes: Variant write SetLaunchSuccesses;
+    property locality: Variant write SetLocality;
+    property longitude: Variant write SetLongitude;
+    property name: Variant write SetName;
+    property region: Variant write SetRegion;
     //property rockets_id: TStringList read GetRocketsId write SetRocketsId;
-    property status: string read GetStatus write SetStatus;
-    property time_zone: string read GetTimeZone write SetTimeZone;
+    property status: Variant write SetStatus;
+    property time_zone: Variant write SetTimeZone;
   end;
 
   { TLaunchpadList }
@@ -260,9 +272,25 @@ begin
   FDetails := AValue;
 end;
 
+procedure TLaunchpad.SetDetails(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FDetails := '';
+  end else if VarIsStr(AValue) then
+    FDetails := AValue;
+end;
+
 procedure TLaunchpad.SetFullName(AValue: string);
 begin
   FFullName := AValue;
+end;
+
+procedure TLaunchpad.SetFullName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFullName := '';
+  end else if VarIsStr(AValue) then
+    FFullName := AValue;
 end;
 
 procedure TLaunchpad.SetId(AValue: string);
@@ -270,14 +298,38 @@ begin
   FId := AValue;
 end;
 
+procedure TLaunchpad.SetId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FId := '';
+  end else if VarIsStr(AValue) then
+    FId := AValue;
+end;
+
 procedure TLaunchpad.SetLatitude(AValue: Double);
 begin
   FLatitude := AValue;
 end;
 
+procedure TLaunchpad.SetLatitude(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLatitude := -0;
+  end else if VarIsNumeric(AValue) then
+    FLatitude := AValue;
+end;
+
 procedure TLaunchpad.SetLaunchAttempts(AValue: LongWord);
 begin
   FLaunchAttempts := AValue;
+end;
+
+procedure TLaunchpad.SetLaunchAttempts(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchAttempts := -0;
+  end else if VarIsNumeric(AValue) then
+    FLaunchAttempts := AValue;
 end;
 
 procedure TLaunchpad.SetLaunchesId(AValue: TStringList);
@@ -290,9 +342,25 @@ begin
   FLaunchSuccesses := AValue;
 end;
 
+procedure TLaunchpad.SetLaunchSuccesses(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchSuccesses := -0;
+  end else if VarIsNumeric(AValue) then
+    FLaunchSuccesses := AValue;
+end;
+
 procedure TLaunchpad.SetLocality(AValue: string);
 begin
   FLocality := AValue;
+end;
+
+procedure TLaunchpad.SetLocality(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLocality := '';
+  end else if VarIsStr(AValue) then
+    FLocality := AValue;
 end;
 
 procedure TLaunchpad.SetLongitude(AValue: Double);
@@ -300,14 +368,38 @@ begin
   FLongitude := AValue;
 end;
 
+procedure TLaunchpad.SetLongitude(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLongitude := -0;
+  end else if VarIsNumeric(AValue) then
+    FLongitude := AValue;
+end;
+
 procedure TLaunchpad.SetName(AValue: string);
 begin
   FName := AValue;
 end;
 
+procedure TLaunchpad.SetName(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FName := '';
+  end else if VarIsStr(AValue) then
+    FName := AValue;
+end;
+
 procedure TLaunchpad.SetRegion(AValue: string);
 begin
   FRegion := AValue;
+end;
+
+procedure TLaunchpad.SetRegion(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRegion := '';
+  end else if VarIsStr(AValue) then
+    FRegion := AValue;
 end;
 
 procedure TLaunchpad.SetRocketsId(AValue: TStringList);
@@ -320,9 +412,25 @@ begin
   FStatus := AValue;
 end;
 
+procedure TLaunchpad.SetStatus(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FStatus := '';
+  end else if VarIsStr(AValue) then
+    FStatus := AValue;
+end;
+
 procedure TLaunchpad.SetTimeZone(AValue: string);
 begin
   FTimeZone := AValue;
+end;
+
+procedure TLaunchpad.SetTimeZone(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FTimeZone := '';
+  end else if VarIsStr(AValue) then
+    FTimeZone := AValue;
 end;
 
 function TLaunchpad.ToString(): string;
