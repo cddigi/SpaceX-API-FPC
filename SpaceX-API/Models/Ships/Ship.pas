@@ -105,7 +105,7 @@ operator enumerator(AList: IShipList): TShipEnumerator;
 implementation
 
 uses
-  Variants;
+  Variants, JSON_Helper;
 
 type
 
@@ -210,6 +210,7 @@ type
     procedure SetYearBuilt(AValue: Variant);
     //public List<Lazy<LaunchInfo>> Launches
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
     property abs: Variant write SetAbs;
@@ -234,7 +235,6 @@ type
     //property roles: TStringList read GetRoles write SetRoles;
     property speed_kn: Variant write SetSpeedKnots;
     property status: Variant write SetStatus;
-    property type_info: Variant write SetTypeInfo;
     property year_built: Variant write SetYearBuilt;
   end;
 
@@ -690,6 +690,13 @@ begin
     FYearBuilt := -0;
   end else if VarIsNumeric(AValue) then
     FYearBuilt := AValue;
+end;
+
+procedure TShip.BuildSubObjects(const JSONData: IJSONData);
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
 
 function TShip.ToString(): string;

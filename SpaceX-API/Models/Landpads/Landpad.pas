@@ -140,6 +140,7 @@ type
     procedure SetWikipedia(AValue: string);
     procedure SetWikipedia(AValue: Variant);
   public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
     function ToString(): string; override;
   published
     property details: Variant write SetDetails;
@@ -154,7 +155,6 @@ type
     property name: Variant write SetName;
     property region: Variant write SetRegion;
     property status: Variant write SetStatus;
-    //property TypeInfo: string read GetTypeInfo write SetTypeInfo;
     property wikipedia: Variant write SetWikipedia;
   end;
 
@@ -438,6 +438,13 @@ begin
     FWikipedia := '';
   end else if VarIsStr(AValue) then
     FWikipedia := AValue;
+end;
+
+procedure TLandpad.BuildSubObjects(const JSONData: IJSONData);
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
 
 function TLandpad.ToString(): string;

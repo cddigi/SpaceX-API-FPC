@@ -87,10 +87,7 @@ type
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property article: Variant write SetArticle;
-    //property flickr: ILaunchFlickr read GetFlickr write SetFlickr;
-    //property patch: ILaunchPatch read GetPatch write SetPatch;
     property presskit: Variant write SetPresskit;
-    //property reddit: ILaunchReddit read GetReddit write SetReddit;
     property webcast: Variant write SetWebcast;
     property wikipedia: Variant write SetWikipedia;
     property youTube_id: Variant write SetYouTubeId;
