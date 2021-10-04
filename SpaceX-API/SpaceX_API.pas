@@ -95,13 +95,13 @@ begin
   //RocketList := RocketEndpoint.All;
   //WriteLn((RocketList.Last as IRocket).TypeInfo);
 
-  CapsuleEndpoint := NewCapsuleEndpoint;
-  CapsuleList := CapsuleEndpoint.All;
-  WriteLn((CapsuleList.Last as ICapsule).ToString);
+  //CapsuleEndpoint := NewCapsuleEndpoint;
+  //CapsuleList := CapsuleEndpoint.All;
+  //WriteLn((CapsuleList.Last as ICapsule).ToString);
 
-  //CoreEndpoint := NewCoreEndpoint;
-  //CoreList := CoreEndpoint.All;
-  //WriteLn((CoreList.Last as ICore).Status);
+  CoreEndpoint := NewCoreEndpoint;
+  CoreList := CoreEndpoint.All;
+  WriteLn((CoreList.Last as ICore).ToString);
 
   //CrewEndpoint := NewCrewEndpoint;
   //CrewList := CrewEndpoint.All;

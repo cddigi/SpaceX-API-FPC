@@ -108,6 +108,7 @@ type
     procedure SetLastUpdate(AValue: string);
     procedure SetLastUpdate(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunchesId(AValue: Variant);
     procedure SetReuseCount(AValue: LongWord);
     procedure SetReuseCount(AValue: Variant);
     procedure SetRtlsAttempts(AValue: LongWord);
@@ -119,6 +120,8 @@ type
     procedure SetStatus(AValue: string);
     procedure SetStatus(AValue: Variant);
   public
+    constructor Create;
+    destructor Destroy; override;
     function ToString(): string; override;
   published
     property asds_attempts: Variant write SetAsdsAttempts;
@@ -126,7 +129,7 @@ type
     property block: Variant write SetBlock;
     property id: Variant write SetId;
     property last_update: Variant write SetLastUpdate;
-    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property launches: Variant write SetLaunchesId;
     property reuse_count: Variant write SetReuseCount;
     property rtls_attempts: Variant write SetRtlsAttempts;
     property rtls_landings: Variant write SetRtlsLandings;
@@ -297,6 +300,14 @@ begin
   FLaunchesId := AValue;
 end;
 
+procedure TCore.SetLaunchesId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchesId := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FLaunchesId.AddDelimitedText(AValue);;
+end;
+
 procedure TCore.SetReuseCount(AValue: LongWord);
 begin
   FReuseCount := AValue;
@@ -362,9 +373,46 @@ begin
     FStatus := AValue;
 end;
 
+constructor TCore.Create;
+begin
+  inherited Create;
+  FLaunchesId := TStringList.Create;
+  FLaunchesId.SkipLastLineBreak:=True;
+end;
+
+destructor TCore.Destroy;
+begin
+  FreeAndNil(FLaunchesId);
+  inherited Destroy;
+end;
+
 function TCore.ToString(): string;
 begin
-  Result := GetSerial;
+  Result := Format(''
+    + 'Asds Attempts: %u' + LineEnding
+    + 'Asds Landings: %u' + LineEnding
+    + 'Block: %u' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Last Update: %u' + LineEnding
+    + 'Launches: %s' + LineEnding
+    + 'Reuse Count: %u' + LineEnding
+    + 'Rtls Attempts: %u' + LineEnding
+    + 'Rtls Landings: %u' + LineEnding
+    + 'Serial: %s' + LineEnding
+    + 'Status: %s'
+    , [
+      GetAsdsAttempts,
+      GetAsdsLandings,
+      GetBlock,
+      GetId,
+      GetLastUpdate,
+      GetLaunchesId.Text,
+      GetReuseCount,
+      GetRtlsAttempts,
+      GetRtlsLandings,
+      GetSerial,
+      GetStatus
+    ]);
 end;
 
 end.
