@@ -393,7 +393,7 @@ begin
     + 'Asds Landings: %u' + LineEnding
     + 'Block: %u' + LineEnding
     + 'ID: %s' + LineEnding
-    + 'Last Update: %u' + LineEnding
+    + 'Last Update: %s' + LineEnding
     + 'Launches: %s' + LineEnding
     + 'Reuse Count: %u' + LineEnding
     + 'Rtls Attempts: %u' + LineEnding
