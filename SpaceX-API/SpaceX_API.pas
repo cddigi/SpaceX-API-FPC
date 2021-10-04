@@ -99,13 +99,13 @@ begin
   //CapsuleList := CapsuleEndpoint.All;
   //WriteLn((CapsuleList.Last as ICapsule).ToString);
 
-  CoreEndpoint := NewCoreEndpoint;
-  CoreList := CoreEndpoint.All;
-  WriteLn((CoreList.Last as ICore).ToString);
+  //CoreEndpoint := NewCoreEndpoint;
+  //CoreList := CoreEndpoint.All;
+  //WriteLn((CoreList.Last as ICore).ToString);
 
-  //CrewEndpoint := NewCrewEndpoint;
-  //CrewList := CrewEndpoint.All;
-  //WriteLn((CrewList.Last as ICrew).Status);
+  CrewEndpoint := NewCrewEndpoint;
+  CrewList := CrewEndpoint.All;
+  WriteLn((CrewList.Last as ICrew).ToString);
 
   //LandpadEndpoint := NewLandpadEndpoint;
   //LandpadList := LandpadEndpoint.All;

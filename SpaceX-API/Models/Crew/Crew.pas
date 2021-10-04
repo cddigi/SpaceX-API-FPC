@@ -76,6 +76,7 @@ type
     procedure SetImage(AValue: string);
     procedure SetImage(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunchesId(AValue: Variant);
     procedure SetName(AValue: string);
     procedure SetName(AValue: Variant);
     procedure SetStatus(AValue: string);
@@ -83,12 +84,14 @@ type
     procedure SetWikipedia(AValue: string);
     procedure SetWikipedia(AValue: Variant);
   public
+    constructor Create;
+    destructor destroy; override;
     function ToString(): string; override;
   published
     property agency: Variant write SetAgency;
     property id: Variant write SetId;
     property image: Variant write SetImage;
-    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property launches: TStringList read GetLaunchesId write SetLaunchesId;
     property name: Variant write SetName;
     property status: Variant write SetStatus;
     property wikipedia: Variant write SetWikipedia;
@@ -198,6 +201,14 @@ begin
   FLaunchesId := AValue;
 end;
 
+procedure TCrew.SetLaunchesId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchesId := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FLaunchesId.AddDelimitedtext(AValue);
+end;
+
 procedure TCrew.SetName(AValue: string);
 begin
   FName := AValue;
@@ -237,9 +248,38 @@ begin
     FWikipedia := AValue;
 end;
 
+constructor TCrew.Create;
+begin
+  inherited Create;
+  FLaunchesId := TStringList.Create;
+  FLaunchesId.SkipLastLineBreak := True;
+end;
+
+destructor TCrew.destroy;
+begin
+  FreeAndNil(FLaunchesId);
+  inherited destroy;
+end;
+
 function TCrew.ToString(): string;
 begin
-  Result := GetName;
+  Result := Format(''
+    + 'Agency: %s' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Image: %s' + LineEnding
+    + 'Launches: %s' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Status: %s' + LineEnding
+    + 'Wikipedia: %s'
+    , [
+      GetAgency,
+      GetId,
+      GetImage,
+      GetLaunchesId.Text,
+      GetName,
+      GetStatus,
+      GetWikipedia
+    ]);
 end;
 
 end.
