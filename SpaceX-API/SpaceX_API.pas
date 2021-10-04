@@ -122,12 +122,13 @@ begin
   //LaunchEndpoint := NewLaunchEndpoint;
   //LaunchList := LaunchEndpoint.All;
 
-  RoadsterEndpoint := NewRoadsterEndpoint;
-  Roadster := RoadsterEndpoint.All;
-  WriteLn(Roadster.ToString);
+  //RoadsterEndpoint := NewRoadsterEndpoint;
+  //Roadster := RoadsterEndpoint.All;
+  //WriteLn(Roadster.ToString);
 
-  //ShipEndpoint := NewShipEndpoint;
-  //ShipList := ShipEndpoint.All;
+  ShipEndpoint := NewShipEndpoint;
+  ShipList := ShipEndpoint.All;
+  WriteLn((ShipList.Last as IShip).ToString);
 
   //StarlinkEndpoint := NewStarlinkEndpoint;
   //StarlinkList := StarlinkEndpoint.All;
