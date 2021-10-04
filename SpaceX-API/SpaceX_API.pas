@@ -111,9 +111,9 @@ begin
   //LandpadList := LandpadEndpoint.All;
   //WriteLn((LandpadList.Last as ILandpad).ToString);
 
-  LaunchpadEndpoint := NewLaunchpadEndpoint;
-  LaunchpadList := LaunchpadEndpoint.All;
-  WriteLn((LaunchpadList.Last as ILaunchpad).ToString);
+  //LaunchpadEndpoint := NewLaunchpadEndpoint;
+  //LaunchpadList := LaunchpadEndpoint.All;
+  //WriteLn((LaunchpadList.Last as ILaunchpad).ToString);
 
   //PayloadEndpoint := NewPayloadEndpoint;
   //PayloadList := PayloadEndpoint.All;
@@ -122,10 +122,9 @@ begin
   //LaunchEndpoint := NewLaunchEndpoint;
   //LaunchList := LaunchEndpoint.All;
 
-  //RoadsterEndpoint := NewRoadsterEndpoint;
-  //Roadster := RoadsterEndpoint.All;
-  //WriteLn(Roadster.DateTimeUtc);
-  //WriteLn(Roadster.name);
+  RoadsterEndpoint := NewRoadsterEndpoint;
+  Roadster := RoadsterEndpoint.All;
+  WriteLn(Roadster.ToString);
 
   //ShipEndpoint := NewShipEndpoint;
   //ShipList := ShipEndpoint.All;
