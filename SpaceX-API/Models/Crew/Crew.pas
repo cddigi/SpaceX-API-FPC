@@ -91,7 +91,7 @@ type
     property agency: Variant write SetAgency;
     property id: Variant write SetId;
     property image: Variant write SetImage;
-    property launches: TStringList read GetLaunchesId write SetLaunchesId;
+    property launches: Variant write SetLaunchesId;
     property name: Variant write SetName;
     property status: Variant write SetStatus;
     property wikipedia: Variant write SetWikipedia;
