@@ -58,6 +58,8 @@ type
     procedure SetMedia(AValue: Variant);
     procedure SetRecovery(AValue: string);
     procedure SetRecovery(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property campaign: Variant write SetCampaign;
     property launch: Variant write SetLaunch;
@@ -142,6 +144,21 @@ begin
     FRecovery := '';
   end else if VarIsStr(AValue) then
     FRecovery := AValue;
+end;
+
+function TLaunchReddit.ToString: string;
+begin
+  Result := Format(''
+    + 'Campaign: %s' + LineEnding
+    + 'Launch: %s' + LineEnding
+    + 'Media: %s' + LineEnding
+    + 'Recovery: %s'
+    , [
+      GetCampaign,
+      GetLaunch,
+      GetMedia,
+      GetRecovery
+    ]);
 end;
 
 end.

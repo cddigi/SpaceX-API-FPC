@@ -103,9 +103,9 @@ begin
   //CoreList := CoreEndpoint.All;
   //WriteLn((CoreList.Last as ICore).ToString);
 
-  CrewEndpoint := NewCrewEndpoint;
-  CrewList := CrewEndpoint.All;
-  WriteLn((CrewList.Last as ICrew).ToString);
+  //CrewEndpoint := NewCrewEndpoint;
+  //CrewList := CrewEndpoint.All;
+  //WriteLn((CrewList.Last as ICrew).ToString);
 
   //LandpadEndpoint := NewLandpadEndpoint;
   //LandpadList := LandpadEndpoint.All;
@@ -119,8 +119,9 @@ begin
   //PayloadList := PayloadEndpoint.All;
   //WriteLn((PayloadList.Last as IPayload).ToString);
 
-  //LaunchEndpoint := NewLaunchEndpoint;
-  //LaunchList := LaunchEndpoint.All;
+  LaunchEndpoint := NewLaunchEndpoint;
+  LaunchList := LaunchEndpoint.All;
+  WriteLn((LaunchList.Last as ILaunch).ToString);
 
   //RoadsterEndpoint := NewRoadsterEndpoint;
   //Roadster := RoadsterEndpoint.All;

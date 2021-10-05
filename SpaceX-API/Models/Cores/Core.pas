@@ -173,6 +173,7 @@ begin
   Result := NewCore;
 end;
 
+
 { TCore }
 
 function TCore.GetAsdsAttempts: LongWord;

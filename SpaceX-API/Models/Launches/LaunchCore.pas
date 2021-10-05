@@ -99,6 +99,8 @@ type
     procedure SetLegs(AValue: Variant);
     procedure SetReused(AValue: Boolean);
     procedure SetReused(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property core: Variant write SetCoreId;
     property flight: Variant write SetFlight;
@@ -296,6 +298,31 @@ begin
     FReused := False;
   end else if VarIsBool(AValue) then
     FReused := AValue;
+end;
+
+function TLaunchCore.ToString: string;
+begin
+  Result := Format(''
+    + 'Core ID: %s' + LineEnding
+    + 'Flight: %u' + LineEnding
+    + 'Gridfins: %s' + LineEnding
+    + 'Landpad ID: %s' + LineEnding
+    + 'Landing Attempt: %s' + LineEnding
+    + 'Landing Success: %s' + LineEnding
+    + 'Landing Type: %s' + LineEnding
+    + 'Legs: %s' + LineEnding
+    + 'Reused: %s'
+    , [
+      GetCoreId,
+      GetFlight,
+      BoolToStr(GetGridfins),
+      GetLandpadId,
+      GetLandingAttempt,
+      GetLandingSuccess,
+      GetLandingType,
+      GetLegs,
+      GetReused
+    ]);
 end;
 
 end.

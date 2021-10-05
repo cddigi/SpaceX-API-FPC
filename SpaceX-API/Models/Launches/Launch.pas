@@ -220,11 +220,13 @@ type
     procedure SetWindow(AValue: UInt64);
     procedure SetWindow(AValue: Variant);
   public
+    constructor Create;
+    destructor Destroy; override;
     function ToString(): string; override;
   published
     property auto_update: Variant write SetAutoUpdate;
-    //property CapsulesId: TStringList read GetCapsulesId write SetCapsulesId;
-    //property CrewId: TStringList read GetCrewId write SetCrewId;
+    property capsules: TStringList read GetCapsulesId write SetCapsulesId;
+    property crew: TStringList read GetCrewId write SetCrewId;
     //property date_utc: Variant write SetDateUtc;
     //property date_local: Variant write SetDateLocal;
     property date_unix: Variant write SetDateUnix;
@@ -235,7 +237,7 @@ type
     property name: Variant write SetName;
     property net: Variant write SetNotEarlierThan;
     property rocket: Variant write SetRocketId;
-    //property ShipsId: TStringList read GetShipsId write SetShipsId;
+    property ships: TStringList read GetShipsId write SetShipsId;
     property static_fire_date_unix: Variant write SetStaticFireDateUnix;
     //property static_fire_date_utc: Variant write SetStaticFireDateUtc;
     property success: Variant write SetSuccess;
@@ -639,9 +641,83 @@ begin
     FWindow := AValue;
 end;
 
+constructor TLaunch.Create;
+begin
+  inherited Create;
+  FCapsulesId := TStringList.Create;
+  FCrewId := TStringList.Create;
+  FShipsId := TStringList.Create;
+
+  FCapsulesId.SkipLastLineBreak := True;
+  FCrewId.SkipLastLineBreak := True;
+  FShipsId.SkipLastLineBreak := True;
+end;
+
+destructor TLaunch.Destroy;
+begin
+  FreeAndNil(FCapsulesId);
+  FreeAndNil(FCrewId);
+  FreeAndNil(FShipsId);
+  inherited Destroy;
+end;
+
 function TLaunch.ToString(): string;
 begin
-  Result := GetName;
+  Result := Format(''
+    + 'Auto Update: %s' + LineEnding
+    + 'Capsules : %s' + LineEnding
+    + 'Crew ID: %s' + LineEnding
+    //+ 'Cores: %s' + LineEnding
+    + 'Date UTC: %s' + LineEnding
+    + 'Date Local: %s' + LineEnding
+    + 'Date Precision: %s' + LineEnding
+    + 'Date Unix: %u' + LineEnding
+    + 'Details: %s' + LineEnding
+    //+ 'Failures: %s' + LineEnding
+    //+ 'Fairings: %s' + LineEnding
+    + 'Flight Number: %u' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Launchpad ID: %s' + LineEnding
+    //+ 'Links: %s' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Not Earlier Than: %s' + LineEnding
+    //+ 'Payloads ID: %s' + LineEnding
+    + 'Rocket ID: %s' + LineEnding
+    + 'Ships: %s' + LineEnding
+    + 'Static Fire Date Unix: %u' + LineEnding
+    + 'Static Fire Date UTC: %s' + LineEnding
+    + 'Success: %s' + LineEnding
+    + 'To Be Dated: %s' + LineEnding
+    + 'Upcoming: %s' + LineEnding
+    + 'Window: %u'
+    , [
+      BoolToStr(GetAutoUpdate),
+      GetCapsulesId.Text,
+      GetCrewId.Text,
+      //GetCores.ToString,
+      DateToStr(GetDateUtc),
+      DateToStr(GetDateLocal),
+      DatePrecisionToCode(GetDatePrecision),
+      GetDateUnix,
+      GetDetails,
+      //GetFailures.ToString,
+      //GetFairings.ToString,
+      GetFlightNumber,
+      GetId,
+      GetLaunchpadId,
+      //GetLinks.ToString,
+      GetName,
+      BoolToStr(GetNotEarlierThan),
+      //GetPayloadsId.Text,
+      GetRocketId,
+      GetShipsId.Text,
+      GetStaticFireDateUnix,
+      DateToStr(GetStaticFireDateUtc),
+      BoolToStr(GetSuccess),
+      BoolToStr(GetToBeDated),
+      BoolToStr(GetUpcoming),
+      GetWindow
+    ]);
 end;
 
 end.
