@@ -740,7 +740,7 @@ begin
     + 'Abs: %u' + LineEnding
     + 'Active: %s' + LineEnding
     + 'Class Size: %u' + LineEnding
-    + 'Course Degres: %f' + LineEnding
+    + 'Course Degrees: %f' + LineEnding
     + 'Home Port: %s' + LineEnding
     + 'ID: %s' + LineEnding
     + 'Image: %s' + LineEnding
