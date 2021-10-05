@@ -85,6 +85,7 @@ type
     procedure SetYouTubeId(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+    function ToString: string; override;
   published
     property article: Variant write SetArticle;
     property presskit: Variant write SetPresskit;
@@ -228,6 +229,29 @@ var
   Reddit: ILaunchReddit;
 begin
   inherited BuildSubObjects(JSONData);
+end;
+
+function TLaunchLinks.ToString: string;
+begin
+  Result := Format(''
+    + 'Article: %s' + LineEnding
+    + 'Flickr: %s' + LineEnding
+    + 'Patch: %s' + LineEnding
+    + 'Press Kit: %s' + LineEnding
+    + 'Reddit: %s' + LineEnding
+    + 'Webcast: %s' + LineEnding
+    + 'Wikipedia: %s' + LineEnding
+    + 'YouTube ID: %s'
+    , [
+      GetArticle,
+      GetFlickr.ToString,
+      GetPatch.ToString,
+      GetPresskit,
+      GetReddit.ToString,
+      GetWebcast,
+      GetWikipedia,
+      GetYouTubeId
+    ]);
 end;
 
 end.

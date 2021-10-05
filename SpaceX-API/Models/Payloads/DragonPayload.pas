@@ -80,6 +80,8 @@ type
     procedure SetMassReturnedPounds(AValue: Variant);
     procedure SetWaterLanding(AValue: Boolean);
     procedure SetWaterLanding(AValue: Variant);
+  public
+    function ToString: string; override;
   published  // all nullable
     property capsule: Variant write SetCapsuleId;
     property flight_time_sec: Variant write SetFlightTimeSeconds;
@@ -152,10 +154,10 @@ end;
 
 procedure TDragonPayload.SetFlightTimeSeconds(AValue: Variant);
 begin
-  if VarIsNull(AValue) then
+  if VarIsNull(AValue) then begin
     AValue := 0;
-
-  FFlightTimeSeconds := AValue;
+  end else if VarIsNumeric(AValue) then
+    FFlightTimeSeconds := AValue;
 end;
 
 procedure TDragonPayload.SetLandLanding(AValue: Boolean);
@@ -192,7 +194,7 @@ end;
 procedure TDragonPayload.SetMassReturnedKilograms(AValue: Variant);
 begin
   if VarIsNull(AValue) then begin
-    FMassReturnedKilograms := -1.0;
+    FMassReturnedKilograms := -0.0;
   end else if VarIsNumeric(AValue) then
     FMassReturnedKilograms := AValue;
 end;
@@ -205,7 +207,7 @@ end;
 procedure TDragonPayload.SetMassReturnedPounds(AValue: Variant);
 begin
   if VarIsNull(AValue) then begin
-    FMassReturnedPounds := -1.0;
+    FMassReturnedPounds := -0.0;
   end else if VarIsNumeric(AValue) then
     FMassReturnedPounds := AValue;
 end;
@@ -221,6 +223,27 @@ begin
     FWaterLanding := False;
   end else if VarIsBool(AValue) then
     FWaterLanding := AValue;
+end;
+
+function TDragonPayload.ToString: string;
+begin
+  Result := Format(''
+    + 'Capsule ID: %s' + LineEnding
+    + 'Flight Time(sec): %u' + LineEnding
+    + 'Land Landing: %s' + LineEnding
+    + 'Manifest: %s' + LineEnding
+    + 'Mass Returned(kg): %f' + LineEnding
+    + 'Mass Returned(lbs): %f' + LineEnding
+    + 'Water Landing: %s'
+    , [
+      GetCapsuleId,
+      GetFlightTimeSeconds,
+      BoolToStr(GetLandLanding),
+      GetManifest,
+      GetMassReturnedKilograms,
+      GetMassReturnedPounds,
+      BoolToStr(GetWaterLanding)
+    ]);
 end;
 
 end.

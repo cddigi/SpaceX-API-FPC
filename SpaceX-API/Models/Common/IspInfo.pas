@@ -97,8 +97,8 @@ end;
 function TIspInfo.ToString: string;
 begin
   Result := Format(''
-    + '%f Isp, '
-    + '%f Isp'
+    + '%u Isp, '
+    + '%u Isp'
     , [
       GetSeaLevel,
       GetVacuum

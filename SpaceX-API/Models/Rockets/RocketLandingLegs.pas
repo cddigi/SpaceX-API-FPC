@@ -45,6 +45,8 @@ type
     procedure SetMaterial(AValue: Variant);
     procedure SetNumber(AValue: LongWord);
     procedure SetNumber(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property material: Variant write SetMaterial;
     property number: Variant write SetNumber;
@@ -89,6 +91,17 @@ begin
     FNumber := -0;
   end else if VarIsNumeric(AValue) then
     FNumber := AValue;
+end;
+
+function TRocketLandingLegs.ToString: string;
+begin
+  Result := Format(''
+    + 'Material: %s' + LineEnding
+    + 'Number: %u'
+    , [
+      GetMaterial,
+      GetNumber
+    ]);
 end;
 
 end.

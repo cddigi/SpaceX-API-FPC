@@ -75,6 +75,8 @@ type
     FName: string;
     FStatus: string;
     FWikipedia: string;
+    constructor Create;
+    destructor destroy;
   private
     function GetAgency: string;
     function GetId: string;
@@ -91,6 +93,7 @@ type
     procedure SetImage(AValue: string);
     procedure SetImage(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunchesId(AValue: Variant);
     procedure SetName(AValue: string);
     procedure SetName(AValue: Variant);
     procedure SetStatus(AValue: string);
@@ -99,9 +102,6 @@ type
     procedure SetWikipedia(AValue: Variant);
   public
     function ToString(): string; override;
-  public
-    constructor Create;
-    destructor Destroy; override;
   published
     property agency: Variant write SetAgency;
     property id: Variant write SetId;
@@ -229,6 +229,14 @@ begin
   FLaunchesId := AValue;
 end;
 
+procedure TCrew.SetLaunchesId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchesId := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FLaunchesId.AddDelimitedtext(AValue);
+end;
+
 procedure TCrew.SetName(AValue: string);
 begin
   FName := AValue;
@@ -268,16 +276,29 @@ begin
   FWikipedia := AValue;
 end;
 
+constructor TCrew.Create;
+begin
+  inherited Create;
+  FLaunchesId := TStringList.Create;
+  FLaunchesId.SkipLastLineBreak := True;
+end;
+
+destructor TCrew.destroy;
+begin
+  FreeAndNil(FLaunchesId);
+  inherited destroy;
+end;
+
 function TCrew.ToString(): string;
 begin
   Result := Format(''
     + 'Agency: %s' + LineEnding
-    + 'Id: %s' + LineEnding
+    + 'ID: %s' + LineEnding
     + 'Image: %s' + LineEnding
     + 'Launches: %s' + LineEnding
     + 'Name: %s' + LineEnding
     + 'Status: %s' + LineEnding
-    + 'Wikipedia: %s' + LineEnding
+    + 'Wikipedia: %s'
     , [
       GetAgency,
       GetId,
@@ -287,20 +308,6 @@ begin
       GetStatus,
       GetWikipedia
     ]);
-end;
-
-constructor TCrew.Create;
-begin
-  inherited Create;
-  FLaunchesId := TStringList.Create;
-  FLaunchesId.LineBreak := ', ';
-  FLaunchesId.SkipLastLineBreak := True;
-end;
-
-destructor TCrew.Destroy;
-begin
-  FreeAndNil(FLaunchesId);
-  inherited Destroy;
 end;
 
 end.

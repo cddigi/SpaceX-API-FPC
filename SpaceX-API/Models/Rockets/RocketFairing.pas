@@ -43,6 +43,7 @@ type
     procedure SetDiameter(AValue: ISizeInfo);
     procedure SetHeight(AValue: ISizeInfo);
   public
+    function ToString: string; override;
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   end;
 
@@ -71,6 +72,17 @@ end;
 procedure TRocketFairing.SetHeight(AValue: ISizeInfo);
 begin
   FHeight := AValue;
+end;
+
+function TRocketFairing.ToString: string;
+begin
+  Result := Format(''
+    + 'Diameter: %s' + LineEnding
+    + 'Height: %s'
+    , [
+      GetDiameter.ToString,
+      GetHeight.ToString
+    ]);
 end;
 
 procedure TRocketFairing.BuildSubObjects(const JSONData: IJSONData);

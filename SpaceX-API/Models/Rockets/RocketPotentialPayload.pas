@@ -46,6 +46,7 @@ type
     procedure SetOption(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+    function ToString: string; override;
   published
     property option_1: Variant write SetOption;
   end;
@@ -96,6 +97,17 @@ begin
   Fairing := NewRocketFairing;
   JSONToModel(SubJSONData.GetJSONData, Fairing);
   Self.FFairing := Fairing;
+end;
+
+function TRocketPotentialPayload.ToString: string;
+begin
+  Result := Format(''
+    + 'Fairing: %s' + LineEnding
+    + 'Option: %s'
+    , [
+      GetFairing.ToString,
+      GetOption
+    ]);
 end;
 
 end.

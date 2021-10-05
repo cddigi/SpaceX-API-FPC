@@ -93,40 +93,43 @@ begin
 
   //RocketEndpoint := NewRocketEndpoint;
   //RocketList := RocketEndpoint.All;
-  //WriteLn((RocketList.Last as IRocket).TypeInfo);
+  //WriteLn((RocketList.Last as IRocket).ToString);
 
-  CapsuleEndpoint := NewCapsuleEndpoint;
-  CapsuleList := CapsuleEndpoint.All;
-  WriteLn((CapsuleList.Last as ICapsule).ToString);
+  //CapsuleEndpoint := NewCapsuleEndpoint;
+  //CapsuleList := CapsuleEndpoint.All;
+  //WriteLn((CapsuleList.Last as ICapsule).ToString);
 
   //CoreEndpoint := NewCoreEndpoint;
   //CoreList := CoreEndpoint.All;
-  //WriteLn((CoreList.Last as ICore).Status);
+  //WriteLn((CoreList.Last as ICore).ToString);
 
   //CrewEndpoint := NewCrewEndpoint;
   //CrewList := CrewEndpoint.All;
-  //WriteLn((CrewList.Last as ICrew).Status);
+  //WriteLn((CrewList.Last as ICrew).ToString);
 
   //LandpadEndpoint := NewLandpadEndpoint;
   //LandpadList := LandpadEndpoint.All;
+  //WriteLn((LandpadList.Last as ILandpad).ToString);
 
   //LaunchpadEndpoint := NewLaunchpadEndpoint;
   //LaunchpadList := LaunchpadEndpoint.All;
+  //WriteLn((LaunchpadList.Last as ILaunchpad).ToString);
 
   //PayloadEndpoint := NewPayloadEndpoint;
   //PayloadList := PayloadEndpoint.All;
-  //WriteLn((PayloadList.Last as IPayload).Name);
+  //WriteLn((PayloadList.Last as IPayload).ToString);
 
-  //LaunchEndpoint := NewLaunchEndpoint;
-  //LaunchList := LaunchEndpoint.All;
+  LaunchEndpoint := NewLaunchEndpoint;
+  LaunchList := LaunchEndpoint.All;
+  WriteLn((LaunchList.Last as ILaunch).ToString);
 
   //RoadsterEndpoint := NewRoadsterEndpoint;
   //Roadster := RoadsterEndpoint.All;
-  //WriteLn(Roadster.DateTimeUtc);
-  //WriteLn(Roadster.name);
+  //WriteLn(Roadster.ToString);
 
   //ShipEndpoint := NewShipEndpoint;
   //ShipList := ShipEndpoint.All;
+  //WriteLn((ShipList.Last as IShip).ToString);
 
   //StarlinkEndpoint := NewStarlinkEndpoint;
   //StarlinkList := StarlinkEndpoint.All;

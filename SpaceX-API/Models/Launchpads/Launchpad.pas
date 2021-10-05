@@ -125,6 +125,7 @@ type
     procedure SetLaunchAttempts(AValue: LongWord);
     procedure SetLaunchAttempts(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunchesId(AValue: Variant);
     procedure SetLaunchSuccesses(AValue: LongWord);
     procedure SetLaunchSuccesses(AValue: Variant);
     procedure SetLocality(AValue: string);
@@ -136,11 +137,14 @@ type
     procedure SetRegion(AValue: string);
     procedure SetRegion(AValue: Variant);
     procedure SetRocketsId(AValue: TStringList);
+    procedure SetRocketsId(AValue: Variant);
     procedure SetStatus(AValue: string);
     procedure SetStatus(AValue: Variant);
     procedure SetTimeZone(AValue: string);
     procedure SetTimeZone(AValue: Variant);
   public
+    constructor Create;
+    destructor destroy; override;
     function ToString(): string; override;
   published
     property details: Variant write SetDetails;
@@ -148,13 +152,13 @@ type
     property id: Variant write SetId;
     property latitude: Variant write SetLatitude;
     property launch_attempts: Variant write SetLaunchAttempts;
-    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property Launches: Variant write SetLaunchesId;
     property launch_successes: Variant write SetLaunchSuccesses;
     property locality: Variant write SetLocality;
     property longitude: Variant write SetLongitude;
     property name: Variant write SetName;
     property region: Variant write SetRegion;
-    //property rockets_id: TStringList read GetRocketsId write SetRocketsId;
+    property rockets: Variant write SetRocketsId;
     property status: Variant write SetStatus;
     property time_zone: Variant write SetTimeZone;
   end;
@@ -337,6 +341,14 @@ begin
   FLaunchesId := AValue;
 end;
 
+procedure TLaunchpad.SetLaunchesId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchesId := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FLaunchesId.AddDelimitedtext(AValue);
+end;
+
 procedure TLaunchpad.SetLaunchSuccesses(AValue: LongWord);
 begin
   FLaunchSuccesses := AValue;
@@ -407,6 +419,14 @@ begin
   FRocketsId := AValue;
 end;
 
+procedure TLaunchpad.SetRocketsId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRocketsId := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FRocketsId.AddDelimitedtext(AValue);
+end;
+
 procedure TLaunchpad.SetStatus(AValue: string);
 begin
   FStatus := AValue;
@@ -433,9 +453,56 @@ begin
     FTimeZone := AValue;
 end;
 
+constructor TLaunchpad.Create;
+begin
+  inherited Create;
+  FLaunchesId := TStringList.Create;
+  FRocketsId := TStringList.Create;
+
+  FLaunchesId.SkipLastLineBreak := True;
+  FRocketsId.SkipLastLineBreak := True;
+end;
+
+destructor TLaunchpad.destroy;
+begin
+  FreeAndNil(FLaunchesId);
+  FreeAndNil(FRocketsId);
+  inherited destroy;
+end;
+
 function TLaunchpad.ToString(): string;
 begin
-  Result := GetName;
+  Result := Format(''
+    + 'Details: %s' + LineEnding
+    + 'Full Name: %s' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Latitude: %f' + LineEnding
+    + 'Launch Attempts: %u' + LineEnding
+    + 'Launches: %s' + LineEnding
+    + 'Launch Successes: %u' + LineEnding
+    + 'Locality: %s' + LineEnding
+    + 'Longitude: %f' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Region: %s' + LineEnding
+    + 'Rockets: %s' + LineEnding
+    + 'Status: %s' + LineEnding
+    + 'Time Zone: %s'
+    , [
+      GetDetails,
+      GetFullName,
+      GetId,
+      GetLatitude,
+      GetLaunchAttempts,
+      GetLaunchesId.Text,
+      GetLaunchSuccesses,
+      GetLocality,
+      GetLongitude,
+      GetName,
+      GetRegion,
+      GetRocketsId.Text,
+      GetStatus,
+      GetTimeZone
+    ]);
 end;
 
 end.
