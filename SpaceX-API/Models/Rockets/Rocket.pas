@@ -174,6 +174,7 @@ type
     procedure SetFirstFlight(AValue: Variant);
     procedure SetFirstStage(AValue: IRocketFirstStage);
     procedure SetFlickrImages(AValue: TStringList);
+    procedure SetFlickrImages(AValue: Variant);
     procedure SetHeight(AValue: ISizeInfo);
     procedure SetId(AValue: string);
     procedure SetId(AValue: Variant);
@@ -192,11 +193,10 @@ type
     procedure SetWikipedia(AValue: string);
     procedure SetWikipedia(AValue: Variant);
   public
-    function ToString(): string; override;
-  public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
-  public
-    destructor Destroy; override;
+    constructor Create;
+    destructor destroy; override;
+    function ToString(): string; override;
   published
     property active: Variant write SetActive;
     property boosters: Variant write SetBoosters;
@@ -205,7 +205,7 @@ type
     property country: Variant write SetCountry;
     property description: Variant write SetDescription;
     property first_flight: Variant write SetFirstFlight;
-    //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+    property flickr_images: Variant write SetFlickrImages;
     property id: Variant write SetId;
     property name: Variant write SetName;
     property stages: Variant write SetStages;
@@ -484,6 +484,14 @@ begin
   FFlickrImages := AValue;
 end;
 
+procedure TRocket.SetFlickrImages(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFlickrImages := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FFlickrImages.AddDelimitedtext(AValue);
+end;
+
 procedure TRocket.SetHeight(AValue: ISizeInfo);
 begin
   FHeight := AValue;
@@ -645,15 +653,68 @@ begin
   Self.FTypeInfo := TypeInfo;
 end;
 
-destructor TRocket.Destroy;
+constructor TRocket.Create;
 begin
-  FFlickrImages.Free;
+  inherited Create;
+  FFlickrImages := TStringList.Create;
+  FFlickrImages.SkipLastLineBreak := True;
+end;
+
+destructor TRocket.destroy;
+begin
+  FreeAndNil(FFlickrImages);
   inherited Destroy;
 end;
 
 function TRocket.ToString(): string;
 begin
-  Result := GetName;
+  Result := Format(''
+    + 'Active: %s' + LineEnding
+    + 'Boosters: %u' + LineEnding
+    + 'Company: %s' + LineEnding
+    + 'Cost per Launch: %u' + LineEnding
+    + 'Country: %s' + LineEnding
+    + 'Description: %s' + LineEnding
+    + 'Diameter: %s' + LineEnding
+    + 'Engines: %s' + LineEnding
+    + 'First Flight: %s' + LineEnding
+    + 'First Stage: %s' + LineEnding
+    + 'Flickr Images: %s' + LineEnding
+    + 'Height: %s' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Landing Legs: %s' + LineEnding
+    + 'Mass: %s' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Payload Weights: %s' + LineEnding
+    + 'Second Stage: %s' + LineEnding
+    + 'Stages: %u' + LineEnding
+    + 'Success Rate: %u' + LineEnding
+    + 'Type: %s' + LineEnding
+    + 'Wikipedia: %s'
+    , [
+      BoolToStr(GetActive),
+      GetBoosters,
+      GetCompany,
+      GetCostPerLaunch,
+      GetCountry,
+      GetDescription,
+      GetDiameter.ToString,
+      GetEngines.ToString,
+      DateToStr(GetFirstFlight),
+      GetFirstStage.ToString,
+      GetFlickrImages.Text,
+      GetHeight.ToString,
+      GetId,
+      GetLandingLegs.ToString,
+      GetMass.ToString,
+      GetName,
+      GetPayloadWeights,
+      GetSecondStage.ToString,
+      GetStages,
+      GetSuccessRate,
+      GetTypeInfo,
+      GetWikipedia
+    ]);
 end;
 
 end.

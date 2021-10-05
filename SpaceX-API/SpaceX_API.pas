@@ -91,9 +91,9 @@ begin
   //Company := CompanyEndpoint.Get;
   //WriteLn(Company.ToString);
 
-  //RocketEndpoint := NewRocketEndpoint;
-  //RocketList := RocketEndpoint.All;
-  //WriteLn((RocketList.Last as IRocket).TypeInfo);
+  RocketEndpoint := NewRocketEndpoint;
+  RocketList := RocketEndpoint.All;
+  WriteLn((RocketList.Last as IRocket).ToString);
 
   //CapsuleEndpoint := NewCapsuleEndpoint;
   //CapsuleList := CapsuleEndpoint.All;
@@ -115,9 +115,9 @@ begin
   //LaunchpadList := LaunchpadEndpoint.All;
   //WriteLn((LaunchpadList.Last as ILaunchpad).ToString);
 
-  PayloadEndpoint := NewPayloadEndpoint;
-  PayloadList := PayloadEndpoint.All;
-  WriteLn((PayloadList.Last as IPayload).ToString);
+  //PayloadEndpoint := NewPayloadEndpoint;
+  //PayloadList := PayloadEndpoint.All;
+  //WriteLn((PayloadList.Last as IPayload).ToString);
 
   //LaunchEndpoint := NewLaunchEndpoint;
   //LaunchList := LaunchEndpoint.All;
