@@ -15,7 +15,7 @@ type
     function GetId: string;
     function GetLandLandings: LongWord;
     function GetLastUpdate: string;
-    function GetLaunchesId: TStringList;
+    function GetLaunches: TStringList;
     function GetSerial: string;
     function GetStatus: string;
     function GetReuseCount: LongWord;
@@ -24,7 +24,7 @@ type
     procedure SetId(AValue: string);
     procedure SetLandLandings(AValue: LongWord);
     procedure SetLastUpdate(AValue: string);
-    procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunches(AValue: TStringList);
     procedure SetSerial(AValue: string);
     procedure SetStatus(AValue: string);
     procedure SetReuseCount(AValue: LongWord);
@@ -37,7 +37,7 @@ type
     property Id: string read GetId write SetId;
     property LandLandings: LongWord read GetLandLandings write SetLandLandings;
     property LastUpdate: string read GetLastUpdate write SetLastUpdate;
-    property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property Launches: TStringList read GetLaunches write SetLaunches;
     property Serial: string read GetSerial write SetSerial;
     property Status: string read GetStatus write SetStatus;
     property ReuseCount: LongWord read GetReuseCount write SetReuseCount;
@@ -74,7 +74,7 @@ type
     FId: string;
     FLandLandings: LongWord;
     FLastUpdate: string;
-    FLaunchesId: TStringList;
+    FLaunches: TStringList;
     FSerial: string;
     FStatus: string;
     FReuseCount: LongWord;
@@ -83,7 +83,7 @@ type
     function GetId: string;
     function GetLandLandings: LongWord;
     function GetLastUpdate: string;
-    function GetLaunchesId: TStringList;
+    function GetLaunches: TStringList;
     function GetSerial: string;
     function GetStatus: string;
     function GetReuseCount: LongWord;
@@ -92,7 +92,7 @@ type
     procedure SetId(AValue: string);
     procedure SetLandLandings(AValue: LongWord);
     procedure SetLastUpdate(AValue: string);
-    procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunches(AValue: TStringList);
     procedure SetSerial(AValue: string);
     procedure SetStatus(AValue: string);
     procedure SetReuseCount(AValue: LongWord);
@@ -115,7 +115,7 @@ type
     property id: Variant write SetId;
     property land_landings: Variant write SetLandLandings;
     property last_update: Variant write SetLastUpdate;
-    property launches: TStringList read GetLaunchesId write SetLaunchesId;
+    property launches: TStringList read GetLaunches write SetLaunches;
     property serial: Variant write SetSerial;
     property status: Variant write SetStatus;
     property reuse_count: Variant write SetReuseCount;
@@ -175,9 +175,9 @@ begin
   Result := FLastUpdate;
 end;
 
-function TCapsule.GetLaunchesId: TStringList;
+function TCapsule.GetLaunches: TStringList;
 begin
-  Result := FLaunchesId;
+  Result := FLaunches;
 end;
 
 function TCapsule.GetSerial: string;
@@ -239,9 +239,9 @@ begin
   FLastUpdate := AValue;
 end;
 
-procedure TCapsule.SetLaunchesId(AValue: TStringList);
+procedure TCapsule.SetLaunches(AValue: TStringList);
 begin
-  FLaunchesId := AValue;
+  FLaunches := AValue;
 end;
 
 procedure TCapsule.SetSerial(AValue: string);
@@ -299,14 +299,14 @@ end;
 constructor TCapsule.Create;
 begin
   inherited Create;
-  FLaunchesId := TStringList.Create;
-  FLaunchesId.SkipLastLineBreak := True;
-  FLaunchesId.LineBreak := ', ';
+  FLaunches := TStringList.Create;
+  FLaunches.SkipLastLineBreak := True;
+  FLaunches.LineBreak := ', ';
 end;
 
 destructor TCapsule.Destroy;
 begin
-  FreeAndNil(FLaunchesId);
+  FreeAndNil(FLaunches);
   inherited Destroy;
 end;
 
@@ -325,7 +325,7 @@ begin
       GetId,
       GetLandLandings,
       GetLastUpdate,
-      GetLaunchesId.Text,
+      GetLaunches.Text,
       GetReuseCount,
       GetSerial,
       GetStatus,
