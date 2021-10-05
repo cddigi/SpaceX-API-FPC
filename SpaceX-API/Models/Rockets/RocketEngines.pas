@@ -105,6 +105,7 @@ type
     procedure SetVersion(AValue: string);
     procedure SetVersion(AValue: Variant);
   public
+    function ToString: string; override;
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property engine_loss_max: Variant write SetEngineLossMax;
@@ -293,6 +294,35 @@ begin
     FVersion := '';
   end else if VarIsStr(AValue) then
     FVersion := AValue;
+end;
+
+function TRocketEngines.ToString: string;
+begin
+  Result := Format(''
+    + 'Engine Loss Max: %u' + LineEnding
+    + 'First Propellant: %s' + LineEnding
+    + 'Isp: %s' + LineEnding
+    + 'Layout: %s' + LineEnding
+    + 'Number: %u' + LineEnding
+    + 'Second Propellant: %s' + LineEnding
+    + 'Thrust Sea Level: %s' + LineEnding
+    + 'Thrust To Weight: %f' + LineEnding
+    + 'Thrust Vacuum: %s' + LineEnding
+    + 'Type: %s' + LineEnding
+    + 'Version: %u'
+    , [
+      GetEngineLossMax,
+      GetFirstPropellant,
+      GetIsp.ToString,
+      GetLayout,
+      GetNumber,
+      GetSecondPropellant,
+      GetThrustSeaLevel.ToString,
+      GetThrustToWeight,
+      GetThrustVacuum.ToString,
+      GetTypeInfo,
+      GetVersion
+    ]);
 end;
 
 procedure TRocketEngines.BuildSubObjects(const JSONData: IJSONData);

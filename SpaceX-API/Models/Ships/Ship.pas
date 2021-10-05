@@ -183,6 +183,7 @@ type
     procedure SetLatitude(AValue: Double);
     procedure SetLatitude(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunchesId(AValue: Variant);
     procedure SetLegacyId(AValue: string);
     procedure SetLegacyId(AValue: Variant);
     procedure SetLink(AValue: string);
@@ -200,6 +201,7 @@ type
     procedure SetName(AValue: string);
     procedure SetName(AValue: Variant);
     procedure SetRoles(AValue: TStringList);
+    procedure SetRoles(AValue: Variant);
     procedure SetSpeedKnots(AValue: Double);
     procedure SetSpeedKnots(AValue: Variant);
     procedure SetStatus(AValue: string);
@@ -211,6 +213,8 @@ type
     //public List<Lazy<LaunchInfo>> Launches
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+    constructor Create;
+    destructor destroy; override;
     function ToString(): string; override;
   published
     property abs: Variant write SetAbs;
@@ -223,7 +227,7 @@ type
     property imo: Variant write SetImo;
     property last_ais_update: Variant write SetLastAisUpdate;
     property latitude: Variant write SetLatitude;
-    //property launches: TStringList read GetLaunchesId write SetLaunchesId;
+    property launches: Variant write SetLaunchesId;
     property legacy_id: Variant write SetLegacyId;
     property link: Variant write SetLink;
     property longitude: Variant write SetLongitude;
@@ -232,7 +236,7 @@ type
     property mmsi: Variant write SetMmsi;
     property model: Variant write SetModel;
     property name: Variant write SetName;
-    //property roles: TStringList read GetRoles write SetRoles;
+    property roles: Variant write SetRoles;
     property speed_kn: Variant write SetSpeedKnots;
     property status: Variant write SetStatus;
     property year_built: Variant write SetYearBuilt;
@@ -531,6 +535,14 @@ begin
   FLaunchesId := AValue;
 end;
 
+procedure TShip.SetLaunchesId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchesId := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FLaunchesId.AddDelimitedtext(AValue);
+end;
+
 procedure TShip.SetLegacyId(AValue: string);
 begin
   FLegacyId := AValue;
@@ -640,6 +652,14 @@ begin
   FRoles := AValue;
 end;
 
+procedure TShip.SetRoles(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FRoles := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FRoles.AddDelimitedtext(AValue);
+end;
+
 procedure TShip.SetSpeedKnots(AValue: Double);
 begin
   FSpeedKnots := AValue;
@@ -699,9 +719,74 @@ begin
   SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
 
+constructor TShip.Create;
+begin
+  inherited Create;
+  FLaunchesId := TStringList.Create;
+  FRoles := TStringList.Create;
+
+  FLaunchesId.SkipLastLineBreak := True;
+  FRoles.SkipLastLineBreak := True;
+end;
+
+destructor TShip.destroy;
+begin
+  inherited destroy;
+end;
+
 function TShip.ToString(): string;
 begin
-  Result := GetName;
+  Result := Format(''
+    + 'Abs: %u' + LineEnding
+    + 'Active: %s' + LineEnding
+    + 'Class Size: %u' + LineEnding
+    + 'Course Degrees: %f' + LineEnding
+    + 'Home Port: %s' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Image: %s' + LineEnding
+    + 'Imo: %u' + LineEnding
+    + 'Last Ais Update: %s' + LineEnding
+    + 'Latitude: %f' + LineEnding
+    + 'Launches: %s' + LineEnding
+    + 'Legacy ID: %s' + LineEnding
+    + 'Link: %s' + LineEnding
+    + 'Longitude: %f' + LineEnding
+    + 'Mass(kg): %f' + LineEnding
+    + 'Mass(lbs): %f' + LineEnding
+    + 'Mmsi: %u' + LineEnding
+    + 'Model: %s' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Roles: %s' + LineEnding
+    + 'Speed(knots): %f' + LineEnding
+    + 'Status: %s' + LineEnding
+    + 'Type: %s' + LineEnding
+    + 'Year Built: %u'
+    , [
+      GetAbs,
+      BoolToStr(GetActive),
+      GetClassSize,
+      GetCourseDegrees,
+      GetHomePort,
+      GetId,
+      GetImage,
+      GetImo,
+      DateToStr(GetLastAisUpdate),
+      GetLatitude,
+      GetLaunchesId.Text,
+      GetLegacyId,
+      GetLink,
+      GetLongitude,
+      GetMassKilograms,
+      GetMassPounds,
+      GetMmsi,
+      GetModel,
+      GetName,
+      GetRoles.Text,
+      GetSpeedKnots,
+      GetStatus,
+      GetTypeInfo,
+      GetYearBuilt
+    ]);
 end;
 
 end.

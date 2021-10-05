@@ -67,6 +67,7 @@ type
     procedure SetReusable(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+    function ToString: string; override;
   published
     property burn_time_sec: Variant write SetBurnTimeSeconds;
     property engines: Variant write SetEngines;
@@ -173,6 +174,23 @@ begin
   Payloads := NewRocketPotentialPayload;
   JSONToModel(SubJSONData.GetJSONData, Payloads);
   Self.FPayloads := Payloads;
+end;
+
+function TSecondStage.ToString: string;
+begin
+  Result := Format(''
+    + 'Burn Time Seconds: %u' + LineEnding
+    + 'Engines: %u' + LineEnding
+    + 'Fuel Amount Tons: %u' + LineEnding
+    + 'Payloads: %s' + LineEnding
+    + 'Reusable: %s'
+    , [
+      GetBurnTimeSeconds,
+      GetEngines,
+      GetFuelAmountTons,
+      GetPayloads.ToString,
+      BoolToStr(GetReusable)
+    ]);
 end;
 
 end.

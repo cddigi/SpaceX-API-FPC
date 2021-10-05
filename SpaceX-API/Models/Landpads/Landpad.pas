@@ -125,6 +125,7 @@ type
     procedure SetLatitude(AValue: Double);
     procedure SetLatitude(AValue: Variant);
     procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunchesId(AValue: Variant);
     procedure SetLocality(AValue: string);
     procedure SetLocality(AValue: Variant);
     procedure SetLongitude(AValue: Double);
@@ -141,6 +142,8 @@ type
     procedure SetWikipedia(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+    constructor Create;
+    destructor destroy; override;
     function ToString(): string; override;
   published
     property details: Variant write SetDetails;
@@ -149,7 +152,7 @@ type
     property landing_attempts: Variant write SetLandingAttempts;
     property landing_successes: Variant write SetLandingSuccesses;
     property latitude: Variant write SetLatitude;
-    //property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property Launches: Variant write SetLaunchesId;
     property locality: Variant write SetLocality;
     property longitude: Variant write SetLongitude;
     property name: Variant write SetName;
@@ -349,6 +352,14 @@ begin
   FLaunchesId := AValue;
 end;
 
+procedure TLandpad.SetLaunchesId(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FLaunchesId := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FLaunchesId.AddDelimitedtext(AValue);
+end;
+
 procedure TLandpad.SetLocality(AValue: string);
 begin
   FLocality := AValue;
@@ -447,9 +458,52 @@ begin
   SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
 
+constructor TLandpad.Create;
+begin
+  inherited Create;
+  FLaunchesId := TStringList.Create;
+  FLaunchesId.SkipLastLineBreak := True;
+end;
+
+destructor TLandpad.destroy;
+begin
+  FreeAndNil(FLaunchesId);
+  inherited destroy;
+end;
+
 function TLandpad.ToString(): string;
 begin
-  Result := GetName;
+  Result := Format(''
+    + 'Details: %s' + LineEnding
+    + 'Full Name: %s' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Landing Attempts: %u' + LineEnding
+    + 'Landing Successes: %u' + LineEnding
+    + 'Latitude: %f' + LineEnding
+    + 'Launches: %s' + LineEnding
+    + 'Locality: %s' + LineEnding
+    + 'Longitude: %f' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Region: %s' + LineEnding
+    + 'Status: %s' + LineEnding
+    + 'Type: %s' + LineEnding
+    + 'Wikipedia: %s'
+    , [
+      GetDetails,
+      GetFullName,
+      GetId,
+      GetLandingAttempts,
+      GetLandingSuccesses,
+      GetLatitude,
+      GetLaunchesId.Text,
+      GetLocality,
+      GetLongitude,
+      GetName,
+      GetRegion,
+      GetStatus,
+      GetTypeInfo,
+      GetWikipedia
+    ]);
 end;
 
 end.

@@ -37,9 +37,13 @@ type
 
     procedure SetOriginal(AValue: TStringList);
     procedure SetSmall(AValue: TStringList);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function ToString: string; override;
   published
-    //property Original: TStringList read GetOriginal write SetOriginal;
-    //property Small: TStringList read GetSmall write SetSmall;
+    property original: TStringList read GetOriginal write SetOriginal;
+    property small: TStringList read GetSmall write SetSmall;
   end;
 
 { TLaunchFlickr }
@@ -62,6 +66,34 @@ end;
 procedure TLaunchFlickr.SetSmall(AValue: TStringList);
 begin
   FSmall := AValue;
+end;
+
+constructor TLaunchFlickr.Create;
+begin
+  inherited Create;
+  FOriginal := TStringList.Create;
+  FSmall := TStringList.Create;
+
+  FOriginal.SkipLastLineBreak := True;
+  FSmall.SkipLastLineBreak := True;
+end;
+
+destructor TLaunchFlickr.Destroy;
+begin
+  FreeAndNil(FOriginal);
+  FreeAndNil(FSmall);
+  inherited Destroy;
+end;
+
+function TLaunchFlickr.ToString: string;
+begin
+  Result := Format(''
+    + 'Original: %s' + LineEnding
+    + 'Small: %s'
+    , [
+      GetOriginal.Text,
+      GetSmall.Text
+    ]);
 end;
 
 end.

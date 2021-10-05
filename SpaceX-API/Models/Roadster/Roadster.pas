@@ -178,6 +178,7 @@ type
     procedure SetEpochJd(AValue: Double);
     procedure SetEpochJd(AValue: Variant);
     procedure SetFlickrImages(AValue: TStringList);
+    procedure SetFlickrImages(AValue: Variant);
     procedure SetId(AValue: string);
     procedure SetId(AValue: Variant);
     procedure SetInclination(AValue: Double);
@@ -215,6 +216,8 @@ type
     procedure SetWikipedia(AValue: string);
     procedure SetWikipedia(AValue: Variant);
   public
+    constructor Create;
+    destructor destroy; override;
     function ToString(): string; override;
   published
     property apoapsis_au: Variant write SetApoapsisAu;
@@ -225,7 +228,7 @@ type
     property earth_distance_mi: Variant write SetEarthDistanceMiles;
     property eccentricity: Variant write SetEccentricity;
     property epoch_jd: Variant write SetEpochJd;
-    //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+    property flickr_images: Variant write SetFlickrImages;
     property id: Variant write SetId;
     property inclination: Variant write SetInclination;
     property launch_mass_kg: Variant write SetLaunchMassKilograms;
@@ -502,6 +505,14 @@ begin
   FFlickrImages := AValue;
 end;
 
+procedure TRoadster.SetFlickrImages(AValue: Variant);
+begin
+  if VarIsNull(AValue) then begin
+    FFlickrImages := TStringList.Create;
+  end else if VarIsStr(AValue) then
+    FFlickrImages.AddDelimitedtext(AValue);
+end;
+
 procedure TRoadster.SetId(AValue: string);
 begin
   FId := AValue;
@@ -736,9 +747,78 @@ begin
     FWikipedia := AValue;
 end;
 
+constructor TRoadster.Create;
+begin
+  inherited Create;
+  FFlickrImages := TStringList.Create;
+  FFlickrImages.SkipLastLineBreak := True;
+end;
+
+destructor TRoadster.destroy;
+begin
+  FreeAndNil(FFlickrImages);
+  inherited destroy;
+end;
+
 function TRoadster.ToString(): string;
 begin
-  Result := GetName;
+  Result := Format(''
+    + 'Apoapsis Au: %f' + LineEnding
+    + 'Details: %s' + LineEnding
+    + 'Date Time Unix: %u' + LineEnding
+    + 'Date Time Utc: %s' + LineEnding
+    + 'Earth Distance(km): %f' + LineEnding
+    + 'Earth Distance(mi): %f' + LineEnding
+    + 'Eccentricity: %f' + LineEnding
+    + 'Epoch Jd: %f' + LineEnding
+    + 'Flickr Images: %s' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Inclination: %f' + LineEnding
+    + 'Launch Mass(kg): %f' + LineEnding
+    + 'Launch Mass(lbs): %f' + LineEnding
+    + 'Longitude: %f' + LineEnding
+    + 'Mars Distance(km): %f' + LineEnding
+    + 'Mars Distance(mi): %f' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Norad ID: %u' + LineEnding
+    + 'Orbit Type: %s' + LineEnding
+    + 'Periapsis Arg: %f' + LineEnding
+    + 'Periapsis Au: %f' + LineEnding
+    + 'Period Days: %f' + LineEnding
+    + 'Semi Major Axis Au: %f' + LineEnding
+    + 'Speed(kph): %f' + LineEnding
+    + 'Speed(mph): %f' + LineEnding
+    + 'Video: %s' + LineEnding
+    + 'Wikipedia: %s'
+    , [
+      GetApoapsisAu,
+      GetDetails,
+      GetDateTimeUnix,
+      DateToStr(GetDateTimeUtc),
+      GetEarthDistanceKilometers,
+      GetEarthDistanceMiles,
+      GetEccentricity,
+      GetEpochJd,
+      GetFlickrImages.Text,
+      GetId,
+      GetInclination,
+      GetLaunchMassKilograms,
+      GetLaunchMassPounds,
+      GetLongitude,
+      GetMarsDistanceKilometers,
+      GetMarsDistanceMiles,
+      GetName,
+      GetNoradId,
+      GetOrbitType,
+      GetPeriapsisArg,
+      GetPeriapsisAu,
+      GetPeriodDays,
+      GetSemiMajorAxisAu,
+      GetSpeedKph,
+      GetSpeedMph,
+      GetVideo,
+      GetWikipedia
+    ]);
 end;
 
 end.

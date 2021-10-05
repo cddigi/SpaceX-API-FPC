@@ -44,6 +44,8 @@ type
     procedure SetLarge(AValue: Variant);
     procedure SetSmall(AValue: string);
     procedure SetSmall(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property large: Variant write SetLarge;
     property small: Variant write SetSmall;
@@ -90,6 +92,17 @@ begin
     FSmall := '';
   end else if VarIsStr(AValue) then
     FSmall := AValue;
+end;
+
+function TLaunchPatch.ToString: string;
+begin
+  Result := Format(''
+    + 'Large: %s' + LineEnding
+    + 'Small: %s'
+    , [
+      GetLarge,
+      GetSmall
+    ]);
 end;
 
 end.

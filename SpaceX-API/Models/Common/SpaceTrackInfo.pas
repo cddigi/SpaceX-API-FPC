@@ -315,6 +315,8 @@ type
     procedure SetTleLine1(AValue: Variant);
     procedure SetTleLine2(AValue: string);
     procedure SetTleLine2(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property CCDS_OMM_VERS: Variant write SetCcsdsOmmVers;
     property COMMENT: Variant write SetComment;
@@ -1084,6 +1086,95 @@ begin
     FTleLine2 := '';
   end else if VarIsStr(AValue) then
     FTleLine2 := AValue;
+end;
+
+function TSpaceTrackInfo.ToString: string;
+begin
+  Result := Format(''
+    + 'Ccsds Omm Vers: %s' + LineEnding
+    + 'Comment: %s' + LineEnding
+    + 'Creation Date: %s' + LineEnding
+    + 'Originator: %s' + LineEnding
+    + 'Object Name: %s' + LineEnding
+    + 'Object ID: %s' + LineEnding
+    + 'Center Name: %s' + LineEnding
+    + 'Ref Frame: %s' + LineEnding
+    + 'Time System: %s' + LineEnding
+    + 'Mean Element Theory: %s' + LineEnding
+    + 'Epoch: %s' + LineEnding
+    + 'Mean Motion: %f' + LineEnding
+    + 'Eccentricity: %f' + LineEnding
+    + 'Inclination: %f' + LineEnding
+    + 'Ra Of Asc Node: %f' + LineEnding
+    + 'Arg of Pericenter: %f' + LineEnding
+    + 'Mean Anomaly: %f' + LineEnding
+    + 'Ephemeris Type: %u' + LineEnding
+    + 'Classification Type: %s' + LineEnding
+    + 'Norad Cat ID: %u' + LineEnding
+    + 'Norad Set No.: %u' + LineEnding
+    + 'Rev at Epoch: %u' + LineEnding
+    + 'Bstar: %f' + LineEnding
+    + 'Mean Motion Dot: %f' + LineEnding
+    + 'Mean Motion Ddot: %f' + LineEnding
+    + 'Semi Major Axis: %f' + LineEnding
+    + 'Period: %f' + LineEnding
+    + 'Apoapsis: %f' + LineEnding
+    + 'Periapsis: %f' + LineEnding
+    + 'Object Type: %s' + LineEnding
+    + 'Rcs Size: %s' + LineEnding
+    + 'Country Code: %s' + LineEnding
+    + 'Launch Date: %s' + LineEnding
+    + 'Site: %s' + LineEnding
+    + 'Decay date: %s' + LineEnding
+    + 'Decayed: %u' + LineEnding
+    + 'File: %u' + LineEnding
+    + 'Gp ID: %u' + LineEnding
+    + 'Tle Line 0: %s' + LineEnding
+    + 'Tle Line 1: %s' + LineEnding
+    + 'Tle Line 2: %s'
+    , [
+      GetCcsdsOmmVers,
+      GetComment,
+      DateToStr(GetCreationDate),
+      GetOriginator,
+      GetObjectName,
+      GetObjectId,
+      GetCenterName,
+      GetRefFrame,
+      GetTimeSystem,
+      GetMeanElementTheory,
+      DateToStr(GetEpoch),
+      GetMeanMotion,
+      GetEccentricity,
+      GetInclination,
+      GetRaOfAscNode,
+      GetArgOfPericenter,
+      GetMeanAnomaly,
+      GetEphemerisType,
+      GetClassificationType,
+      GetNoradCatId,
+      GetNoradSetNo,
+      GetRevAtEpoch,
+      GetBstar,
+      GetMeanMotionDot,
+      GetMeanMotionDdot,
+      GetSemiMajorAxis,
+      GetPeriod,
+      GetApoapsis,
+      GetPeriapsis,
+      GetObjectType,
+      GetRcsSize,
+      GetCountryCode,
+      DateToStr(GetLaunchDate),
+      GetSite,
+      DateToStr(GetDecayDate),
+      GetDecayed,
+      GetFileInfo,
+      GetGpId,
+      GetTleLine0,
+      GetTleLine1,
+      GetTleLine2
+    ]);
 end;
 
 end.

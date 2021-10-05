@@ -71,6 +71,8 @@ type
     procedure SetName(AValue: Variant);
     procedure SetPounds(AValue: Double);
     procedure SetPounds(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property id: Variant write SetId;
     property kg: Variant write SetKilograms;
@@ -82,6 +84,7 @@ type
 
   TRocketPotentialPayloadWeightList = class(TBaseModelList, IRocketPotentialPayloadWeightList)
     function NewItem: IBaseModel; override;
+    function ToString: string; override;
   end;
 
 function NewRocketPotentialPayloadWeight: IRocketPotentialPayloadWeight;
@@ -113,6 +116,15 @@ end;
 function TRocketPotentialPayloadWeightList.NewItem: IBaseModel;
 begin
   Result := NewRocketPotentialPayloadWeight;
+end;
+
+function TRocketPotentialPayloadWeightList.ToString: string;
+var
+  RocketPotentialPayloadWeight: IRocketPotentialPayloadWeight;
+begin
+  for RocketPotentialPayloadWeight in Self do begin
+    RocketPotentialPayloadWeight.ToString;
+  end;
 end;
 
 { TRocketPotentialPayloadWeight }
@@ -187,6 +199,21 @@ begin
     FPounds := -0;
   end else if VarIsNumeric(AValue) then
     FPounds := AValue;
+end;
+
+function TRocketPotentialPayloadWeight.ToString: string;
+begin
+  Result := Format(''
+    + 'ID: %s' + LineEnding
+    + 'Kilograms: %f' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Pounds: %f'
+    , [
+      GetId,
+      GetKilograms,
+      GetName,
+      GetPounds
+    ]);
 end;
 
 end.

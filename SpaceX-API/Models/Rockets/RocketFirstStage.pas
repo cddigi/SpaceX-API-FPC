@@ -72,6 +72,7 @@ type
     procedure SetThrustSeaLevel(AValue: IThrustInfo);
     procedure SetThrustVacuum(AValue: IThrustInfo);
   public
+    function ToString: string; override;
     procedure BuildSubObjects(const JSONData: IJSONData); override;
   published
     property burn_time_sec: Variant write SetBurnTimeSeconds;
@@ -176,6 +177,25 @@ end;
 procedure TRocketFirstStage.SetThrustVacuum(AValue: IThrustInfo);
 begin
   FThrustVacuum := AValue;
+end;
+
+function TRocketFirstStage.ToString: string;
+begin
+  Result := Format(''
+    + 'Burn Time Seconds: %u' + LineEnding
+    + 'Engines: %u' + LineEnding
+    + 'Fuel Amount Tons: %u' + LineEnding
+    + 'Reusable: %s' + LineEnding
+    + 'Thrust Sea Level: %s' + LineEnding
+    + 'Thrust Vacuum: %s'
+    , [
+      GetBurnTimeSeconds,
+      GetEngines,
+      GetFuelAmountTons,
+      BoolToStr(GetReusable),
+      GetThrustSeaLevel.ToString,
+      GetThrustVacuum.ToString
+    ]);
 end;
 
 procedure TRocketFirstStage.BuildSubObjects(const JSONData: IJSONData);

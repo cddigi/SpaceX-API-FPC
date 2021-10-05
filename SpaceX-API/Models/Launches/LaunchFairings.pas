@@ -57,11 +57,15 @@ type
     procedure SetReused(AValue: Boolean);
     procedure SetReused(AValue: Variant);
     procedure SetShipsId(AValue: TStringList);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function ToString: string; override;
   published
     property recovered: Variant write SetRecovered;
     property recovery_attempt: Variant write SetRecoveryAttempt;
     property reused: Variant write SetReused;
-    //property ships_id: TStringList read GetShipsId write SetShipsId;
+    property ships: TStringList read GetShipsId write SetShipsId;
   end;
 
 function NewLaunchFairings: ILaunchFairings;
@@ -133,6 +137,34 @@ end;
 procedure TLaunchFairings.SetShipsId(AValue: TStringList);
 begin
   FShipsId := AValue;
+end;
+
+constructor TLaunchFairings.Create;
+begin
+  inherited Create;
+  FShipsId := TStringList.Create;
+  FShipsId.SkipLastLineBreak := True;
+end;
+
+destructor TLaunchFairings.Destroy;
+begin
+  FreeAndNil(FShipsId);
+  inherited Destroy;
+end;
+
+function TLaunchFairings.ToString: string;
+begin
+  Result := Format(''
+    + 'Recovered: %s' + LineEnding
+    + 'Recovery Attmept: %s' + LineEnding
+    + 'Reused: %s' + LineEnding
+    + 'Ships: %s'
+    , [
+      BoolToStr(GetRecovered),
+      BoolToStr(GetRecoveryAttempt),
+      BoolToStr(GetReused),
+      GetShipsId.Text
+    ]);
 end;
 
 end.

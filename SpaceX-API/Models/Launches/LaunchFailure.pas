@@ -55,6 +55,8 @@ type
     procedure SetReason(AValue: Variant);
     procedure SetTime(AValue: Integer);
     procedure SetTime(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property altitude: Variant write SetAltitude;
     property reason: Variant write SetReason;
@@ -138,6 +140,19 @@ begin
     FTime := -0;
   end else if VarIsNumeric(AValue) then
     FTime := AValue;
+end;
+
+function TLaunchFailure.ToString: string;
+begin
+  Result := Format(''
+    + 'Altitude: %u' + LineEnding
+    + 'Reason: %s' + LineEnding
+    + 'Time: %n'
+    , [
+      GetAltitude,
+      GetReason,
+      GetTime
+    ]);
 end;
 
 end.
