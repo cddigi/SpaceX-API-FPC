@@ -15,7 +15,7 @@ type
     function GetAgency: string;
     function GetId: string;
     function GetImage: string;
-    function GetLaunchesId: TStringList;
+    function GetLaunches: TStringList;
     function GetName: string;
     function GetStatus: string;
     function GetWikipedia: string;
@@ -23,7 +23,7 @@ type
     procedure SetAgency(AValue: string);
     procedure SetId(AValue: string);
     procedure SetImage(AValue: string);
-    procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunches(AValue: TStringList);
     procedure SetName(AValue: string);
     procedure SetStatus(AValue: string);
     procedure SetWikipedia(AValue: string);
@@ -35,7 +35,7 @@ type
     property Agency: string read GetAgency write SetAgency;
     property Id: string read GetId write SetId;
     property Image: string read GetImage write SetImage;
-    property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
+    property Launches: TStringList read GetLaunches write SetLaunches;
     property Name: string read GetName write SetName;
     property Status: string read GetStatus write SetStatus;
     property Wikipedia: string read GetWikipedia write SetWikipedia;
@@ -71,7 +71,7 @@ type
     FAgency: string;
     FId: string;
     FImage: string;
-    FLaunchesId: TStringList;
+    FLaunches: TStringList;
     FName: string;
     FStatus: string;
     FWikipedia: string;
@@ -79,7 +79,7 @@ type
     function GetAgency: string;
     function GetId: string;
     function GetImage: string;
-    function GetLaunchesId: TStringList;
+    function GetLaunches: TStringList;
     function GetName: string;
     function GetStatus: string;
     function GetWikipedia: string;
@@ -90,7 +90,7 @@ type
     procedure SetId(AValue: Variant);
     procedure SetImage(AValue: string);
     procedure SetImage(AValue: Variant);
-    procedure SetLaunchesId(AValue: TStringList);
+    procedure SetLaunches(AValue: TStringList);
     procedure SetName(AValue: string);
     procedure SetName(AValue: Variant);
     procedure SetStatus(AValue: string);
@@ -106,7 +106,7 @@ type
     property agency: Variant write SetAgency;
     property id: Variant write SetId;
     property image: Variant write SetImage;
-    property launches: TStringList read GetLaunchesId write SetLaunchesId;
+    property launches: TStringList read GetLaunches write SetLaunches;
     property name: Variant write SetName;
     property status: Variant write SetStatus;
     property wikipedia: Variant write SetWikipedia;
@@ -165,9 +165,9 @@ begin
   Result := FImage;
 end;
 
-function TCrew.GetLaunchesId: TStringList;
+function TCrew.GetLaunches: TStringList;
 begin
-  Result := FLaunchesId;
+  Result := FLaunches;
 end;
 
 function TCrew.GetName: string;
@@ -224,9 +224,9 @@ begin
   FImage := AValue;
 end;
 
-procedure TCrew.SetLaunchesId(AValue: TStringList);
+procedure TCrew.SetLaunches(AValue: TStringList);
 begin
-  FLaunchesId := AValue;
+  FLaunches := AValue;
 end;
 
 procedure TCrew.SetName(AValue: string);
@@ -268,39 +268,39 @@ begin
   FWikipedia := AValue;
 end;
 
+constructor TCrew.Create;
+begin
+  inherited Create;
+  FLaunches := TStringList.Create;
+  FLaunches.SkipLastLineBreak := True;
+  FLaunches.LineBreak := ', ';
+end;
+
+destructor TCrew.destroy;
+begin
+  FreeAndNil(FLaunches);
+  inherited destroy;
+end;
+
 function TCrew.ToString(): string;
 begin
   Result := Format(''
     + 'Agency: %s' + LineEnding
-    + 'Id: %s' + LineEnding
+    + 'ID: %s' + LineEnding
     + 'Image: %s' + LineEnding
     + 'Launches: %s' + LineEnding
     + 'Name: %s' + LineEnding
     + 'Status: %s' + LineEnding
-    + 'Wikipedia: %s' + LineEnding
+    + 'Wikipedia: %s'
     , [
       GetAgency,
       GetId,
       GetImage,
-      GetLaunchesId.Text,
+      GetLaunches.Text,
       GetName,
       GetStatus,
       GetWikipedia
     ]);
-end;
-
-constructor TCrew.Create;
-begin
-  inherited Create;
-  FLaunchesId := TStringList.Create;
-  FLaunchesId.LineBreak := ', ';
-  FLaunchesId.SkipLastLineBreak := True;
-end;
-
-destructor TCrew.Destroy;
-begin
-  FreeAndNil(FLaunchesId);
-  inherited Destroy;
 end;
 
 end.
