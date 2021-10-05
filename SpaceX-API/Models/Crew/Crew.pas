@@ -75,8 +75,6 @@ type
     FName: string;
     FStatus: string;
     FWikipedia: string;
-    constructor Create;
-    destructor destroy;
   private
     function GetAgency: string;
     function GetId: string;
@@ -101,6 +99,9 @@ type
     procedure SetWikipedia(AValue: Variant);
   public
     function ToString(): string; override;
+  public
+    constructor Create;
+    destructor Destroy; override;
   published
     property agency: Variant write SetAgency;
     property id: Variant write SetId;
@@ -226,14 +227,6 @@ end;
 procedure TCrew.SetLaunches(AValue: TStringList);
 begin
   FLaunches := AValue;
-end;
-
-procedure TCrew.SetLaunchesId(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FLaunchesId := TStringList.Create;
-  end else if VarIsStr(AValue) then
-    FLaunchesId.AddDelimitedtext(AValue);
 end;
 
 procedure TCrew.SetName(AValue: string);

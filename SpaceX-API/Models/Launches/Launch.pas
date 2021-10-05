@@ -220,9 +220,12 @@ type
     procedure SetWindow(AValue: UInt64);
     procedure SetWindow(AValue: Variant);
   public
+    function ToString: string; override;
+  public
+    procedure BuildSubObjects(const JSONData: IJSONData); override;
+  public
     constructor Create;
     destructor Destroy; override;
-    function ToString(): string; override;
   published
     property auto_update: Variant write SetAutoUpdate;
     property capsules: TStringList read GetCapsulesId write SetCapsulesId;
@@ -648,9 +651,9 @@ begin
   FCrewId := TStringList.Create;
   FShipsId := TStringList.Create;
 
-  FCapsulesId.SkipLastLineBreak := True;
-  FCrewId.SkipLastLineBreak := True;
-  FShipsId.SkipLastLineBreak := True;
+  //FCapsulesId.SkipLastLineBreak := True;
+  //FCrewId.SkipLastLineBreak := True;
+  //FShipsId.SkipLastLineBreak := True;
 end;
 
 destructor TLaunch.Destroy;
@@ -661,13 +664,26 @@ begin
   inherited Destroy;
 end;
 
+procedure TLaunch.BuildSubObjects(const JSONData: IJSONData);
+var
+  Cores: ILaunchCoreList;
+  SubJSONData: IJSONData;
+begin
+  inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('cores');
+  Cores := NewLaunchCoreList;
+  JSONToModel(SubJSONData.GetJSONData, Cores);
+  Self.FCores := Cores;
+end;
+
 function TLaunch.ToString(): string;
 begin
   Result := Format(''
     + 'Auto Update: %s' + LineEnding
     + 'Capsules : %s' + LineEnding
     + 'Crew ID: %s' + LineEnding
-    //+ 'Cores: %s' + LineEnding
+    + 'Cores: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Date UTC: %s' + LineEnding
     + 'Date Local: %s' + LineEnding
     + 'Date Precision: %s' + LineEnding
@@ -691,10 +707,11 @@ begin
     + 'Upcoming: %s' + LineEnding
     + 'Window: %u'
     , [
-      BoolToStr(GetAutoUpdate),
+      BoolToStr(GetAutoUpdate, True),
       GetCapsulesId.Text,
       GetCrewId.Text,
-      //GetCores.ToString,
+      StringReplace(
+        GetCores.ToString(LineEnding + ',' + LineEnding), LineEnding, LineEnding + '  ', [rfReplaceAll]),
       DateToStr(GetDateUtc),
       DateToStr(GetDateLocal),
       DatePrecisionToCode(GetDatePrecision),
@@ -707,15 +724,15 @@ begin
       GetLaunchpadId,
       //GetLinks.ToString,
       GetName,
-      BoolToStr(GetNotEarlierThan),
+      BoolToStr(GetNotEarlierThan, True),
       //GetPayloadsId.Text,
       GetRocketId,
       GetShipsId.Text,
       GetStaticFireDateUnix,
       DateToStr(GetStaticFireDateUtc),
-      BoolToStr(GetSuccess),
-      BoolToStr(GetToBeDated),
-      BoolToStr(GetUpcoming),
+      BoolToStr(GetSuccess, True),
+      BoolToStr(GetToBeDated, True),
+      BoolToStr(GetUpcoming, True),
       GetWindow
     ]);
 end;

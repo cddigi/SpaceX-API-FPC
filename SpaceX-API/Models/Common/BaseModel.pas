@@ -21,6 +21,7 @@ type
   IBaseModelList = interface(IInterfaceList) ['{A88A3F2B-21CB-4DE3-95D6-557FC4168032}']
     function NewItem: IBaseModel;
     function GetItem(Idx: Integer): IBaseModel;
+    function ToString(const LineBreak: string = LineEnding): string;
     property Items[Idx: Integer]: IBaseModel read GetItem; default;
   end;
 
@@ -35,15 +36,19 @@ type
   TBaseModelList = class(TInterfaceList, IBaseModelList)
     function NewItem: IBaseModel; virtual; abstract;
     function GetItem(Idx: Integer): IBaseModel;
+    function ToString(const LineBreak: string = LineEnding): string; overload;
   end;
 
   { TBaseModelEnumerator }
 
   TBaseModelEnumerator = class
+  public
     FCurrent : IBaseModel;
     FList: IBaseModelList;
     FIdx : Integer;
+  public
     function MoveNext : Boolean;
+  public
     property Current : IBaseModel read FCurrent;
   end;
 
@@ -83,6 +88,19 @@ end;
 function TBaseModelList.GetItem(Idx: Integer): IBaseModel;
 begin
   Result := Self.Get(Idx) as IBaseModel;
+end;
+
+function TBaseModelList.ToString(const LineBreak: string): string;
+var
+  StrList: TStringList;
+  Model: IBaseModel;
+begin
+  StrList := TStringList.Create;
+  StrList.TrailingLineBreak := False;
+  StrList.LineBreak := LineBreak;
+  for Model in Self do
+    StrList.Add(Model.ToString);
+  Result := StrList.Text;
 end;
 
 end.
