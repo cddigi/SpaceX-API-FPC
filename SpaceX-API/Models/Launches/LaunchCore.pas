@@ -315,13 +315,13 @@ begin
     , [
       GetCoreId,
       GetFlight,
-      BoolToStr(GetGridfins),
+      BoolToStr(GetGridfins, True),
       GetLandpadId,
-      GetLandingAttempt,
-      GetLandingSuccess,
+      BoolToStr(GetLandingAttempt, True),
+      BoolToStr(GetLandingSuccess, True),
       GetLandingType,
-      GetLegs,
-      GetReused
+      BoolToStr(GetLegs, True),
+      BoolToStr(GetReused, True)
     ]);
 end;
 

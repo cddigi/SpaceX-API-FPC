@@ -84,7 +84,6 @@ type
 
   TRocketPotentialPayloadWeightList = class(TBaseModelList, IRocketPotentialPayloadWeightList)
     function NewItem: IBaseModel; override;
-    function ToString: string; override;
   end;
 
 function NewRocketPotentialPayloadWeight: IRocketPotentialPayloadWeight;
@@ -116,15 +115,6 @@ end;
 function TRocketPotentialPayloadWeightList.NewItem: IBaseModel;
 begin
   Result := NewRocketPotentialPayloadWeight;
-end;
-
-function TRocketPotentialPayloadWeightList.ToString: string;
-var
-  RocketPotentialPayloadWeight: IRocketPotentialPayloadWeight;
-begin
-  for RocketPotentialPayloadWeight in Self do begin
-    RocketPotentialPayloadWeight.ToString;
-  end;
 end;
 
 { TRocketPotentialPayloadWeight }
