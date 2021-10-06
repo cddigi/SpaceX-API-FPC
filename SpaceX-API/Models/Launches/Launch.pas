@@ -239,6 +239,7 @@ type
     property launchpad: Variant write SetLaunchpadId;
     property name: Variant write SetName;
     property net: Variant write SetNotEarlierThan;
+    property payloads: TStringList read GetPayloadsId write SetPayloadsId;
     property rocket: Variant write SetRocketId;
     property ships: TStringList read GetShipsId write SetShipsId;
     property static_fire_date_unix: Variant write SetStaticFireDateUnix;
@@ -667,6 +668,9 @@ end;
 procedure TLaunch.BuildSubObjects(const JSONData: IJSONData);
 var
   Cores: ILaunchCoreList;
+  Failures: ILaunchFailureList;
+  Fairings: ILaunchFairings;
+  Links: ILaunchLinks;
   SubJSONData: IJSONData;
 begin
   inherited BuildSubObjects(JSONData);
@@ -675,6 +679,21 @@ begin
   Cores := NewLaunchCoreList;
   JSONToModel(SubJSONData.GetJSONData, Cores);
   Self.FCores := Cores;
+
+  SubJSONData := JSONData.GetPath('failures');
+  Failures := NewLaunchFailureList;
+  JSONToModel(SubJSONData.GetJSONData, Failures);
+  Self.FFailures := Failures;
+
+  SubJSONData := JSONData.GetPath('fairings');
+  Fairings := NewLaunchFairings;
+  JSONToModel(SubJSONData.GetJSONData, Fairings);
+  Self.FFairings := Fairings;
+
+  SubJSONData := JSONData.GetPath('links');
+  Links := NewLaunchLinks;
+  JSONToModel(SubJSONData.GetJSONData, Links);
+  Self.FLinks := Links;
 end;
 
 function TLaunch.ToString(): string;
@@ -689,15 +708,15 @@ begin
     + 'Date Precision: %s' + LineEnding
     + 'Date Unix: %u' + LineEnding
     + 'Details: %s' + LineEnding
-    //+ 'Failures: %s' + LineEnding
-    //+ 'Fairings: %s' + LineEnding
+    + 'Failures: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
+    + 'Fairings: %s' + LineEnding
     + 'Flight Number: %u' + LineEnding
     + 'ID: %s' + LineEnding
     + 'Launchpad ID: %s' + LineEnding
-    //+ 'Links: %s' + LineEnding
+    + 'Links: %s' + LineEnding
     + 'Name: %s' + LineEnding
     + 'Not Earlier Than: %s' + LineEnding
-    //+ 'Payloads ID: %s' + LineEnding
+    + 'Payloads ID: %s' + LineEnding
     + 'Rocket ID: %s' + LineEnding
     + 'Ship IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Static Fire Date Unix: %u' + LineEnding
@@ -719,15 +738,15 @@ begin
       DatePrecisionToCode(GetDatePrecision),
       GetDateUnix,
       GetDetails,
-      //GetFailures.ToString,
-      //GetFairings.ToString,
+      GetFailures.ToString(),
+      GetFairings.ToString,
       GetFlightNumber,
       GetId,
       GetLaunchpadId,
-      //GetLinks.ToString,
+      GetLinks.ToString,
       GetName,
       BoolToStr(GetNotEarlierThan, True),
-      //GetPayloadsId.Text,
+      GetPayloadsId.Text,
       GetRocketId,
       StringReplace(
         GetShipsId.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
