@@ -204,7 +204,9 @@ type
       procedure SetWikipedia(AValue: Variant);
     public
       procedure BuildSubObjects(const JSONData: IJSONData); override;
+      constructor Create;
       destructor Destroy; override;
+      function ToString: string; override;
     published
       property active: Variant write SetActive;
       property crew_capacity: Variant write SetCrewCapacity;
@@ -212,7 +214,7 @@ type
       property dry_mass_kilograms: Variant write SetDryMassKilograms;
       property dry_mass_pounds: Variant write SetDryMassPounds;
       property first_flight: Variant write SetFirstFlight;
-      //property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
+      property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
       property id: Variant write SetId;
       property name: Variant write SetName;
       property orbit_duration_years: Variant write SetOrbitDurationYears;
@@ -663,10 +665,70 @@ begin
   Self.FTypeInfo := JSONData.GetPath('type').GetJSONData;
 end;
 
+constructor TDragon.Create;
+begin
+  inherited Create;
+  FFlickrImages := TStringList.Create;
+  FFlickrImages.SkipLastLineBreak := True;
+end;
+
 destructor TDragon.Destroy;
 begin
-  FFlickrImages.Free;
+  FreeAndNil(FFlickrImages);
   inherited Destroy;
+end;
+
+function TDragon.ToString: string;
+begin
+  Result := Format(''
+    + 'Active: %s' + LineEnding
+    + 'Crew Capacity: %u' + LineEnding
+    + 'Description: %s' + LineEnding
+    + 'Diameter: %s' + LineEnding
+    + 'Dry Mass(kg): %f' + LineEnding
+    + 'Dry Mass(lbs): %f' + LineEnding
+    + 'First Flight: %s' + LineEnding
+    + 'Flickr Images: %s' + LineEnding
+    + 'Heat Shield: %s' + LineEnding
+    + 'Height with Trunk: %s' + LineEnding
+    + 'ID: %s' + LineEnding
+    + 'Launch Payload Mass: %s' + LineEnding
+    + 'Launch Payload Volume: %s' + LineEnding
+    + 'Name: %s' + LineEnding
+    + 'Orbit Duration Years: %u' + LineEnding
+    + 'Pressurized Capsule: %s' + LineEnding
+    + 'Return Payload Mass: %s' + LineEnding
+    + 'Return Payload Volume: %s' + LineEnding
+    + 'Sidewall Angle Degrees: %u' + LineEnding
+    + 'Thrusters: %s' + LineEnding
+    + 'Trunk: %s' + LineEnding
+    + 'Type: %s' + LineEnding
+    + 'Wikipedia: %s'
+    , [
+      BoolToStr(GetActive, True),
+      GetCrewCapacity,
+      GetDescription,
+      GetDiameter.ToString,
+      GetDryMassKilograms,
+      GetDryMassPounds,
+      DateToStr(GetFirstFlight),
+      GetFlickrImages.Text,
+      GetHeatShield.ToString,
+      GetHeightWithTrunk.ToString,
+      GetId,
+      GetLaunchPayloadMass.ToString,
+      GetLaunchPayloadVolume.ToString,
+      GetName,
+      GetOrbitDurationYears,
+      GetPressurizedCapsule.ToString,
+      GetReturnPayloadMass.ToString,
+      GetReturnPayloadVolume.ToString,
+      GetSidewallAngleDegress,
+      GetThrusters.ToString(),
+      GetTrunk.ToString,
+      GetTypeInfo,
+      GetWikipedia
+    ]);
 end;
 
 end.

@@ -44,6 +44,8 @@ type
     procedure SetSolarArray(AValue: Variant);
     procedure SetUnpressurizedCargo(AValue: Boolean);
     procedure SetUnpressurizedCargo(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property solar_array: Variant write SetSolarArray;
     property unpressurized_cargo: Variant write SetUnpressurizedCargo;
@@ -90,6 +92,17 @@ begin
     FUnpressurizedCargo := False;
   end else if VarIsBool(AValue) then
     FUnpressurizedCargo := AValue;
+end;
+
+function TDragonCargo.ToString: string;
+begin
+  Result := Format(''
+    + 'Solar Array: %u' + LineEnding
+    + 'Unpressurized Cargo: %s'
+    , [
+      GetSolarArray,
+      BoolToStr(GetUnpressurizedCargo)
+    ]);
 end;
 
 end.

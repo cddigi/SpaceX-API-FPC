@@ -44,6 +44,7 @@ type
     procedure SetTrunkVolume(AValue: IVolumeInfo);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+    function ToString: string; override;
   end;
 
 function NewDragonTrunk: IDragonTrunk;
@@ -90,6 +91,17 @@ begin
   TrunkVolume := NewVolumeInfo;
   JSONToModel(SubJSONData.GetJSONData, TrunkVolume);
   Self.FTrunkVolume := TrunkVolume;
+end;
+
+function TDragonTrunk.ToString: string;
+begin
+  Result := Format(''
+    + 'Dragon Cargo: %s' + LineEnding
+    + 'Trunk Volume: %s'
+    , [
+      GetDragonCargo.ToString,
+      GetTrunkVolume.ToString
+    ]);
 end;
 
 end.

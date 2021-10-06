@@ -82,10 +82,10 @@ begin
 
   { add your program here }
 
-  //DragonEndpoint := NewDragonEndpoint;
-  //DragonList := DragonEndpoint.All;
-  //Dragon := DragonList.Last as IDragon;
-  //WriteLn(Dragon.HeatShield.Material);
+  DragonEndpoint := NewDragonEndpoint;
+  DragonList := DragonEndpoint.All;
+  Dragon := DragonList.Last as IDragon;
+  WriteLn(Dragon.ToString);
 
   //CompanyEndpoint := NewCompanyEndpoint;
   //Company := CompanyEndpoint.Get;
@@ -119,9 +119,9 @@ begin
   //PayloadList := PayloadEndpoint.All;
   //WriteLn((PayloadList.Last as IPayload).ToString);
 
-  LaunchEndpoint := NewLaunchEndpoint;
-  LaunchList := LaunchEndpoint.All;
-  WriteLn((LaunchList.Last as ILaunch).ToString);
+  //LaunchEndpoint := NewLaunchEndpoint;
+  //LaunchList := LaunchEndpoint.All;
+  //WriteLn((LaunchList.Last as ILaunch).ToString);
 
   //RoadsterEndpoint := NewRoadsterEndpoint;
   //Roadster := RoadsterEndpoint.All;

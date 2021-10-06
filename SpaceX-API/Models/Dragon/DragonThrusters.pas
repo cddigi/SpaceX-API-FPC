@@ -92,6 +92,7 @@ type
     procedure SetTypeInfo(AValue: Variant);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+    function ToString: string; override;
   published
     property amount: Variant write SetAmount;
     property fuel_1: Variant write SetFirstFuel;
@@ -270,6 +271,27 @@ begin
   Self.FThrust := Thrust;
 
   SetTypeInfo(JSONData.GetPath('type').GetJSONData);
+end;
+
+function TDragonThrusters.ToString: string;
+begin
+  Result := Format(''
+    + 'Amount: %u' + LineEnding
+    + 'First Fuel: %s' + LineEnding
+    + 'Isp: %u' + LineEnding
+    + 'Pods: %u' + LineEnding
+    + 'Second Fuel: %s' + LineEnding
+    + 'Thrust: %s' + LineEnding
+    + 'Type: %s'
+    , [
+      GetAmount,
+      GetFirstFuel,
+      GetIsp,
+      GetPods,
+      GetSecondFuel,
+      GetThrust.ToString,
+      GetTypeInfo
+    ]);
 end;
 
 end.

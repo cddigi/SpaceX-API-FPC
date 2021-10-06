@@ -38,6 +38,7 @@ type
     procedure SetPayloadVolume(AValue: IVolumeInfo);
   public
     procedure BuildSubObjects(const JSONData: IJSONData); override;
+    function ToString: string; override;
   end;
 
 function NewDragonPressurizedCapsule: IDragonPressurizedCapsule;
@@ -68,6 +69,15 @@ begin
   VolumeInfo := NewVolumeInfo;
   JSONToModel(SubJSONData.GetJSONData, VolumeInfo);
   Self.FPayloadVolume := VolumeInfo;
+end;
+
+function TDragonPressurizedCapsule.ToString: string;
+begin
+  Result := Format(''
+    + 'Payload Volume: %s'
+    , [
+      GetPayloadVolume.ToString
+    ]);
 end;
 
 end.
