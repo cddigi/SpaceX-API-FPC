@@ -58,6 +58,9 @@ var
   Item: IBaseModel;
   JSONData, JSONItem: IJSONData;
 begin
+  if SameStr(JSON, 'null') then
+    Exit;
+
   DeStreamer := TJSONDeStreamer.Create(nil);
   try
     if Model is IBaseModelList then begin
