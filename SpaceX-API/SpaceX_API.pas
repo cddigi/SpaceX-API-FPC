@@ -51,6 +51,7 @@ var
   CrewEndpoint: ICrewEndpoint;
   LandpadList: ILandpadList;
   LandpadEndpoint: ILandpadEndpoint;
+  Launchpad: ILaunchpad;
   LaunchpadList: ILaunchpadList;
   LaunchpadEndpoint: ILaunchpadEndpoint;
   PayloadList: IPayloadList;
@@ -111,13 +112,14 @@ begin
   //LandpadList := LandpadEndpoint.All;
   //WriteLn((LandpadList.Last as ILandpad).ToString);
 
-  //LaunchpadEndpoint := NewLaunchpadEndpoint;
-  //LaunchpadList := LaunchpadEndpoint.All;
-  //WriteLn((LaunchpadList.Last as ILaunchpad).ToString);
+  LaunchpadEndpoint := NewLaunchpadEndpoint;
+  LaunchpadList := LaunchpadEndpoint.All;
+  Launchpad := LaunchpadList.Last as ILaunchpad;
+  WriteLn(Launchpad.Rockets.ToString(LineEnding + ',' + LineEnding));
 
-  PayloadEndpoint := NewPayloadEndpoint;
-  PayloadList := PayloadEndpoint.All;
-  WriteLn((PayloadList.Last as IPayload).ToString);
+  //PayloadEndpoint := NewPayloadEndpoint;
+  //PayloadList := PayloadEndpoint.All;
+  //WriteLn((PayloadList.Last as IPayload).ToString);
 
   //LaunchEndpoint := NewLaunchEndpoint;
   //LaunchList := LaunchEndpoint.All;

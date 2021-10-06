@@ -688,7 +688,7 @@ begin
     + 'Dry Mass(kg): %f' + LineEnding
     + 'Dry Mass(lbs): %f' + LineEnding
     + 'First Flight: %s' + LineEnding
-    + 'Flickr Images: %s' + LineEnding
+    + 'Flickr Images: [' + LineEnding + '  %s' + '  ]' + LineEnding
     + 'Heat Shield: %s' + LineEnding
     + 'Height with Trunk: %s' + LineEnding
     + 'ID: %s' + LineEnding
@@ -700,8 +700,8 @@ begin
     + 'Return Payload Mass: %s' + LineEnding
     + 'Return Payload Volume: %s' + LineEnding
     + 'Sidewall Angle Degrees: %u' + LineEnding
-    + 'Thrusters: %s' + LineEnding
-    + 'Trunk: %s' + LineEnding
+    + 'Thrusters: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
+    + 'Trunk: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Type: %s' + LineEnding
     + 'Wikipedia: %s'
     , [
@@ -712,7 +712,8 @@ begin
       GetDryMassKilograms,
       GetDryMassPounds,
       DateToStr(GetFirstFlight),
-      GetFlickrImages.Text,
+      StringReplace(
+        GetFlickrImages.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetHeatShield.ToString,
       GetHeightWithTrunk.ToString,
       GetId,
@@ -724,8 +725,10 @@ begin
       GetReturnPayloadMass.ToString,
       GetReturnPayloadVolume.ToString,
       GetSidewallAngleDegress,
-      GetThrusters.ToString(),
-      GetTrunk.ToString,
+      StringReplace(
+        GetThrusters.ToString(LineEnding + ',' + LineEnding), LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      StringReplace(
+        GetTrunk.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetTypeInfo,
       GetWikipedia
     ]);

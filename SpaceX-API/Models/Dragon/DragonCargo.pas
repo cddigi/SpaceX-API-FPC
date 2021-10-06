@@ -101,7 +101,7 @@ begin
     + 'Unpressurized Cargo: %s'
     , [
       GetSolarArray,
-      BoolToStr(GetUnpressurizedCargo)
+      BoolToStr(GetUnpressurizedCargo, True)
     ]);
 end;
 

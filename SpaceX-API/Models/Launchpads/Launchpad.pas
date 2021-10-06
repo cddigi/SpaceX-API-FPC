@@ -5,7 +5,7 @@ unit Launchpad;
 interface
 
 uses
-  Classes, SysUtils, BaseModel, JSON_Helper;
+  Classes, SysUtils, BaseModel, JSON_Helper, Rocket;
 
 type
 
@@ -21,6 +21,7 @@ type
     function GetLongitude: Double;
     function GetName: string;
     function GetRegion: string;
+    function GetRockets: IRocketList;
     function GetRocketsId: TStringList;
     function GetStatus: string;
     function GetTimeZone: string;
@@ -36,6 +37,7 @@ type
     procedure SetLongitude(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetRegion(AValue: string);
+    procedure SetRockets(AValue: IRocketList);
     procedure SetRocketsId(AValue: TStringList);
     procedure SetStatus(AValue: string);
     procedure SetTimeZone(AValue: string);
@@ -53,6 +55,7 @@ type
     property Longitude: Double read GetLongitude write SetLongitude;
     property Name: string read GetName write SetName;
     property Region: string read GetRegion write SetRegion;
+    property Rockets: IRocketList read GetRockets write SetRockets;
     property RocketsId: TStringList read GetRocketsId write SetRocketsId;
     property Status: string read GetStatus write SetStatus;
     property TimeZone: string read GetTimeZone write SetTimeZone;
@@ -75,7 +78,7 @@ operator enumerator(AList: ILaunchpadList): TLaunchpadEnumerator;
 implementation
 
 uses
-  Variants;
+  Variants, RocketEndpoint;
 
 type
 
@@ -94,6 +97,7 @@ type
     FLongitude: double;
     FName: string;
     FRegion: string;
+    FRockets: IRocketList;
     FRocketsId: TStringList;
     FStatus: string;
     FTimeZone: string;
@@ -110,6 +114,7 @@ type
     function GetLongitude: Double;
     function GetName: string;
     function GetRegion: string;
+    function GetRockets: IRocketList;
     function GetRocketsId: TStringList;
     function GetStatus: string;
     function GetTimeZone: string;
@@ -136,8 +141,8 @@ type
     procedure SetName(AValue: Variant);
     procedure SetRegion(AValue: string);
     procedure SetRegion(AValue: Variant);
+    procedure SetRockets(AValue: IRocketList);
     procedure SetRocketsId(AValue: TStringList);
-    procedure SetRocketsId(AValue: Variant);
     procedure SetStatus(AValue: string);
     procedure SetStatus(AValue: Variant);
     procedure SetTimeZone(AValue: string);
@@ -158,7 +163,7 @@ type
     property longitude: Variant write SetLongitude;
     property name: Variant write SetName;
     property region: Variant write SetRegion;
-    property rockets: Variant write SetRocketsId;
+    property rockets: TStringList read GetRocketsId write SetRocketsId;
     property status: Variant write SetStatus;
     property time_zone: Variant write SetTimeZone;
   end;
@@ -254,6 +259,24 @@ end;
 function TLaunchpad.GetRegion: string;
 begin
   Result := FRegion;
+end;
+
+function TLaunchpad.GetRockets: IRocketList;
+var
+  RocketEndpoint: IRocketEndpoint;
+  RocketID: string;
+  Rocket: IRocket;
+begin
+  if (FRockets = nil) then begin
+    RocketEndpoint := NewRocketEndpoint;
+    FRockets := NewRocketList;
+    for RocketID in FRocketsId do begin;
+      Rocket := RocketEndpoint.One(RocketID);
+      FRockets.Add(Rocket);
+    end;
+  end;
+
+  Result := FRockets;
 end;
 
 function TLaunchpad.GetRocketsId: TStringList;
@@ -414,17 +437,14 @@ begin
     FRegion := AValue;
 end;
 
+procedure TLaunchpad.SetRockets(AValue: IRocketList);
+begin
+  FRockets := AValue;
+end;
+
 procedure TLaunchpad.SetRocketsId(AValue: TStringList);
 begin
   FRocketsId := AValue;
-end;
-
-procedure TLaunchpad.SetRocketsId(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FRocketsId := TStringList.Create;
-  end else if VarIsStr(AValue) then
-    FRocketsId.AddDelimitedtext(AValue);
 end;
 
 procedure TLaunchpad.SetStatus(AValue: string);

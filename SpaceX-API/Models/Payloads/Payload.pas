@@ -844,7 +844,7 @@ begin
       GetRaan,
       GetReferenceSystem,
       GetRegime,
-      BoolToStr(GetReused),
+      BoolToStr(GetReused, True),
       GetSemiMajorAxisKilometers,
       GetTypeInfo
     ]);

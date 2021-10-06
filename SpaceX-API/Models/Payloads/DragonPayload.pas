@@ -238,11 +238,11 @@ begin
     , [
       GetCapsuleId,
       GetFlightTimeSeconds,
-      BoolToStr(GetLandLanding),
+      BoolToStr(GetLandLanding, True),
       GetManifest,
       GetMassReturnedKilograms,
       GetMassReturnedPounds,
-      BoolToStr(GetWaterLanding)
+      BoolToStr(GetWaterLanding, True)
     ]);
 end;
 
