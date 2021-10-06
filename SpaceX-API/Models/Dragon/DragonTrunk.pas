@@ -96,10 +96,11 @@ end;
 function TDragonTrunk.ToString: string;
 begin
   Result := Format(''
-    + 'Dragon Cargo: %s' + LineEnding
+    + 'Dragon Cargo: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Trunk Volume: %s'
     , [
-      GetDragonCargo.ToString,
+      StringReplace(
+        GetDragonCargo.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetTrunkVolume.ToString
     ]);
 end;
