@@ -174,7 +174,6 @@ type
     procedure SetFirstFlight(AValue: Variant);
     procedure SetFirstStage(AValue: IRocketFirstStage);
     procedure SetFlickrImages(AValue: TStringList);
-    procedure SetFlickrImages(AValue: Variant);
     procedure SetHeight(AValue: ISizeInfo);
     procedure SetId(AValue: string);
     procedure SetId(AValue: Variant);
@@ -205,7 +204,7 @@ type
     property country: Variant write SetCountry;
     property description: Variant write SetDescription;
     property first_flight: Variant write SetFirstFlight;
-    property flickr_images: Variant write SetFlickrImages;
+    property flickr_images: TStringList read GetFlickrImages write SetFlickrImages;
     property id: Variant write SetId;
     property name: Variant write SetName;
     property stages: Variant write SetStages;
@@ -484,14 +483,6 @@ begin
   FFlickrImages := AValue;
 end;
 
-procedure TRocket.SetFlickrImages(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FFlickrImages := TStringList.Create;
-  end else if VarIsStr(AValue) then
-    FFlickrImages.AddDelimitedtext(AValue);
-end;
-
 procedure TRocket.SetHeight(AValue: ISizeInfo);
 begin
   FHeight := AValue;
@@ -676,40 +667,46 @@ begin
     + 'Country: %s' + LineEnding
     + 'Description: %s' + LineEnding
     + 'Diameter: %s' + LineEnding
-    + 'Engines: %s' + LineEnding
+    + 'Engines: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'First Flight: %s' + LineEnding
-    + 'First Stage: %s' + LineEnding
-    + 'Flickr Images: %s' + LineEnding
+    + 'First Stage: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
+    + 'Flickr Images: [' + LineEnding + '  %s' + '  ]' + LineEnding
     + 'Height: %s' + LineEnding
     + 'ID: %s' + LineEnding
-    + 'Landing Legs: %s' + LineEnding
+    + 'Landing Legs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Mass: %s' + LineEnding
     + 'Name: %s' + LineEnding
-    + 'Payload Weights: %s' + LineEnding
-    + 'Second Stage: %s' + LineEnding
+    + 'Payload Weights: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
+    + 'Second Stage: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Stages: %u' + LineEnding
     + 'Success Rate: %u' + LineEnding
     + 'Type: %s' + LineEnding
     + 'Wikipedia: %s'
     , [
-      BoolToStr(GetActive),
+      BoolToStr(GetActive, True),
       GetBoosters,
       GetCompany,
       GetCostPerLaunch,
       GetCountry,
       GetDescription,
       GetDiameter.ToString,
-      GetEngines.ToString,
+      StringReplace(
+        GetEngines.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       DateToStr(GetFirstFlight),
-      GetFirstStage.ToString,
-      GetFlickrImages.Text,
+      StringReplace(
+        GetFirstStage.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      StringReplace(
+        GetFlickrImages.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetHeight.ToString,
       GetId,
-      GetLandingLegs.ToString,
+      StringReplace(
+        GetLandingLegs.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetMass.ToString,
       GetName,
-      GetPayloadWeights,
-      GetSecondStage.ToString,
+      StringReplace(
+        GetPayloadWeights.ToString(LineEnding + ',' + LineEnding), LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      StringReplace(
+        GetSecondStage.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetStages,
       GetSuccessRate,
       GetTypeInfo,

@@ -76,8 +76,10 @@ end;
 
 procedure TRocketLandingLegs.SetMaterial(AValue: Variant);
 begin
-  if VarIsNull(AValue) then
+  if VarIsNull(AValue) then begin
     FMaterial := '';
+  end else if VarIsStr(AValue) then
+    FMaterial := AValue;
 end;
 
 procedure TRocketLandingLegs.SetNumber(AValue: LongWord);

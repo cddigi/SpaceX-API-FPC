@@ -192,7 +192,7 @@ begin
       GetBurnTimeSeconds,
       GetEngines,
       GetFuelAmountTons,
-      BoolToStr(GetReusable),
+      BoolToStr(GetReusable, True),
       GetThrustSeaLevel.ToString,
       GetThrustVacuum.ToString
     ]);
@@ -213,6 +213,7 @@ begin
   SubJSONData := JSONData.GetPath('thrust_vacuum');
   ThrustVacuum := NewThrustInfo;
   JSONToModel(SubJSONData.GetJSONData, ThrustVacuum);
+  Self.FThrustVacuum := ThrustVacuum;
 end;
 
 end.

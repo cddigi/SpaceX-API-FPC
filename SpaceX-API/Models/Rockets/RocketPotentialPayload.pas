@@ -102,10 +102,11 @@ end;
 function TRocketPotentialPayload.ToString: string;
 begin
   Result := Format(''
-    + 'Fairing: %s' + LineEnding
+    + 'Fairing: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Option: %s'
     , [
-      GetFairing.ToString,
+      StringReplace(
+        GetFairing.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetOption
     ]);
 end;

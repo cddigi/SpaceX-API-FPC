@@ -763,7 +763,7 @@ begin
     + 'Year Built: %u'
     , [
       GetAbs,
-      BoolToStr(GetActive),
+      BoolToStr(GetActive, True),
       GetClassSize,
       GetCourseDegrees,
       GetHomePort,

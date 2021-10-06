@@ -160,9 +160,9 @@ begin
     + 'Reused: %s' + LineEnding
     + 'Ships: %s'
     , [
-      BoolToStr(GetRecovered),
-      BoolToStr(GetRecoveryAttempt),
-      BoolToStr(GetReused),
+      BoolToStr(GetRecovered, True),
+      BoolToStr(GetRecoveryAttempt, True),
+      BoolToStr(GetReused, True),
       GetShipsId.Text
     ]);
 end;

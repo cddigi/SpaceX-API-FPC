@@ -309,7 +309,7 @@ begin
     + 'Thrust To Weight: %f' + LineEnding
     + 'Thrust Vacuum: %s' + LineEnding
     + 'Type: %s' + LineEnding
-    + 'Version: %u'
+    + 'Version: %s'
     , [
       GetEngineLossMax,
       GetFirstPropellant,

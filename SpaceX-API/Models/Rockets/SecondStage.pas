@@ -182,14 +182,15 @@ begin
     + 'Burn Time Seconds: %u' + LineEnding
     + 'Engines: %u' + LineEnding
     + 'Fuel Amount Tons: %u' + LineEnding
-    + 'Payloads: %s' + LineEnding
+    + 'Payloads: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Reusable: %s'
     , [
       GetBurnTimeSeconds,
       GetEngines,
       GetFuelAmountTons,
-      GetPayloads.ToString,
-      BoolToStr(GetReusable)
+      StringReplace(
+        GetPayloads.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      BoolToStr(GetReusable, True)
     ]);
 end;
 
