@@ -9,14 +9,6 @@ uses
 
 type
 
-  { INoradId }
-
-  INoradId = interface(IBaseModel) ['{863E9E43-BA7B-4995-80C5-0D19BF3BB05A}']
-  end;
-
-  INoradIdList = interface(IBaseModelList) ['{116302B1-9AFA-4BA1-A539-ABF2C939134F}']
-  end;
-
   IBasePayload = interface(IBaseModel) ['{1CAE0B0B-CB95-4B25-A709-6007D46D0E1D}']
     function GetApoapsisKilometers: Double;
     function GetArgOfPericenter: Double;
@@ -36,7 +28,7 @@ type
     function GetMeanMotion: Double;
     function GetName: string;
     function GetNationalities: TStringList;
-    function GetNoradIds: INoradIdList;
+    function GetNoradIds: TStringList;
     function GetOrbit: string;
     function GetPeriapsisKilometers: Double;
     function GetPeriodMinutes: Double;
@@ -65,7 +57,7 @@ type
     procedure SetMeanMotion(AValue: Double);
     procedure SetName(AValue: string);
     procedure SetNationalities(AValue: TStringList);
-    procedure SetNoradIds(AValue: INoradIdList);
+    procedure SetNoradIds(AValue: TStringList);
     procedure SetOrbit(AValue: string);
     procedure SetPeriapsisKilometers(AValue: Double);
     procedure SetPeriodMinutes(AValue: Double);
@@ -96,7 +88,7 @@ type
     property MeanMotion: Double read GetMeanMotion write SetMeanMotion;
     property Name: string read GetName write SetName;
     property Nationalities: TStringList read GetNationalities write SetNationalities;
-    property NoradIds: INoradIdList read GetNoradIds write SetNoradIds;
+    property NoradIds: TStringList read GetNoradIds write SetNoradIds;
     property Orbit: string read GetOrbit write SetOrbit;
     property PeriapsisKilometers: Double read GetPeriapsisKilometers write SetPeriapsisKilometers;
     property PeriodMinutes: Double read GetPeriodMinutes write SetPeriodMinutes;
@@ -113,8 +105,6 @@ type
 
 function NewPayload: IPayload;
 function NewPayloadList: IPayloadList;
-function NewNoradId: INoradId;
-function NewNoradIdList: INoradIdList;
 
 implementation
 
@@ -145,7 +135,7 @@ type
     FMeanMotion: Double;
     FName: string;
     FNationalities: TStringList;
-    FNoradIds: INoradIdList;
+    FNoradIds: TStringList;
     FOrbit: string;
     FPeriapsisKilometers: Double;
     FPeriodMinutes: Double;
@@ -174,7 +164,7 @@ type
     function GetMeanMotion: Double;
     function GetName: string;
     function GetNationalities: TStringList;
-    function GetNoradIds: INoradIdList;
+    function GetNoradIds: TStringList;
     function GetOrbit: string;
     function GetPeriapsisKilometers: Double;
     function GetPeriodMinutes: Double;
@@ -217,7 +207,7 @@ type
     procedure SetName(AValue: string);
     procedure SetName(AValue: Variant);
     procedure SetNationalities(AValue: TStringList);
-    procedure SetNoradIds(AValue: INoradIdList);
+    procedure SetNoradIds(AValue: TStringList);
     procedure SetOrbit(AValue: string);
     procedure SetOrbit(AValue: Variant);
     procedure SetPeriapsisKilometers(AValue: Double);
@@ -259,7 +249,7 @@ type
     property mean_motion: Variant write SetMeanMotion;
     property name: Variant write SetName;
     property nationalities: TStringList read GetNationalities write SetNationalities;
-    //property NoradIds: INoradIdList read GetNoradIds write SetNoradIds;
+    property norad_ids: TStringList read GetNoradIds write SetNoradIds;
     property orbit: Variant write SetOrbit;
     property periapsis_km: Variant write SetPeriapsisKilometers;
     property period_min: Variant write SetPeriodMinutes;
@@ -276,16 +266,6 @@ type
     function NewItem: IBaseModel; override;
   end;
 
-  TNoradId = class(TBaseModel, INoradId)
-
-  end;
-
-  { TNoradIdList }
-
-  TNoradIdList = class(TBaseModelList, INoradIdList)
-    function NewItem: IBaseModel; override;
-  end;
-
 function NewPayload: IPayload;
 begin
   Result := TPayload.Create;
@@ -294,23 +274,6 @@ end;
 function NewPayloadList: IPayloadList;
 begin
   Result := TPayloadList.Create;
-end;
-
-function NewNoradId: INoradId;
-begin
-  Result := TNoradId.Create;
-end;
-
-function NewNoradIdList: INoradIdList;
-begin
-  Result := TNoradIdList.Create;
-end;
-
-{ TNoradIdList }
-
-function TNoradIdList.NewItem: IBaseModel;
-begin
-  Result := NewNoradId;
 end;
 
 { TPayloadList }
@@ -412,7 +375,7 @@ begin
   Result := FNationalities;
 end;
 
-function TPayload.GetNoradIds: INoradIdList;
+function TPayload.GetNoradIds: TStringList;
 begin
   Result := FNoradIds;
 end;
@@ -664,7 +627,7 @@ begin
   FNationalities := AValue;
 end;
 
-procedure TPayload.SetNoradIds(AValue: INoradIdList);
+procedure TPayload.SetNoradIds(AValue: TStringList);
 begin
   FNoradIds := AValue;
 end;
@@ -807,10 +770,12 @@ begin
   FCustomers := TStringList.Create;
   FManufacturers := TStringList.Create;
   FNationalities := TStringList.Create;
+  FNoradIds := TStringList.Create;
 
   FCustomers.SkipLastLineBreak := True;
   FManufacturers.SkipLastLineBreak := True;
   FNationalities.SkipLastLineBreak := True;
+  FNoradIds.SkipLastLineBreak := True;
 end;
 
 destructor TPayload.destroy;
@@ -818,6 +783,7 @@ begin
   FreeAndNil(FCustomers);
   FreeAndNil(FManufacturers);
   FreeAndNil(FNationalities);
+  FreeAndNil(FNoradIds);
   inherited destroy;
 end;
 
@@ -842,7 +808,7 @@ begin
     + 'Mean Motion: %f' + LineEnding
     + 'Name: %s' + LineEnding
     + 'Nationalities: %s' + LineEnding
-    //+ 'Norads: %s' + LineEnding
+    + 'Norads: %s' + LineEnding
     + 'Orbit: %s' + LineEnding
     + 'Periapsis(km): %f' + LineEnding
     + 'Period Minutes: %f' + LineEnding
@@ -871,7 +837,7 @@ begin
       GetMeanMotion,
       GetName,
       GetNationalities.Text,
-      //GetNoradIds,
+      GetNoradIds.Text,
       GetOrbit,
       GetPeriapsisKilometers,
       GetPeriodMinutes,
