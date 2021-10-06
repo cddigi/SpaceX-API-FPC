@@ -650,10 +650,12 @@ begin
   inherited Create;
   FCapsulesId := TStringList.Create;
   FCrewId := TStringList.Create;
+  FPayloadsId := TStringList.Create;
   FShipsId := TStringList.Create;
 
   FCapsulesId.SkipLastLineBreak := True;
-  FCrewId.SkipLastLineBreak := True;
+  FCrewId.SkipLastLineBreak := True;    
+  FPayloadsId.SkipLastLineBreak := True;
   FShipsId.SkipLastLineBreak := True;
 end;
 
@@ -661,6 +663,7 @@ destructor TLaunch.Destroy;
 begin
   FreeAndNil(FCapsulesId);
   FreeAndNil(FCrewId);
+  FreeAndNil(FPayloadsId);
   FreeAndNil(FShipsId);
   inherited Destroy;
 end;
@@ -716,7 +719,7 @@ begin
     + 'Links: %s' + LineEnding
     + 'Name: %s' + LineEnding
     + 'Not Earlier Than: %s' + LineEnding
-    + 'Payloads ID: %s' + LineEnding
+    + 'Payload IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Rocket ID: %s' + LineEnding
     + 'Ship IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Static Fire Date Unix: %u' + LineEnding
@@ -746,7 +749,8 @@ begin
       GetLinks.ToString,
       GetName,
       BoolToStr(GetNotEarlierThan, True),
-      GetPayloadsId.Text,
+      StringReplace(
+        GetPayloadsId.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetRocketId,
       StringReplace(
         GetShipsId.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
