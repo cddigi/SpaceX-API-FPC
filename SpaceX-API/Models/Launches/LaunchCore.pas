@@ -204,7 +204,7 @@ end;
 procedure TLaunchCore.SetFlight(AValue: Variant);
 begin
   if VarIsNull(AValue) then begin
-    FFlight := AValue;
+    FFlight := 0;
   end else if VarIsNumeric(AValue) then
     FFlight := AValue;
 end;
