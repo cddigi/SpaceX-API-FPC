@@ -59,6 +59,8 @@ type
     procedure SetSizeMeters(AValue: Variant);
     procedure SetTemperatureDegrees(AValue: LongWord);
     procedure SetTemperatureDegrees(AValue: Variant);
+  public
+    function ToString: string; override;
   published
     property dev_partner: Variant write SetDevPartner;
     property material: Variant write SetMaterial;
@@ -143,6 +145,21 @@ begin
     AValue := 0;
 
   FTemperatureDegrees := AValue;
+end;
+
+function TDragonHeatshield.ToString: string;
+begin
+  Result := Format(''
+    + 'Dev Partner: %s' + LineEnding
+    + 'Material: %s' + LineEnding
+    + 'Size Meters: %f' + LineEnding
+    + 'Temperature Degrees: %u'
+    , [
+      GetDevPartner,
+      GetMaterial,
+      GetSizeMeters,
+      GetTemperatureDegrees
+    ]);
 end;
 
 end.
