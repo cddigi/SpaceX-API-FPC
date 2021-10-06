@@ -22,6 +22,8 @@ type
     property Small: TStringList read GetSmall write SetSmall;
   end;
 
+function NewLaunchFlickr: ILaunchFlickr;
+
 implementation
 
 type
@@ -45,6 +47,11 @@ type
     property original: TStringList read GetOriginal write SetOriginal;
     property small: TStringList read GetSmall write SetSmall;
   end;
+
+function NewLaunchFlickr: ILaunchFlickr;
+begin
+  Result := TLaunchFlickr.Create;
+end;
 
 { TLaunchFlickr }
 

@@ -229,6 +229,21 @@ var
   Reddit: ILaunchReddit;
 begin
   inherited BuildSubObjects(JSONData);
+
+  SubJSONData := JSONData.GetPath('flickr');
+  Flickr := NewLaunchFlickr;
+  JSONToModel(SubJSONData.GetJSONData, Flickr);
+  Self.FFlickr := Flickr;
+
+  SubJSONData := JSONData.GetPath('patch');
+  Patch := NewLaunchPatch;
+  JSONToModel(SubJSONData.GetJSONData, Patch);
+  Self.FPatch := Patch;
+
+  SubJSONData := JSONData.GetPath('reddit');
+  Reddit := NewLaunchReddit;
+  JSONToModel(SubJSONData.GetJSONData, Reddit);
+  Self.FReddit := Reddit;
 end;
 
 function TLaunchLinks.ToString: string;
