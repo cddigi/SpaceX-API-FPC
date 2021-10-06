@@ -57,31 +57,31 @@ end;
 function TLaunchEndpoint.Latest: ILaunch;
 begin
   Result := NewLaunch;
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'latest'])));
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, 'latest']), Result);
 end;
 
 function TLaunchEndpoint.Next: ILaunch;
 begin
   Result := NewLaunch;
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'next'])));
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, 'next']), Result);
 end;
 
 function TLaunchEndpoint.One(const Id: string): ILaunch;
 begin
   Result := NewLaunch;
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, Id])));
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, Id]), Result);
 end;
 
 function TLaunchEndpoint.Past: ILaunchList;
 begin
   Result := NewLaunchList;
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'past'])));
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, 'past']), Result);
 end;
 
 function TLaunchEndpoint.Upcoming: ILaunchList;
 begin
   Result := NewLaunchList;
-  //JSONData.SetJSONData(HTTPClient.GetRequest(SysUtils.ConcatPaths([Endpoint, 'upcoming'])));
+  EndpointToModel(SysUtils.ConcatPaths([Endpoint, 'upcoming']), Result);
 end;
 
 end.
