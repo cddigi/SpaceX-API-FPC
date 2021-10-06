@@ -190,7 +190,6 @@ type
     procedure SetArgOfPericenter(AValue: Double);
     procedure SetArgOfPericenter(AValue: Variant);
     procedure SetCustomers(AValue: TStringList);
-    procedure SetCustomers(AValue: Variant);
     procedure SetDragonPayload(AValue: IDragonPayload);
     procedure SetEccentricity(AValue: Double);
     procedure SetEccentricity(AValue: Variant);
@@ -207,7 +206,6 @@ type
     procedure SetLongitude(AValue: Double);
     procedure SetLongitude(AValue: Variant);
     procedure SetManufacturers(AValue: TStringList);
-    procedure SetManufacturers(AValue: Variant);
     procedure SetMassKilograms(AValue: Double);
     procedure SetMassKilograms(AValue: Variant);
     procedure SetMassPounds(AValue: Double);
@@ -219,7 +217,6 @@ type
     procedure SetName(AValue: string);
     procedure SetName(AValue: Variant);
     procedure SetNationalities(AValue: TStringList);
-    procedure SetNationalities(AValue: Variant);
     procedure SetNoradIds(AValue: INoradIdList);
     procedure SetOrbit(AValue: string);
     procedure SetOrbit(AValue: Variant);
@@ -247,21 +244,21 @@ type
   published  // a lot is nullable
     property apoapsis_km: Variant write SetApoapsisKilometers;
     property arg_of_pericenter: Variant write SetArgOfPericenter;
-    property customers: Variant write SetCustomers;
+    property customers: TStringList read GetCustomers write SetCustomers;
     property eccentricity: Variant write SetEccentricity;
-    property epoch: Variant write SetEpoch;
+    //property epoch: Variant write SetEpoch;
     property id: Variant write SetId;
     property inclination_deg: Variant write SetInclinationDegrees;
     property launch: Variant write SetLaunchId;
     property lifespan_years: Variant write SetLifespanYears;
     property longitude: Variant write SetLongitude;
-    property manufacturers: Variant write SetManufacturers;
+    property manufacturers: TStringList read GetManufacturers write SetManufacturers;
     property mass_kg: Variant write SetMassKilograms;
     property mass_lbs: Variant write SetMassPounds;
     property mean_anomaly: Variant write SetMeanAnomaly;
     property mean_motion: Variant write SetMeanMotion;
     property name: Variant write SetName;
-    property nationalities: Variant write SetNationalities;
+    property nationalities: TStringList read GetNationalities write SetNationalities;
     //property NoradIds: INoradIdList read GetNoradIds write SetNoradIds;
     property orbit: Variant write SetOrbit;
     property periapsis_km: Variant write SetPeriapsisKilometers;
@@ -496,14 +493,6 @@ begin
   FCustomers := AValue;
 end;
 
-procedure TPayload.SetCustomers(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FCustomers := TStringList.Create;
-  end else if VarIsStr(AValue) then
-    FCustomers.AddDelimitedtext(AValue);
-end;
-
 procedure TPayload.SetDragonPayload(AValue: IDragonPayload);
 begin
   FDragonPayload := AValue;
@@ -583,7 +572,8 @@ procedure TPayload.SetLifespanYears(AValue: Variant);
 begin
   if VarIsNull(AValue) then begin
     FLifespanYears := -0;
-  end;
+  end else if VarIsNumeric(AValue) then
+    FLifespanYears := AValue;
 end;
 
 procedure TPayload.SetLongitude(AValue: Double);
@@ -602,14 +592,6 @@ end;
 procedure TPayload.SetManufacturers(AValue: TStringList);
 begin
   FManufacturers := AValue;
-end;
-
-procedure TPayload.SetManufacturers(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FManufacturers := TStringList.Create;
-  end else if VarIsStr(AValue) then
-    FManufacturers.AddDelimitedtext(AValue);
 end;
 
 procedure TPayload.SetMassKilograms(AValue: Double);
@@ -680,14 +662,6 @@ end;
 procedure TPayload.SetNationalities(AValue: TStringList);
 begin
   FNationalities := AValue;
-end;
-
-procedure TPayload.SetNationalities(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FNationalities := TStringList.Create;
-  end else if VarIsStr(AValue) then
-    FNationalities.AddDelimitedtext(AValue);
 end;
 
 procedure TPayload.SetNoradIds(AValue: INoradIdList);
@@ -819,9 +793,10 @@ var
 begin
   inherited BuildSubObjects(JSONData);
 
-  //SubJSONData := JSONData.GetPath('dragon');
-  //DragonPayload := NewDragonPayload;
-  //JSONToModel(SubJSONData.GetJSONData, DragonPayload);
+  SubJSONData := JSONData.GetPath('dragon');
+  DragonPayload := NewDragonPayload;
+  JSONToModel(SubJSONData.GetJSONData, DragonPayload);
+  Self.FDragonPayload := DragonPayload;
 
   SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
@@ -852,9 +827,9 @@ begin
     + 'Apoapsis(km): %f' + LineEnding
     + 'Arg of Pericenter: %f' + LineEnding
     + 'Customers: %s' + LineEnding
-    //+ 'Dragon Payload: %s' + LineEnding
+    + 'Dragon Payload: %s' + LineEnding
     + 'Eccentricity: %f' + LineEnding
-    + 'Epoch: %s' + LineEnding
+    //+ 'Epoch: %s' + LineEnding
     + 'ID: %s' + LineEnding
     + 'Inclination Degrees: %f' + LineEnding
     + 'Launch ID: %s' + LineEnding
@@ -881,9 +856,9 @@ begin
       GetApoapsisKilometers,
       GetArgOfPericenter,
       GetCustomers.Text,
-      //GetDragonPayload.ToString,
+      GetDragonPayload.ToString,
       GetEccentricity,
-      DateToStr(GetEpoch),
+      //DateToStr(GetEpoch),
       GetId,
       GetInclinationDegrees,
       GetLaunchId,

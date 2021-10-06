@@ -115,13 +115,13 @@ begin
   //LaunchpadList := LaunchpadEndpoint.All;
   //WriteLn((LaunchpadList.Last as ILaunchpad).ToString);
 
-  //PayloadEndpoint := NewPayloadEndpoint;
-  //PayloadList := PayloadEndpoint.All;
-  //WriteLn((PayloadList.Last as IPayload).ToString);
+  PayloadEndpoint := NewPayloadEndpoint;
+  PayloadList := PayloadEndpoint.All;
+  WriteLn((PayloadList.Last as IPayload).ToString);
 
-  LaunchEndpoint := NewLaunchEndpoint;
-  LaunchList := LaunchEndpoint.All;
-  WriteLn((LaunchList.Last as ILaunch).ToString);
+  //LaunchEndpoint := NewLaunchEndpoint;
+  //LaunchList := LaunchEndpoint.All;
+  //WriteLn((LaunchList.Last as ILaunch).ToString);
 
   //RoadsterEndpoint := NewRoadsterEndpoint;
   //Roadster := RoadsterEndpoint.All;
