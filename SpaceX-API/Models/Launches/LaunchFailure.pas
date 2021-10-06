@@ -147,7 +147,7 @@ begin
   Result := Format(''
     + 'Altitude: %u' + LineEnding
     + 'Reason: %s' + LineEnding
-    + 'Time: %n'
+    + 'Time: %d'
     , [
       GetAltitude,
       GetReason,
