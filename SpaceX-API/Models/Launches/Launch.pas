@@ -652,9 +652,9 @@ begin
   FCrewId := TStringList.Create;
   FShipsId := TStringList.Create;
 
-  //FCapsulesId.SkipLastLineBreak := True;
-  //FCrewId.SkipLastLineBreak := True;
-  //FShipsId.SkipLastLineBreak := True;
+  FCapsulesId.SkipLastLineBreak := True;
+  FCrewId.SkipLastLineBreak := True;
+  FShipsId.SkipLastLineBreak := True;
 end;
 
 destructor TLaunch.Destroy;
@@ -700,8 +700,8 @@ function TLaunch.ToString(): string;
 begin
   Result := Format(''
     + 'Auto Update: %s' + LineEnding
-    + 'Capsules : %s' + LineEnding
-    + 'Crew ID: %s' + LineEnding
+    + 'Capsule IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
+    + 'Crew IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Cores: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Date UTC: %s' + LineEnding
     + 'Date Local: %s' + LineEnding
@@ -718,7 +718,7 @@ begin
     + 'Not Earlier Than: %s' + LineEnding
     + 'Payloads ID: %s' + LineEnding
     + 'Rocket ID: %s' + LineEnding
-    + 'Ships: %s' + LineEnding
+    + 'Ship IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
     + 'Static Fire Date Unix: %u' + LineEnding
     + 'Static Fire Date UTC: %s' + LineEnding
     + 'Success: %s' + LineEnding
@@ -727,8 +727,10 @@ begin
     + 'Window: %u'
     , [
       BoolToStr(GetAutoUpdate, True),
-      GetCapsulesId.Text,
-      GetCrewId.Text,
+      StringReplace(
+        GetCapsulesId.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      StringReplace(
+        GetCrewId.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       StringReplace(
         GetCores.ToString(LineEnding + ',' + LineEnding), LineEnding, LineEnding + '  ', [rfReplaceAll]),
       DateToStr(GetDateUtc),
@@ -746,7 +748,8 @@ begin
       BoolToStr(GetNotEarlierThan, True),
       GetPayloadsId.Text,
       GetRocketId,
-      GetShipsId.Text,
+      StringReplace(
+        GetShipsId.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetStaticFireDateUnix,
       DateToStr(GetStaticFireDateUtc),
       BoolToStr(GetSuccess, True),
