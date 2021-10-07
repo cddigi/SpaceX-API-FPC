@@ -250,19 +250,22 @@ function TLaunchLinks.ToString: string;
 begin
   Result := Format(''
     + 'Article: %s' + LineEnding
-    + 'Flickr: %s' + LineEnding
-    + 'Patch: %s' + LineEnding
+    + 'Flickr: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
+    + 'Patch: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Press Kit: %s' + LineEnding
-    + 'Reddit: %s' + LineEnding
+    + 'Reddit: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Webcast: %s' + LineEnding
     + 'Wikipedia: %s' + LineEnding
     + 'YouTube ID: %s'
     , [
       GetArticle,
-      GetFlickr.ToString,
-      GetPatch.ToString,
+      StringReplace(
+        GetFlickr.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      StringReplace(
+        GetPatch.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetPresskit,
-      GetReddit.ToString,
+      StringReplace(
+        GetReddit.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetWebcast,
       GetWikipedia,
       GetYouTubeId

@@ -703,25 +703,25 @@ function TLaunch.ToString(): string;
 begin
   Result := Format(''
     + 'Auto Update: %s' + LineEnding
-    + 'Capsule IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
-    + 'Crew IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
-    + 'Cores: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
+    + 'Capsule IDs: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
+    + 'Crew IDs: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
+    + 'Cores: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Date UTC: %s' + LineEnding
     + 'Date Local: %s' + LineEnding
     + 'Date Precision: %s' + LineEnding
     + 'Date Unix: %u' + LineEnding
     + 'Details: %s' + LineEnding
-    + 'Failures: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
-    + 'Fairings: %s' + LineEnding
+    + 'Failures: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
+    + 'Fairings: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Flight Number: %u' + LineEnding
     + 'ID: %s' + LineEnding
     + 'Launchpad ID: %s' + LineEnding
-    + 'Links: %s' + LineEnding
+    + 'Links: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Name: %s' + LineEnding
     + 'Not Earlier Than: %s' + LineEnding
-    + 'Payload IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
+    + 'Payload IDs: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Rocket ID: %s' + LineEnding
-    + 'Ship IDs: [' + LineEnding + '  %s' + LineEnding + '  ]' + LineEnding
+    + 'Ship IDs: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Static Fire Date Unix: %u' + LineEnding
     + 'Static Fire Date UTC: %s' + LineEnding
     + 'Success: %s' + LineEnding
@@ -741,12 +741,15 @@ begin
       DatePrecisionToCode(GetDatePrecision),
       GetDateUnix,
       GetDetails,
-      GetFailures.ToString(),
-      GetFairings.ToString,
+      StringReplace(
+        GetFailures.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      StringReplace(
+        GetFairings.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetFlightNumber,
       GetId,
       GetLaunchpadId,
-      GetLinks.ToString,
+      StringReplace(
+        GetLinks.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetName,
       BoolToStr(GetNotEarlierThan, True),
       StringReplace(
