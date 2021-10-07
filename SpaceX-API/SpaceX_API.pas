@@ -115,7 +115,8 @@ begin
   LaunchpadEndpoint := NewLaunchpadEndpoint;
   LaunchpadList := LaunchpadEndpoint.All;
   Launchpad := LaunchpadList.Last as ILaunchpad;
-  WriteLn(Launchpad.Rockets.ToString(LineEnding + ',' + LineEnding));
+  //WriteLn(Launchpad.Rockets.ToString(LineEnding + ',' + LineEnding));
+  //WriteLn(Launchpad.Launches.ToString(LineEnding + ',' + LineEnding));
 
   //PayloadEndpoint := NewPayloadEndpoint;
   //PayloadList := PayloadEndpoint.All;

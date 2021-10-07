@@ -95,11 +95,13 @@ end;
 function TLaunchFlickr.ToString: string;
 begin
   Result := Format(''
-    + 'Original: %s' + LineEnding
-    + 'Small: %s'
+    + 'Original: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
+    + 'Small: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     , [
-      GetOriginal.Text,
-      GetSmall.Text
+      StringReplace(
+        GetOriginal.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      StringReplace(
+        GetSmall.Text, LineEnding, LineEnding + '  ', [rfReplaceAll])
     ]);
 end;
 
