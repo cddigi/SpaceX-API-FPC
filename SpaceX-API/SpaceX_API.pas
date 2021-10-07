@@ -112,15 +112,15 @@ begin
   //LandpadList := LandpadEndpoint.All;
   //WriteLn((LandpadList.Last as ILandpad).ToString);
 
-  LaunchpadEndpoint := NewLaunchpadEndpoint;
-  LaunchpadList := LaunchpadEndpoint.All;
-  Launchpad := LaunchpadList.Last as ILaunchpad;
+  //LaunchpadEndpoint := NewLaunchpadEndpoint;
+  //LaunchpadList := LaunchpadEndpoint.All;
+  //Launchpad := LaunchpadList.Last as ILaunchpad;
   //WriteLn(Launchpad.Rockets.ToString(LineEnding + ',' + LineEnding));
   //WriteLn(Launchpad.Launches.ToString(LineEnding + ',' + LineEnding));
 
-  //PayloadEndpoint := NewPayloadEndpoint;
-  //PayloadList := PayloadEndpoint.All;
-  //WriteLn((PayloadList.Last as IPayload).ToString);
+  PayloadEndpoint := NewPayloadEndpoint;
+  PayloadList := PayloadEndpoint.All;
+  WriteLn(PayloadList.ToString(LineEnding + ', ' + LineEnding));
 
   //LaunchEndpoint := NewLaunchEndpoint;
   //LaunchList := LaunchEndpoint.All;
