@@ -249,7 +249,6 @@ type
     property mean_motion: Variant write SetMeanMotion;
     property name: Variant write SetName;
     property nationalities: TStringList read GetNationalities write SetNationalities;
-    property norad_ids: TStringList read GetNoradIds write SetNoradIds;
     property orbit: Variant write SetOrbit;
     property periapsis_km: Variant write SetPeriapsisKilometers;
     property period_min: Variant write SetPeriodMinutes;
@@ -761,6 +760,9 @@ begin
   JSONToModel(SubJSONData.GetJSONData, DragonPayload);
   Self.FDragonPayload := DragonPayload;
 
+  SubJSONData := JSONData.GetPath('norad_ids');
+  FNoradIds.AddText(SubJSONData.GetJSONData);
+
   SetTypeInfo(JSONData.GetPath('type').GetJSONData);
 end;
 
@@ -792,8 +794,8 @@ begin
   Result := Format(''
     + 'Apoapsis(km): %f' + LineEnding
     + 'Arg of Pericenter: %f' + LineEnding
-    + 'Customers: %s' + LineEnding
-    + 'Dragon Payload: %s' + LineEnding
+    + 'Customers: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
+    + 'Dragon Payload: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Eccentricity: %f' + LineEnding
     //+ 'Epoch: %s' + LineEnding
     + 'ID: %s' + LineEnding
@@ -801,13 +803,13 @@ begin
     + 'Launch ID: %s' + LineEnding
     + 'Lifespan Years: %u' + LineEnding
     + 'Longitude: %f' + LineEnding
-    + 'Manufacturers: %s' + LineEnding
+    + 'Manufacturers: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Mass(kg): %f' + LineEnding
     + 'Mass(lbs): %f' + LineEnding
     + 'Mean Anomaly: %f' + LineEnding
     + 'Mean Motion: %f' + LineEnding
     + 'Name: %s' + LineEnding
-    + 'Nationalities: %s' + LineEnding
+    + 'Nationalities: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Norads: %s' + LineEnding
     + 'Orbit: %s' + LineEnding
     + 'Periapsis(km): %f' + LineEnding
@@ -821,8 +823,10 @@ begin
     , [
       GetApoapsisKilometers,
       GetArgOfPericenter,
-      GetCustomers.Text,
-      GetDragonPayload.ToString,
+      StringReplace(
+        GetCustomers.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
+      StringReplace(
+        GetDragonPayload.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetEccentricity,
       //DateToStr(GetEpoch),
       GetId,
@@ -830,13 +834,15 @@ begin
       GetLaunchId,
       GetLifespanYears,
       GetLongitude,
-      GetManufacturers.Text,
+      StringReplace(
+        GetManufacturers.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetMassKilograms,
       GetMassPounds,
       GetMeanAnomaly,
       GetMeanMotion,
       GetName,
-      GetNationalities.Text,
+      StringReplace(
+        GetNationalities.Text, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetNoradIds.Text,
       GetOrbit,
       GetPeriapsisKilometers,
