@@ -5,7 +5,7 @@ unit Launchpad;
 interface
 
 uses
-  Classes, SysUtils, BaseModel, JSON_Helper, Rocket;
+  Classes, SysUtils, BaseModel, JSON_Helper, Rocket, Launch;
 
 type
 
@@ -15,6 +15,7 @@ type
     function GetId: string;
     function GetLatitude: Double;
     function GetLaunchAttempts: LongWord;
+    function GetLaunches: ILaunchList;
     function GetLaunchesId: TStringList;
     function GetLaunchSuccesses: LongWord;
     function GetLocality: string;
@@ -31,6 +32,7 @@ type
     procedure SetId(AValue: string);
     procedure SetLatitude(AValue: Double);
     procedure SetLaunchAttempts(AValue: LongWord);
+    procedure SetLaunches(Avalue: ILaunchList);
     procedure SetLaunchesId(AValue: TStringList);
     procedure SetLaunchSuccesses(AValue: LongWord);
     procedure SetLocality(AValue: string);
@@ -49,6 +51,7 @@ type
     property Id: string read GetId write SetId;
     property Latitude: Double read GetLatitude write SetLatitude;
     property LaunchAttempts: LongWord read GetLaunchAttempts write SetLaunchAttempts;
+    property Launches: ILaunchList read GetLaunches write SetLaunches;
     property LaunchesId: TStringList read GetLaunchesId write SetLaunchesId;
     property LaunchSuccesses: LongWord read GetLaunchSuccesses write SetLaunchSuccesses;
     property Locality: string read GetLocality write SetLocality;
@@ -78,7 +81,7 @@ operator enumerator(AList: ILaunchpadList): TLaunchpadEnumerator;
 implementation
 
 uses
-  Variants, RocketEndpoint;
+  Variants, RocketEndpoint, LaunchEndpoint;
 
 type
 
@@ -91,6 +94,7 @@ type
     FId: string;
     FLatitude: double;
     FLaunchAttempts: LongWord;
+    FLaunches: ILaunchList;
     FLaunchesId: TStringList;
     FLaunchSuccesses: LongWord;
     FLocality: string;
@@ -101,13 +105,12 @@ type
     FRocketsId: TStringList;
     FStatus: string;
     FTimeZone: string;
-    //Rockets: List<Lazy<RocketInfo>>;
-    //Launches: List<Lazy<LaunchInfo>>;
     function GetDetails: string;
     function GetFullName: string;
     function GetId: string;
     function GetLatitude: Double;
     function GetLaunchAttempts: LongWord;
+    function GetLaunches: ILaunchList;
     function GetLaunchesId: TStringList;
     function GetLaunchSuccesses: LongWord;
     function GetLocality: string;
@@ -129,8 +132,8 @@ type
     procedure SetLatitude(AValue: Variant);
     procedure SetLaunchAttempts(AValue: LongWord);
     procedure SetLaunchAttempts(AValue: Variant);
+    procedure SetLaunches(AValue: ILaunchList);
     procedure SetLaunchesId(AValue: TStringList);
-    procedure SetLaunchesId(AValue: Variant);
     procedure SetLaunchSuccesses(AValue: LongWord);
     procedure SetLaunchSuccesses(AValue: Variant);
     procedure SetLocality(AValue: string);
@@ -157,7 +160,7 @@ type
     property id: Variant write SetId;
     property latitude: Variant write SetLatitude;
     property launch_attempts: Variant write SetLaunchAttempts;
-    property Launches: Variant write SetLaunchesId;
+    property launches: TStringList read GetLaunchesId write SetLaunchesId;
     property launch_successes: Variant write SetLaunchSuccesses;
     property locality: Variant write SetLocality;
     property longitude: Variant write SetLongitude;
@@ -229,6 +232,23 @@ end;
 function TLaunchpad.GetLaunchAttempts: LongWord;
 begin
   Result := FLaunchAttempts;
+end;
+
+function TLaunchpad.GetLaunches: ILaunchList;
+var
+  LaunchEndpoint: ILaunchEndpoint;
+  LaunchID: string;
+  Launch: ILaunch;
+begin
+  if (FLaunches = nil) then begin
+    LaunchEndpoint := NewLaunchEndpoint;
+    FLaunches := NewLaunchList;
+    for LaunchID in FLaunchesId do begin;
+      Launch := LaunchEndpoint.One(LaunchID);
+      FLaunches.Add(Launch);
+    end;
+  end;
+  Result := FLaunches;
 end;
 
 function TLaunchpad.GetLaunchesId: TStringList;
@@ -359,17 +379,14 @@ begin
     FLaunchAttempts := AValue;
 end;
 
+procedure TLaunchpad.SetLaunches(AValue: ILaunchList);
+begin
+  FLaunches := AValue;
+end;
+
 procedure TLaunchpad.SetLaunchesId(AValue: TStringList);
 begin
   FLaunchesId := AValue;
-end;
-
-procedure TLaunchpad.SetLaunchesId(AValue: Variant);
-begin
-  if VarIsNull(AValue) then begin
-    FLaunchesId := TStringList.Create;
-  end else if VarIsStr(AValue) then
-    FLaunchesId.AddDelimitedtext(AValue);
 end;
 
 procedure TLaunchpad.SetLaunchSuccesses(AValue: LongWord);

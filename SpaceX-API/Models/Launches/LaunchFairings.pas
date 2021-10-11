@@ -158,12 +158,13 @@ begin
     + 'Recovered: %s' + LineEnding
     + 'Recovery Attmept: %s' + LineEnding
     + 'Reused: %s' + LineEnding
-    + 'Ships: %s'
+    + 'Ships: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     , [
       BoolToStr(GetRecovered, True),
       BoolToStr(GetRecoveryAttempt, True),
       BoolToStr(GetReused, True),
-      GetShipsId.Text
+      StringReplace(
+        GetShipsId.Text, LineEnding, LineEnding + '  ', [rfReplaceAll])
     ]);
 end;
 
