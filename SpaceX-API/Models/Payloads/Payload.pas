@@ -109,7 +109,7 @@ function NewPayloadList: IPayloadList;
 implementation
 
 uses
-  Variants;
+  Variants, DateUtils;
 
 type
 
@@ -184,6 +184,7 @@ type
     procedure SetEccentricity(AValue: Double);
     procedure SetEccentricity(AValue: Variant);
     procedure SetEpoch(AValue: TDateTime);
+    procedure SetEpoch(AValue: string);
     procedure SetEpoch(AValue: Variant);
     procedure SetId(AValue: string);
     procedure SetId(AValue: Variant);
@@ -236,7 +237,7 @@ type
     property arg_of_pericenter: Variant write SetArgOfPericenter;
     property customers: TStringList read GetCustomers write SetCustomers;
     property eccentricity: Variant write SetEccentricity;
-    //property epoch: Variant write SetEpoch;
+    property epoch: Variant write SetEpoch;
     property id: Variant write SetId;
     property inclination_deg: Variant write SetInclinationDegrees;
     property launch: Variant write SetLaunchId;
@@ -478,12 +479,17 @@ begin
   FEpoch := AValue;
 end;
 
+procedure TPayload.SetEpoch(AValue: string);
+begin
+  FEpoch := ISO8601ToDate(AValue, True);
+end;
+
 procedure TPayload.SetEpoch(AValue: Variant);
 begin
   if VarIsNull(AValue) then begin
     FEpoch := MinDateTime;
   end else if VarIsStr(AValue) then
-    FEpoch := AValue;
+    SetEpoch(VarToStr(AValue));
 end;
 
 procedure TPayload.SetId(AValue: string);
@@ -797,7 +803,7 @@ begin
     + 'Customers: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Dragon Payload: [' + LineEnding + '  %s' + LineEnding + ']' + LineEnding
     + 'Eccentricity: %f' + LineEnding
-    //+ 'Epoch: %s' + LineEnding
+    + 'Epoch: %s' + LineEnding
     + 'ID: %s' + LineEnding
     + 'Inclination Degrees: %f' + LineEnding
     + 'Launch ID: %s' + LineEnding
@@ -828,7 +834,7 @@ begin
       StringReplace(
         GetDragonPayload.ToString, LineEnding, LineEnding + '  ', [rfReplaceAll]),
       GetEccentricity,
-      //DateToStr(GetEpoch),
+      DateToStr(GetEpoch),
       GetId,
       GetInclinationDegrees,
       GetLaunchId,
