@@ -120,7 +120,7 @@ begin
 
   PayloadEndpoint := NewPayloadEndpoint;
   PayloadList := PayloadEndpoint.All;
-  WriteLn(PayloadList.ToString(LineEnding + ', ' + LineEnding));
+  WriteLn(PayloadList.ToString(LineEnding + ',' + LineEnding));
 
   //LaunchEndpoint := NewLaunchEndpoint;
   //LaunchList := LaunchEndpoint.All;
